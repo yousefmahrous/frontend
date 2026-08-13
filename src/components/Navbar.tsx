@@ -1,11 +1,12 @@
 import { Link, useNavigate } from "@tanstack/react-router";
-import { BookOpen, LayoutDashboard, LogOut, Menu, User } from "lucide-react";
+import { BookOpen, LayoutDashboard, LogOut, Menu, ShoppingCart, User } from "lucide-react";
 import { useState } from "react";
 import { toast } from "sonner";
 
 import { logout } from "@/api/auth.api";
 import { errorMessage } from "@/api/client";
 import { useAuth } from "@/context/auth-context";
+import { useCart } from "@/hooks/useCart";
 import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
@@ -24,6 +25,7 @@ const navLinks = [
 
 export function Navbar() {
   const { user, isLoading, isAdmin, setUser } = useAuth();
+  const { data: cart } = useCart();
   const navigate = useNavigate();
   const [open, setOpen] = useState(false);
 
@@ -61,6 +63,19 @@ export function Navbar() {
         </nav>
 
         <div className="flex items-center gap-2">
+          {user && (
+            <Button asChild variant="ghost" size="icon" className="relative" aria-label="العربية">
+              <Link to="/cart">
+                <ShoppingCart className="size-5" />
+                {Boolean(cart?.itemsCount) && (
+                  <span className="absolute -top-1 -left-1 flex size-4 items-center justify-center rounded-full bg-accent text-[10px] font-bold text-accent-foreground">
+                    {cart!.itemsCount}
+                  </span>
+                )}
+              </Link>
+            </Button>
+          )}
+
           {isLoading ? (
             <Skeleton className="h-9 w-28" />
           ) : user ? (

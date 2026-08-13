@@ -1,5 +1,6 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { ArrowRight, BookOpen, Building2, Hash, Mail } from "lucide-react";
+import { ArrowRight, BookOpen, Building2, Hash, Mail, ShoppingCart } from "lucide-react";
+import { toast } from "sonner";
 
 import { errorMessage } from "@/api/client";
 import { Protected } from "@/components/Guards";
@@ -7,6 +8,7 @@ import { ErrorState } from "@/components/StateViews";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
+import { useAddToCart } from "@/hooks/useCart";
 import { useBook } from "@/hooks/useBooks";
 
 export const Route = createFileRoute("/books/$id")({
@@ -29,6 +31,14 @@ export const Route = createFileRoute("/books/$id")({
 function BookDetails() {
   const { id } = Route.useParams();
   const { data: book, isLoading, isError, error, refetch } = useBook(id);
+  const addToCart = useAddToCart();
+
+  function handleAddToCart() {
+    addToCart.mutate(id, {
+      onSuccess: (res) => toast.success(res.message),
+      onError: (err) => toast.error(errorMessage(err)),
+    });
+  }
 
   if (isLoading) {
     return (
@@ -100,6 +110,11 @@ function BookDetails() {
               </div>
             ))}
           </dl>
+
+          <Button onClick={handleAddToCart} disabled={addToCart.isPending} size="lg" className="gap-2">
+            <ShoppingCart className="size-4" />
+            {addToCart.isPending ? "جاري الإضافة..." : "أضف للعربية"}
+          </Button>
         </div>
       </div>
     </div>
