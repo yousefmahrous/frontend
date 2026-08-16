@@ -62,7 +62,8 @@ function EditBookPage() {
             email: book.email,
             adress: book.adress,
             centre: book.centre,
-            grade: book.grade,
+            category: book.category,
+            stock: book.stock,
             avatar_key: book.avatar_key ?? null,
           }}
           onSubmit={async (payload) => {

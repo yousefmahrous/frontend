@@ -4,7 +4,6 @@ export type BookCategory = "روايات" | "علمي" | "تاريخي" | "أط�
 
 export const BOOK_CATEGORIES: BookCategory[] = ["روايات", "علمي", "تاريخي", "أطفال"];
 
-
 export interface Book {
   id: string;
   name: string;
@@ -12,7 +11,8 @@ export interface Book {
   email: string;
   adress: string;
   centre: string;
-  grade: BookCategory | string;
+  category: BookCategory | string;
+  stock: number;
   avatar_key?: string | null;
   avatar_url?: string | null;
   createdAt?: string;
@@ -25,7 +25,8 @@ export interface BookPayload {
   email: string;
   adress: string;
   centre: string;
-  grade: string;
+  category: string;
+  stock: number;
   avatar_key: string | null;
 }
 

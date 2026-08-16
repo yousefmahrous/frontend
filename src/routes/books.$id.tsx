@@ -1,5 +1,5 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { ArrowRight, BookOpen, Building2, Hash, Mail, ShoppingCart } from "lucide-react";
+import { ArrowRight, BookOpen, Building2, Hash, Mail, PackageX, ShoppingCart } from "lucide-react";
 import { toast } from "sonner";
 
 import { errorMessage } from "@/api/client";
@@ -8,8 +8,10 @@ import { ErrorState } from "@/components/StateViews";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
+import { useAuth } from "@/context/auth-context";
 import { useAddToCart } from "@/hooks/useCart";
 import { useBook } from "@/hooks/useBooks";
+import { useBooksRealtime } from "@/hooks/useBooksRealtime";
 
 export const Route = createFileRoute("/books/$id")({
   ssr: false,
@@ -31,7 +33,10 @@ export const Route = createFileRoute("/books/$id")({
 function BookDetails() {
   const { id } = Route.useParams();
   const { data: book, isLoading, isError, error, refetch } = useBook(id);
+  const { isAdmin } = useAuth();
   const addToCart = useAddToCart();
+
+  useBooksRealtime();
 
   function handleAddToCart() {
     addToCart.mutate(id, {
@@ -93,7 +98,7 @@ function BookDetails() {
 
         <div className="space-y-5">
           <div className="space-y-2">
-            <Badge variant="secondary">{book.grade}</Badge>
+            <Badge variant="secondary">{book.category}</Badge>
             <h1 className="text-3xl font-extrabold leading-snug">{book.name}</h1>
           </div>
 
@@ -111,10 +116,26 @@ function BookDetails() {
             ))}
           </dl>
 
-          <Button onClick={handleAddToCart} disabled={addToCart.isPending} size="lg" className="gap-2">
-            <ShoppingCart className="size-4" />
-            {addToCart.isPending ? "جاري الإضافة..." : "أضف للعربية"}
-          </Button>
+          {book.stock <= 0 ? (
+            <Badge variant="destructive" className="w-fit gap-1.5 px-3 py-1.5 text-sm">
+              <PackageX className="size-4" />
+              الكمية غير متوفرة حاليًا
+            </Badge>
+          ) : (
+            <p className="text-sm text-muted-foreground">متبقي {book.stock} نسخة فقط</p>
+          )}
+
+          {!isAdmin && (
+            <Button
+              onClick={handleAddToCart}
+              disabled={addToCart.isPending || book.stock <= 0}
+              size="lg"
+              className="gap-2"
+            >
+              <ShoppingCart className="size-4" />
+              {addToCart.isPending ? "جاري الإضافة..." : "أضف للعربية"}
+            </Button>
+          )}
         </div>
       </div>
     </div>

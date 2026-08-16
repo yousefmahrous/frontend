@@ -34,7 +34,8 @@ export function BookForm({ defaultValues, previewUrl, submitLabel, onSubmit }: B
       email: "",
       adress: "",
       centre: "",
-      grade: "",
+      category: "",
+      stock: 0,
       avatar_key: null,
       ...defaultValues,
     },
@@ -49,7 +50,7 @@ export function BookForm({ defaultValues, previewUrl, submitLabel, onSubmit }: B
     formState: { errors, isSubmitting },
   } = form;
 
-  const grade = watch("grade");
+  const category = watch("category");
   const avatarKey = watch("avatar_key");
 
   const submit = handleSubmit(async (values) => {
@@ -98,9 +99,9 @@ export function BookForm({ defaultValues, previewUrl, submitLabel, onSubmit }: B
       </div>
 
       <div className="space-y-2">
-        <Label htmlFor="grade">التصنيف</Label>
-        <Select value={grade} onValueChange={(value) => setValue("grade", value)}>
-          <SelectTrigger id="grade">
+        <Label htmlFor="category">التصنيف</Label>
+        <Select value={category} onValueChange={(value) => setValue("category", value)}>
+          <SelectTrigger id="category">
             <SelectValue placeholder="اختر التصنيف" />
           </SelectTrigger>
           <SelectContent>
@@ -111,8 +112,14 @@ export function BookForm({ defaultValues, previewUrl, submitLabel, onSubmit }: B
             ))}
           </SelectContent>
         </Select>
-        {errors.grade && <p className="text-sm text-destructive">{errors.grade.message}</p>}
+        {errors.category && <p className="text-sm text-destructive">{errors.category.message}</p>}
       </div>
+
+      <div className="space-y-2">
+      <Label htmlFor="stock">الكمية المتاحة</Label>
+      <Input id="stock" type="number" min={0} dir="ltr" {...register("stock")} />
+      {errors.stock && <p className="text-sm text-destructive">{errors.stock.message}</p>}
+    </div>
 
       <div className="space-y-2 md:col-span-2">
         <Label htmlFor="adress">وصف الكتاب</Label>

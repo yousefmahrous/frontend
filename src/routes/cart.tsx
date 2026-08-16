@@ -71,6 +71,7 @@ function CartPage() {
   );
 }
 
+
 function CartItemCard({ item }: { item: CartItem }) {
   const updateQuantity = useUpdateCartItem();
   const removeItem = useRemoveCartItem();
@@ -150,7 +151,7 @@ function CartItemCard({ item }: { item: CartItem }) {
               variant="ghost"
               size="icon"
               className="size-8"
-              disabled={isBusy}
+              disabled={isBusy || item.quantity >= item.book.stock}
               onClick={() => handleQuantityChange(item.quantity + 1)}
               aria-label="زيادة الكمية"
             >

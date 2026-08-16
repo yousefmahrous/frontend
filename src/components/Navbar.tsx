@@ -63,7 +63,7 @@ export function Navbar() {
         </nav>
 
         <div className="flex items-center gap-2">
-          {user && (
+          {user && !isAdmin && (
             <Button asChild variant="ghost" size="icon" className="relative" aria-label="العربية">
               <Link to="/cart">
                 <ShoppingCart className="size-5" />

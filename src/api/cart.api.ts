@@ -7,6 +7,7 @@ export interface CartItemBook {
   name: string;
   number: string;
   category: string;
+  stock: number;
   avatar_url?: string | null;
 }
 

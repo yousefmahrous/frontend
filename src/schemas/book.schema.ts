@@ -1,10 +1,7 @@
 import { z } from "zod";
 import { BOOK_CATEGORIES } from "@/api/books.api";
 
-/**
- * Field names match the backend contract exactly.
- * UI labels use the bookstore wording.
- */
+
 export const bookSchema = z.object({
   name: z.string().trim().min(3, "عنوان الكتاب لازم 3 أحرف على الأقل"),
   number: z
@@ -15,7 +12,8 @@ export const bookSchema = z.object({
   email: z.string().trim().email("إيميل الناشر غير صحيح"),
   adress: z.string().trim().min(5, "وصف الكتاب لازم 5 أحرف على الأقل"),
   centre: z.string().trim().min(2, "دار النشر لازم حرفين على الأقل"),
-  grade: z.enum(BOOK_CATEGORIES as [string, ...string[]], { message: "اختر تصنيف الكتاب" }),
+  category: z.enum(BOOK_CATEGORIES as [string, ...string[]], { message: "اختر تصنيف الكتاب" }),
+  stock: z.coerce.number({ message: "الكمية لازم تكون رقم" }).int().min(0, "الكمية متقدرش تكون سالبة"),
   avatar_key: z.string().nullable(),
 });
 
@@ -27,6 +25,7 @@ export const bookFieldLabels: Record<keyof BookFormValues, string> = {
   email: "إيميل الناشر",
   adress: "وصف الكتاب",
   centre: "دار النشر",
-  grade: "التصنيف",
+  category: "التصنيف",
+  stock: "الكمية المتاحة",
   avatar_key: "صورة الغلاف",
 };
