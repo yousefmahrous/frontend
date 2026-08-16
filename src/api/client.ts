@@ -1,16 +1,12 @@
 import axios, { AxiosError } from "axios";
 
-/** Base URL for the backend (all endpoints live under /api/v1). */
 export const API_URL =
   (import.meta.env['VITE_API_URL'] as string | undefined) ?? "http://localhost:3000/api/v1";
 
-/** Socket.io origin = base URL without the /api/v1 prefix. */
 export const SOCKET_URL = API_URL.replace(/\/api\/v1\/?$/, "");
 
-/** The books resource path (backend route is /api/v1/books). */
 export const BOOKS_PATH = "/books";
 
-/** Realtime event name emitted by the backend when the list changes. */
 export const BOOKS_UPDATED_EVENT = "books_updated";
 
 export const api = axios.create({
@@ -63,7 +59,6 @@ function extractFieldErrors(data: unknown): FieldErrors | undefined {
   return Object.keys(out).length ? out : undefined;
 }
 
-/** Handlers registered by the auth provider so the client can react to 401s. */
 export const authEvents = {
   onUnauthorized: null as null | (() => void),
 };

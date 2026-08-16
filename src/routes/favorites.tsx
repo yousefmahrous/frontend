@@ -1,30 +1,31 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { BookOpen, Loader2, Minus, Plus, ShoppingCart, Trash2 } from "lucide-react";
+import { BookOpen, Heart, Loader2, ShoppingCart, Trash2 } from "lucide-react";
 import { toast } from "sonner";
 
 import { errorMessage } from "@/api/client";
-import type { CartItem } from "@/api/cart.api";
+import type { FavoriteItem } from "@/api/favorites.api";
 import { Protected } from "@/components/Guards";
 import { EmptyState, ErrorState } from "@/components/StateViews";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
-import { useCart, useRemoveCartItem, useUpdateCartItem } from "@/hooks/useCart";
+import { useAddToCart } from "@/hooks/useCart";
+import { useFavorites, useRemoveFavorite } from "@/hooks/useFavorites";
 
-export const Route = createFileRoute("/cart")({
+export const Route = createFileRoute("/favorites")({
   ssr: false,
   head: () => ({
-    meta: [{ title: "عربيتي | مكتبة القراء" }],
+    meta: [{ title: "المفضلة | مكتبة القراء" }],
   }),
   component: () => (
     <Protected>
-      <CartPage />
+      <FavoritesPage />
     </Protected>
   ),
 });
 
-function CartPage() {
-  const { data: cart, isLoading, isError, error, refetch } = useCart();
+function FavoritesPage() {
+  const { data: favorites, isLoading, isError, error, refetch } = useFavorites();
 
   if (isLoading) {
     return (
@@ -45,25 +46,25 @@ function CartPage() {
     );
   }
 
-  const items = cart?.items ?? [];
+  const items = favorites?.items ?? [];
 
   return (
     <div className="mx-auto max-w-3xl px-4 py-10">
       <div className="mb-6 flex items-center gap-3">
-        <ShoppingCart className="size-6 text-accent" />
-        <h1 className="text-2xl font-extrabold">عربيتي</h1>
-        {items.length > 0 && <Badge variant="secondary">{cart?.itemsCount} كتاب</Badge>}
+        <Heart className="size-6 text-accent" />
+        <h1 className="text-2xl font-extrabold">المفضلة</h1>
+        {items.length > 0 && <Badge variant="secondary">{favorites?.itemsCount} كتاب</Badge>}
       </div>
 
       {items.length === 0 ? (
         <EmptyState
-          title="العربية فاضية"
-          description="لسه ما ضفتش أي كتاب. روح تصفح الكتالوج وضيف اللي يعجبك."
+          title="المفضلة فاضية"
+          description="لسه ما ضفتش أي كتاب للمفضلة. روح تصفح الكتالوج وضيف اللي يعجبك."
         />
       ) : (
         <div className="space-y-4">
           {items.map((item) => (
-            <CartItemCard key={item.id} item={item} />
+            <FavoriteItemCard key={item.id} item={item} />
           ))}
         </div>
       )}
@@ -71,23 +72,19 @@ function CartPage() {
   );
 }
 
-
-function CartItemCard({ item }: { item: CartItem }) {
-  const updateQuantity = useUpdateCartItem();
-  const removeItem = useRemoveCartItem();
-
-  const isBusy = updateQuantity.isPending || removeItem.isPending;
-
-  function handleQuantityChange(newQuantity: number) {
-    if (newQuantity < 1) return;
-    updateQuantity.mutate(
-      { itemId: item.id, quantity: newQuantity },
-      { onError: (err) => toast.error(errorMessage(err)) },
-    );
-  }
+function FavoriteItemCard({ item }: { item: FavoriteItem }) {
+  const removeFavorite = useRemoveFavorite();
+  const addToCart = useAddToCart();
 
   function handleRemove() {
-    removeItem.mutate(item.id, {
+    removeFavorite.mutate(item.book.id, {
+      onSuccess: (res) => toast.success(res.message),
+      onError: (err) => toast.error(errorMessage(err)),
+    });
+  }
+
+  function handleAddToCart() {
+    addToCart.mutate(item.book.id, {
       onSuccess: (res) => toast.success(res.message),
       onError: (err) => toast.error(errorMessage(err)),
     });
@@ -129,45 +126,30 @@ function CartItemCard({ item }: { item: CartItem }) {
         </div>
 
         <div className="flex items-center justify-between">
-          <div className="flex items-center gap-2 rounded-lg border border-border">
-            <Button
-              variant="ghost"
-              size="icon"
-              className="size-8"
-              disabled={isBusy || item.quantity <= 1}
-              onClick={() => handleQuantityChange(item.quantity - 1)}
-              aria-label="تقليل الكمية"
-            >
-              <Minus className="size-3.5" />
-            </Button>
-            <span className="w-6 text-center text-sm font-semibold">
-              {updateQuantity.isPending ? (
-                <Loader2 className="mx-auto size-3.5 animate-spin" />
-              ) : (
-                item.quantity
-              )}
-            </span>
-            <Button
-              variant="ghost"
-              size="icon"
-              className="size-8"
-              disabled={isBusy || item.book.stock <= 0}
-              onClick={() => handleQuantityChange(item.quantity + 1)}
-              aria-label="زيادة الكمية"
-            >
-              <Plus className="size-3.5" />
-            </Button>
-          </div>
+          <Button
+            variant="secondary"
+            size="sm"
+            className="gap-2"
+            disabled={addToCart.isPending || item.book.stock <= 0}
+            onClick={handleAddToCart}
+          >
+            {addToCart.isPending ? (
+              <Loader2 className="size-3.5 animate-spin" />
+            ) : (
+              <ShoppingCart className="size-3.5" />
+            )}
+            {item.book.stock <= 0 ? "غير متوفر" : "أضف للعربية"}
+          </Button>
 
           <Button
             variant="ghost"
             size="icon"
             className="text-destructive hover:bg-destructive/10 hover:text-destructive"
-            disabled={isBusy}
+            disabled={removeFavorite.isPending}
             onClick={handleRemove}
-            aria-label="حذف من العربية"
+            aria-label="حذف من المفضلة"
           >
-            {removeItem.isPending ? (
+            {removeFavorite.isPending ? (
               <Loader2 className="size-4 animate-spin" />
             ) : (
               <Trash2 className="size-4" />

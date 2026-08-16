@@ -1,5 +1,5 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { ArrowRight, BookOpen, Building2, Hash, Mail, PackageX, ShoppingCart } from "lucide-react";
+import { ArrowRight, BookOpen, Building2, Hash, Heart, Mail, PackageX, ShoppingCart } from "lucide-react";
 import { toast } from "sonner";
 
 import { errorMessage } from "@/api/client";
@@ -8,10 +8,12 @@ import { ErrorState } from "@/components/StateViews";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
+import { cn } from "@/lib/utils";
 import { useAuth } from "@/context/auth-context";
 import { useAddToCart } from "@/hooks/useCart";
 import { useBook } from "@/hooks/useBooks";
 import { useBooksRealtime } from "@/hooks/useBooksRealtime";
+import { useToggleFavorite } from "@/hooks/useFavorites";
 
 export const Route = createFileRoute("/books/$id")({
   ssr: false,
@@ -35,12 +37,21 @@ function BookDetails() {
   const { data: book, isLoading, isError, error, refetch } = useBook(id);
   const { isAdmin } = useAuth();
   const addToCart = useAddToCart();
+  const favorite = useToggleFavorite(id);
 
+  // Keep the stock count live if it changes from another tab/user while this page is open.
   useBooksRealtime();
 
   function handleAddToCart() {
     addToCart.mutate(id, {
       onSuccess: (res) => toast.success(res.message),
+      onError: (err) => toast.error(errorMessage(err)),
+    });
+  }
+
+  function handleToggleFavorite() {
+    favorite.toggle({
+      onSuccess: (message) => message && toast.success(message),
       onError: (err) => toast.error(errorMessage(err)),
     });
   }
@@ -126,15 +137,35 @@ function BookDetails() {
           )}
 
           {!isAdmin && (
-            <Button
-              onClick={handleAddToCart}
-              disabled={addToCart.isPending || book.stock <= 0}
-              size="lg"
-              className="gap-2"
-            >
-              <ShoppingCart className="size-4" />
-              {addToCart.isPending ? "جاري الإضافة..." : "أضف للعربية"}
-            </Button>
+            <div className="flex items-center gap-3">
+              <Button
+                onClick={handleAddToCart}
+                disabled={addToCart.isPending || book.stock <= 0}
+                size="lg"
+                className="gap-2"
+              >
+                <ShoppingCart className="size-4" />
+                {addToCart.isPending ? "جاري الإضافة..." : "أضف للعربية"}
+              </Button>
+
+              <Button
+                onClick={handleToggleFavorite}
+                disabled={favorite.isPending}
+                variant="outline"
+                size="lg"
+                className="gap-2"
+                aria-pressed={favorite.isFavorite}
+                aria-label={favorite.isFavorite ? "احذف من المفضلة" : "ضيف للمفضلة"}
+              >
+                <Heart
+                  className={cn(
+                    "size-4",
+                    favorite.isFavorite && "fill-accent text-accent",
+                  )}
+                />
+                {favorite.isFavorite ? "في المفضلة" : "أضف للمفضلة"}
+              </Button>
+            </div>
           )}
         </div>
       </div>
