@@ -22,6 +22,7 @@ import { Skeleton } from "@/components/ui/skeleton";
 const navLinks = [
   { to: "/", label: "الرئيسية" },
   { to: "/books", label: "تصفح الكتب" },
+  { to: "/contact", label: "تواصل معنا" },
 ] as const;
 
 export function Navbar() {
