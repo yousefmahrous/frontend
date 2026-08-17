@@ -4,9 +4,12 @@ export default defineConfig({
   tanstackStart: {
     server: { entry: "server" },
   },
+  nitro: {
+    preset: "node-server",
+  },
   vite: {
     server: {
-      allowedHosts: ['frontend-production-6e8f.up.railway.app'],
+      allowedHosts: true,
     },
   },
 });
