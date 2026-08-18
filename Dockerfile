@@ -7,6 +7,11 @@ RUN npm install
 
 COPY . .
 
-EXPOSE 5173
+ARG VITE_API_URL
+ENV VITE_API_URL=$VITE_API_URL
 
-CMD ["npm", "run", "dev", "--", "--host"]
+RUN npm run build
+
+EXPOSE 8080
+
+CMD ["node", ".output/server/index.mjs"]
