@@ -1,11 +1,10 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { BookOpen, Sparkles, Truck } from "lucide-react";
-
+import { BookOpen, Sparkles, TrendingUp, Truck } from "lucide-react";
 import { BookCard, BookGridSkeleton } from "@/components/books/BookCard";
 import { EmptyState, ErrorState } from "@/components/StateViews";
 import { Button } from "@/components/ui/button";
 import { useAuth } from "@/context/auth-context";
-import { useBooks } from "@/hooks/useBooks";
+import { useBooks, usePopularBooks } from "@/hooks/useBooks";
 import { useBooksRealtime } from "@/hooks/useBooksRealtime";
 import { errorMessage } from "@/api/client";
 
@@ -32,6 +31,13 @@ function Home() {
   const { user } = useAuth();
   useBooksRealtime();
   const { data, isLoading, isError, error, refetch } = useBooks({ page: 1, limit: 8, search: "" });
+  const {
+    data: popularBooks,
+    isLoading: isPopularLoading,
+    isError: isPopularError,
+    error: popularError,
+    refetch: refetchPopular,
+  } = usePopularBooks(8);
 
   return (
     <div>
@@ -79,6 +85,34 @@ function Home() {
           </div>
         </div>
       </section>
+
+      {Boolean(popularBooks?.length) && (
+        <section className="mx-auto max-w-6xl px-4 pt-14">
+          <div className="mb-6 flex items-end justify-between gap-4">
+            <div>
+              <h2 className="flex items-center gap-2 text-2xl font-bold">
+                <TrendingUp className="size-6 text-accent" />
+                الأكثر شعبية
+              </h2>
+              <p className="text-sm text-muted-foreground">
+                أكتر الكتب اللي جذبت اهتمام القراء
+              </p>
+            </div>
+          </div>
+
+          {isPopularLoading ? (
+            <BookGridSkeleton count={8} />
+          ) : isPopularError ? (
+            <ErrorState message={errorMessage(popularError)} onRetry={() => void refetchPopular()} />
+          ) : (
+            <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-4">
+              {popularBooks?.map((book) => (
+                <BookCard key={book.id} book={book} />
+              ))}
+            </div>
+          )}
+        </section>
+      )}
 
       <section className="mx-auto max-w-6xl px-4 py-14">
         <div className="mb-6 flex items-end justify-between gap-4">

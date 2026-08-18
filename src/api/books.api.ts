@@ -61,6 +61,18 @@ export async function fetchBooks(params: { page: number; limit: number; search?:
   return { items, pagination: payload.pagination } satisfies BooksListResult;
 }
 
+export async function fetchPopularBooks(limit = 10) {
+  const { data } = await api.get<{
+    success: boolean;
+    data: { users?: Book[]; items?: Book[] };
+  }>(`${BOOKS_PATH}/popular`, {
+    params: { limit },
+  });
+
+  const payload = data.data;
+  return payload.users ?? payload.items ?? [];
+}
+
 export async function fetchBook(id: string) {
   const { data } = await api.get<{ success: boolean; data: { user?: Book; item?: Book } }>(
     `${BOOKS_PATH}/${id}`,

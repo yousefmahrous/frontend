@@ -6,6 +6,7 @@ import {
   deleteBook,
   fetchBook,
   fetchBooks,
+  fetchPopularBooks,
   updateBook,
   type BookPayload,
 } from "@/api/books.api";
@@ -15,6 +16,7 @@ export const booksKeys = {
   list: (params: { page: number; limit: number; search: string }) =>
     ["books", "list", params] as const,
   detail: (id: string) => ["books", "detail", id] as const,
+  popular: (limit: number) => ["books", "popular", limit] as const,
 };
 
 export function useDebouncedValue<T>(value: T, delay = 400) {
@@ -41,6 +43,14 @@ export function useBook(id: string) {
     queryFn: () => fetchBook(id),
     retry: false,
     enabled: Boolean(id),
+  });
+}
+
+export function usePopularBooks(limit = 10) {
+  return useQuery({
+    queryKey: booksKeys.popular(limit),
+    queryFn: () => fetchPopularBooks(limit),
+    retry: false,
   });
 }
 
