@@ -1,9 +1,7 @@
-import { createFileRoute, Link } from "@tanstack/react-router";
+import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { ArrowRight, BookOpen, Building2, Hash, Heart, Mail, PackageX, ShoppingCart } from "lucide-react";
 import { toast } from "sonner";
-
 import { errorMessage } from "@/api/client";
-import { Protected } from "@/components/Guards";
 import { ErrorState } from "@/components/StateViews";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -25,24 +23,26 @@ export const Route = createFileRoute("/books/$id")({
       { property: "og:description", content: "كل تفاصيل الكتاب في مكتبة القراء." },
     ],
   }),
-  component: () => (
-    <Protected>
-      <BookDetails />
-    </Protected>
-  ),
+  component: BookDetails,
 });
 
 function BookDetails() {
   const { id } = Route.useParams();
   const { data: book, isLoading, isError, error, refetch } = useBook(id);
-  const { isAdmin } = useAuth();
+  const { user, isAdmin } = useAuth();
+  const navigate = useNavigate();
   const addToCart = useAddToCart();
   const favorite = useToggleFavorite(id);
 
-  // Keep the stock count live if it changes from another tab/user while this page is open.
   useBooksRealtime();
 
+  function requireLogin() {
+    toast.info("سجّل دخولك الأول عشان تقدر تكمل");
+    void navigate({ to: "/login" });
+  }
+
   function handleAddToCart() {
+    if (!user) return requireLogin();
     addToCart.mutate(id, {
       onSuccess: (res) => toast.success(res.message),
       onError: (err) => toast.error(errorMessage(err)),
@@ -50,6 +50,7 @@ function BookDetails() {
   }
 
   function handleToggleFavorite() {
+    if (!user) return requireLogin();
     favorite.toggle({
       onSuccess: (message) => message && toast.success(message),
       onError: (err) => toast.error(errorMessage(err)),

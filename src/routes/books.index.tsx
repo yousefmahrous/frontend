@@ -1,11 +1,9 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { ChevronLeft, ChevronRight, Search } from "lucide-react";
 import { useMemo, useState } from "react";
-
 import { errorMessage } from "@/api/client";
 import { BOOK_CATEGORIES } from "@/api/books.api";
 import { BookCard, BookGridSkeleton } from "@/components/books/BookCard";
-import { Protected } from "@/components/Guards";
 import { EmptyState, ErrorState } from "@/components/StateViews";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -25,11 +23,7 @@ export const Route = createFileRoute("/books/")({
       { property: "og:description", content: "تصفح كل كتب المتجر مع بحث وفلترة حسب التصنيف." },
     ],
   }),
-  component: () => (
-    <Protected>
-      <CatalogPage />
-    </Protected>
-  ),
+  component: CatalogPage,
 });
 
 const LIMIT = 12;
@@ -49,7 +43,7 @@ function CatalogPage() {
 
   const books = useMemo(() => {
     const items = data?.items ?? [];
-    return category ? items.filter((book) => book.grade === category) : items;
+    return category ? items.filter((book) => book.category === category) : items;
   }, [data?.items, category]);
 
   const pagination = data?.pagination;

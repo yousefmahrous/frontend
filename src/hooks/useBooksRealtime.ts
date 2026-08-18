@@ -12,7 +12,6 @@ const socket = io(SOCKET_URL, {
   autoConnect: false,
 });
 
-/** Live-updates the books list whenever the backend emits its update event. */
 export function useBooksRealtime() {
   const queryClient = useQueryClient();
 
@@ -26,7 +25,6 @@ export function useBooksRealtime() {
       socket.on(BOOKS_UPDATED_EVENT, handler);
       socket.on("books_updated", handler);
     } catch {
-      // realtime is optional; the UI keeps working without it
     }
 
     return () => {
