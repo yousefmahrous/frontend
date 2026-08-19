@@ -12,6 +12,7 @@ import { useAddToCart } from "@/hooks/useCart";
 import { useBook } from "@/hooks/useBooks";
 import { useBooksRealtime } from "@/hooks/useBooksRealtime";
 import { useToggleFavorite } from "@/hooks/useFavorites";
+import { ReviewsSection } from "@/components/reviews/ReviewsList";
 
 export const Route = createFileRoute("/books/$id")({
   ssr: false,
@@ -170,6 +171,9 @@ function BookDetails() {
           )}
         </div>
       </div>
+    <div className="mt-12 border-t border-border pt-10">
+      <ReviewsSection bookId={id} />
+    </div>
     </div>
   );
 }
