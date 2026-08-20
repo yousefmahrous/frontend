@@ -21,6 +21,8 @@ import { Route as AccountIndexRouteImport } from './routes/account.index'
 import { Route as AccountChangePasswordRouteImport } from './routes/account.change-password'
 import { Route as BooksIndexRouteImport } from './routes/books.index'
 import { Route as BooksIdRouteImport } from './routes/books.$id'
+import { Route as CheckoutCancelRouteImport } from './routes/checkout.cancel'
+import { Route as CheckoutSuccessRouteImport } from './routes/checkout.success'
 import { Route as AdminBooksIndexRouteImport } from './routes/admin.books.index'
 import { Route as AdminBooksNewRouteImport } from './routes/admin.books.new'
 import { Route as AdminBooksIdEditRouteImport } from './routes/admin.books.$id.edit'
@@ -85,6 +87,16 @@ const BooksIdRoute = BooksIdRouteImport.update({
   path: '/books/$id',
   getParentRoute: () => rootRouteImport,
 } as any)
+const CheckoutCancelRoute = CheckoutCancelRouteImport.update({
+  id: '/checkout/cancel',
+  path: '/checkout/cancel',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const CheckoutSuccessRoute = CheckoutSuccessRouteImport.update({
+  id: '/checkout/success',
+  path: '/checkout/success',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const AdminBooksIndexRoute = AdminBooksIndexRouteImport.update({
   id: '/admin/books/',
   path: '/admin/books/',
@@ -112,6 +124,8 @@ export interface FileRoutesByFullPath {
   '/signup': typeof SignupRoute
   '/account/change-password': typeof AccountChangePasswordRoute
   '/books/$id': typeof BooksIdRoute
+  '/checkout/cancel': typeof CheckoutCancelRoute
+  '/checkout/success': typeof CheckoutSuccessRoute
   '/account/': typeof AccountIndexRoute
   '/books/': typeof BooksIndexRoute
   '/admin/books/new': typeof AdminBooksNewRoute
@@ -129,6 +143,8 @@ export interface FileRoutesByTo {
   '/signup': typeof SignupRoute
   '/account/change-password': typeof AccountChangePasswordRoute
   '/books/$id': typeof BooksIdRoute
+  '/checkout/cancel': typeof CheckoutCancelRoute
+  '/checkout/success': typeof CheckoutSuccessRoute
   '/account': typeof AccountIndexRoute
   '/books': typeof BooksIndexRoute
   '/admin/books/new': typeof AdminBooksNewRoute
@@ -147,6 +163,8 @@ export interface FileRoutesById {
   '/signup': typeof SignupRoute
   '/account/change-password': typeof AccountChangePasswordRoute
   '/books/$id': typeof BooksIdRoute
+  '/checkout/cancel': typeof CheckoutCancelRoute
+  '/checkout/success': typeof CheckoutSuccessRoute
   '/account/': typeof AccountIndexRoute
   '/books/': typeof BooksIndexRoute
   '/admin/books/new': typeof AdminBooksNewRoute
@@ -166,6 +184,8 @@ export interface FileRouteTypes {
     | '/signup'
     | '/account/change-password'
     | '/books/$id'
+    | '/checkout/cancel'
+    | '/checkout/success'
     | '/account/'
     | '/books/'
     | '/admin/books/new'
@@ -183,6 +203,8 @@ export interface FileRouteTypes {
     | '/signup'
     | '/account/change-password'
     | '/books/$id'
+    | '/checkout/cancel'
+    | '/checkout/success'
     | '/account'
     | '/books'
     | '/admin/books/new'
@@ -200,6 +222,8 @@ export interface FileRouteTypes {
     | '/signup'
     | '/account/change-password'
     | '/books/$id'
+    | '/checkout/cancel'
+    | '/checkout/success'
     | '/account/'
     | '/books/'
     | '/admin/books/new'
@@ -218,6 +242,8 @@ export interface RootRouteChildren {
   SignupRoute: typeof SignupRoute
   AccountChangePasswordRoute: typeof AccountChangePasswordRoute
   BooksIdRoute: typeof BooksIdRoute
+  CheckoutCancelRoute: typeof CheckoutCancelRoute
+  CheckoutSuccessRoute: typeof CheckoutSuccessRoute
   AccountIndexRoute: typeof AccountIndexRoute
   BooksIndexRoute: typeof BooksIndexRoute
   AdminBooksNewRoute: typeof AdminBooksNewRoute
@@ -311,6 +337,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof BooksIdRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/checkout/cancel': {
+      id: '/checkout/cancel'
+      path: '/checkout/cancel'
+      fullPath: '/checkout/cancel'
+      preLoaderRoute: typeof CheckoutCancelRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/checkout/success': {
+      id: '/checkout/success'
+      path: '/checkout/success'
+      fullPath: '/checkout/success'
+      preLoaderRoute: typeof CheckoutSuccessRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/admin/books/': {
       id: '/admin/books/'
       path: '/admin/books'
@@ -346,6 +386,8 @@ const rootRouteChildren: RootRouteChildren = {
   SignupRoute: SignupRoute,
   AccountChangePasswordRoute: AccountChangePasswordRoute,
   BooksIdRoute: BooksIdRoute,
+  CheckoutCancelRoute: CheckoutCancelRoute,
+  CheckoutSuccessRoute: CheckoutSuccessRoute,
   AccountIndexRoute: AccountIndexRoute,
   BooksIndexRoute: BooksIndexRoute,
   AdminBooksNewRoute: AdminBooksNewRoute,

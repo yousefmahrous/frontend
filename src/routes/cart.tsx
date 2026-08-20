@@ -10,6 +10,7 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
 import { useCart, useRemoveCartItem, useUpdateCartItem } from "@/hooks/useCart";
+import { useCheckout } from "@/hooks/usePayment";
 
 export const Route = createFileRoute("/cart")({
   ssr: false,
@@ -25,6 +26,7 @@ export const Route = createFileRoute("/cart")({
 
 function CartPage() {
   const { data: cart, isLoading, isError, error, refetch } = useCart();
+  const checkout = useCheckout();
 
   if (isLoading) {
     return (
@@ -47,6 +49,18 @@ function CartPage() {
 
   const items = cart?.items ?? [];
 
+  // السعر مخزن بالقرش، فبنقسمه على 100 عشان نعرضه للمستخدم بالجنيه
+  const totalPrice = items.reduce(
+    (sum, item) => sum + (item.book.price * item.quantity) / 100,
+    0,
+  );
+
+  function handleCheckout() {
+    checkout.mutate(undefined, {
+      onError: (err) => toast.error(errorMessage(err)),
+    });
+  }
+
   return (
     <div className="mx-auto max-w-3xl px-4 py-10">
       <div className="mb-6 flex items-center gap-3">
@@ -61,11 +75,27 @@ function CartPage() {
           description="لسه ما ضفتش أي كتاب. روح تصفح الكتالوج وضيف اللي يعجبك."
         />
       ) : (
-        <div className="space-y-4">
-          {items.map((item) => (
-            <CartItemCard key={item.id} item={item} />
-          ))}
-        </div>
+        <>
+          <div className="space-y-4">
+            {items.map((item) => (
+              <CartItemCard key={item.id} item={item} />
+            ))}
+          </div>
+
+          <div className="mt-6 flex items-center justify-between rounded-xl border border-border bg-card p-4 shadow-sm">
+            <div>
+              <p className="text-sm text-muted-foreground">الإجمالي</p>
+              <p className="text-xl font-extrabold">{totalPrice.toFixed(2)} جنيه</p>
+            </div>
+            <Button onClick={handleCheckout} disabled={checkout.isPending}>
+              {checkout.isPending ? (
+                <Loader2 className="size-4 animate-spin" />
+              ) : (
+                "المتابعة للدفع"
+              )}
+            </Button>
+          </div>
+        </>
       )}
     </div>
   );
