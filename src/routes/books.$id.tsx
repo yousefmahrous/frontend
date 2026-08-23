@@ -117,6 +117,10 @@ function BookDetails() {
 
           <p className="leading-relaxed text-muted-foreground">{book.adress}</p>
 
+          <p className="text-2xl font-extrabold text-accent">
+            {(book.price / 100).toFixed(2)} جنيه
+          </p>
+
           <dl className="grid gap-3 rounded-xl border border-border bg-card p-4 sm:grid-cols-2">
             {details.map((item) => (
               <div key={item.label} className="flex items-start gap-3">

@@ -12,6 +12,7 @@ export interface Book {
   adress: string;
   centre: string;
   category: BookCategory | string;
+  price: number;
   stock: number;
   avatar_key?: string | null;
   avatar_url?: string | null;
@@ -26,6 +27,7 @@ export interface BookPayload {
   adress: string;
   centre: string;
   category: string;
+  price: number;
   stock: number;
   avatar_key: string | null;
 }

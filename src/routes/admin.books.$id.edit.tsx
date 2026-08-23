@@ -63,6 +63,7 @@ function EditBookPage() {
             adress: book.adress,
             centre: book.centre,
             category: book.category,
+            price: book.price / 100,
             stock: book.stock,
             avatar_key: book.avatar_key ?? null,
           }}

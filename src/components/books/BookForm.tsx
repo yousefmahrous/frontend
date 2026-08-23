@@ -35,6 +35,7 @@ export function BookForm({ defaultValues, previewUrl, submitLabel, onSubmit }: B
       adress: "",
       centre: "",
       category: "",
+      price: 0,
       stock: 0,
       avatar_key: null,
       ...defaultValues,
@@ -113,6 +114,12 @@ export function BookForm({ defaultValues, previewUrl, submitLabel, onSubmit }: B
           </SelectContent>
         </Select>
         {errors.category && <p className="text-sm text-destructive">{errors.category.message}</p>}
+      </div>
+
+      <div className="space-y-2">
+        <Label htmlFor="price">السعر (بالجنيه)</Label>
+        <Input id="price" type="number" min={0} step="0.01" dir="ltr" {...register("price")} />
+        {errors.price && <p className="text-sm text-destructive">{errors.price.message}</p>}
       </div>
 
       <div className="space-y-2">

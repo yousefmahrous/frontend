@@ -13,6 +13,7 @@ export const bookSchema = z.object({
   adress: z.string().trim().min(5, "وصف الكتاب لازم 5 أحرف على الأقل"),
   centre: z.string().trim().min(2, "دار النشر لازم حرفين على الأقل"),
   category: z.enum(BOOK_CATEGORIES as [string, ...string[]], { message: "اختر تصنيف الكتاب" }),
+  price: z.coerce.number({ message: "السعر لازم يكون رقم" }).min(0, "السعر متقدرش يكون سالب"),
   stock: z.coerce.number({ message: "الكمية لازم تكون رقم" }).int().min(0, "الكمية متقدرش تكون سالبة"),
   avatar_key: z.string().nullable(),
 });
@@ -26,6 +27,7 @@ export const bookFieldLabels: Record<keyof BookFormValues, string> = {
   adress: "وصف الكتاب",
   centre: "دار النشر",
   category: "التصنيف",
+  price: "السعر (بالجنيه)",
   stock: "الكمية المتاحة",
   avatar_key: "صورة الغلاف",
 };
