@@ -1,5 +1,15 @@
 import { Link, useNavigate } from "@tanstack/react-router";
-import { BookOpen, Heart, LayoutDashboard, LogOut, Menu, ShoppingCart, User } from "lucide-react";
+import {
+  BookOpen,
+  ClipboardList,
+  Heart,
+  LayoutDashboard,
+  LogOut,
+  Menu,
+  PackageSearch,
+  ShoppingCart,
+  User,
+} from "lucide-react";
 import { useState } from "react";
 import { toast } from "sonner";
 
@@ -111,11 +121,27 @@ export function Navbar() {
                 <DropdownMenuItem asChild>
                   <Link to="/account/change-password">تغيير كلمة المرور</Link>
                 </DropdownMenuItem>
+                {!isAdmin && (
+                  <DropdownMenuItem asChild>
+                    <Link to="/orders" className="gap-2">
+                      <PackageSearch className="size-4" />
+                      أوردراتي
+                    </Link>
+                  </DropdownMenuItem>
+                )}
                 {isAdmin && (
                   <DropdownMenuItem asChild>
                     <Link to="/admin/books" className="gap-2">
                       <LayoutDashboard className="size-4" />
                       لوحة التحكم
+                    </Link>
+                  </DropdownMenuItem>
+                )}
+                {isAdmin && (
+                  <DropdownMenuItem asChild>
+                    <Link to="/admin/orders" className="gap-2">
+                      <ClipboardList className="size-4" />
+                      الأوردرات
                     </Link>
                   </DropdownMenuItem>
                 )}

@@ -15,6 +15,7 @@ import { Route as ContactRouteImport } from './routes/contact'
 import { Route as FavoritesRouteImport } from './routes/favorites'
 import { Route as ForgotPasswordRouteImport } from './routes/forgot-password'
 import { Route as LoginRouteImport } from './routes/login'
+import { Route as OrdersRouteImport } from './routes/orders'
 import { Route as ResetPasswordRouteImport } from './routes/reset-password'
 import { Route as SignupRouteImport } from './routes/signup'
 import { Route as AccountIndexRouteImport } from './routes/account.index'
@@ -25,6 +26,7 @@ import { Route as CheckoutCancelRouteImport } from './routes/checkout.cancel'
 import { Route as CheckoutSuccessRouteImport } from './routes/checkout.success'
 import { Route as AdminBooksIndexRouteImport } from './routes/admin.books.index'
 import { Route as AdminBooksNewRouteImport } from './routes/admin.books.new'
+import { Route as AdminOrdersIndexRouteImport } from './routes/admin.orders.index'
 import { Route as AdminBooksIdEditRouteImport } from './routes/admin.books.$id.edit'
 
 const IndexRoute = IndexRouteImport.update({
@@ -55,6 +57,11 @@ const ForgotPasswordRoute = ForgotPasswordRouteImport.update({
 const LoginRoute = LoginRouteImport.update({
   id: '/login',
   path: '/login',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const OrdersRoute = OrdersRouteImport.update({
+  id: '/orders',
+  path: '/orders',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ResetPasswordRoute = ResetPasswordRouteImport.update({
@@ -107,6 +114,11 @@ const AdminBooksNewRoute = AdminBooksNewRouteImport.update({
   path: '/admin/books/new',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AdminOrdersIndexRoute = AdminOrdersIndexRouteImport.update({
+  id: '/admin/orders/',
+  path: '/admin/orders/',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const AdminBooksIdEditRoute = AdminBooksIdEditRouteImport.update({
   id: '/admin/books/$id/edit',
   path: '/admin/books/$id/edit',
@@ -120,6 +132,7 @@ export interface FileRoutesByFullPath {
   '/favorites': typeof FavoritesRoute
   '/forgot-password': typeof ForgotPasswordRoute
   '/login': typeof LoginRoute
+  '/orders': typeof OrdersRoute
   '/reset-password': typeof ResetPasswordRoute
   '/signup': typeof SignupRoute
   '/account/change-password': typeof AccountChangePasswordRoute
@@ -130,6 +143,7 @@ export interface FileRoutesByFullPath {
   '/books/': typeof BooksIndexRoute
   '/admin/books/new': typeof AdminBooksNewRoute
   '/admin/books/': typeof AdminBooksIndexRoute
+  '/admin/orders/': typeof AdminOrdersIndexRoute
   '/admin/books/$id/edit': typeof AdminBooksIdEditRoute
 }
 export interface FileRoutesByTo {
@@ -139,6 +153,7 @@ export interface FileRoutesByTo {
   '/favorites': typeof FavoritesRoute
   '/forgot-password': typeof ForgotPasswordRoute
   '/login': typeof LoginRoute
+  '/orders': typeof OrdersRoute
   '/reset-password': typeof ResetPasswordRoute
   '/signup': typeof SignupRoute
   '/account/change-password': typeof AccountChangePasswordRoute
@@ -149,6 +164,7 @@ export interface FileRoutesByTo {
   '/books': typeof BooksIndexRoute
   '/admin/books/new': typeof AdminBooksNewRoute
   '/admin/books': typeof AdminBooksIndexRoute
+  '/admin/orders': typeof AdminOrdersIndexRoute
   '/admin/books/$id/edit': typeof AdminBooksIdEditRoute
 }
 export interface FileRoutesById {
@@ -159,6 +175,7 @@ export interface FileRoutesById {
   '/favorites': typeof FavoritesRoute
   '/forgot-password': typeof ForgotPasswordRoute
   '/login': typeof LoginRoute
+  '/orders': typeof OrdersRoute
   '/reset-password': typeof ResetPasswordRoute
   '/signup': typeof SignupRoute
   '/account/change-password': typeof AccountChangePasswordRoute
@@ -169,6 +186,7 @@ export interface FileRoutesById {
   '/books/': typeof BooksIndexRoute
   '/admin/books/new': typeof AdminBooksNewRoute
   '/admin/books/': typeof AdminBooksIndexRoute
+  '/admin/orders/': typeof AdminOrdersIndexRoute
   '/admin/books/$id/edit': typeof AdminBooksIdEditRoute
 }
 export interface FileRouteTypes {
@@ -180,6 +198,7 @@ export interface FileRouteTypes {
     | '/favorites'
     | '/forgot-password'
     | '/login'
+    | '/orders'
     | '/reset-password'
     | '/signup'
     | '/account/change-password'
@@ -190,6 +209,7 @@ export interface FileRouteTypes {
     | '/books/'
     | '/admin/books/new'
     | '/admin/books/'
+    | '/admin/orders/'
     | '/admin/books/$id/edit'
   fileRoutesByTo: FileRoutesByTo
   to:
@@ -199,6 +219,7 @@ export interface FileRouteTypes {
     | '/favorites'
     | '/forgot-password'
     | '/login'
+    | '/orders'
     | '/reset-password'
     | '/signup'
     | '/account/change-password'
@@ -209,6 +230,7 @@ export interface FileRouteTypes {
     | '/books'
     | '/admin/books/new'
     | '/admin/books'
+    | '/admin/orders'
     | '/admin/books/$id/edit'
   id:
     | '__root__'
@@ -218,6 +240,7 @@ export interface FileRouteTypes {
     | '/favorites'
     | '/forgot-password'
     | '/login'
+    | '/orders'
     | '/reset-password'
     | '/signup'
     | '/account/change-password'
@@ -228,6 +251,7 @@ export interface FileRouteTypes {
     | '/books/'
     | '/admin/books/new'
     | '/admin/books/'
+    | '/admin/orders/'
     | '/admin/books/$id/edit'
   fileRoutesById: FileRoutesById
 }
@@ -238,6 +262,7 @@ export interface RootRouteChildren {
   FavoritesRoute: typeof FavoritesRoute
   ForgotPasswordRoute: typeof ForgotPasswordRoute
   LoginRoute: typeof LoginRoute
+  OrdersRoute: typeof OrdersRoute
   ResetPasswordRoute: typeof ResetPasswordRoute
   SignupRoute: typeof SignupRoute
   AccountChangePasswordRoute: typeof AccountChangePasswordRoute
@@ -248,6 +273,7 @@ export interface RootRouteChildren {
   BooksIndexRoute: typeof BooksIndexRoute
   AdminBooksNewRoute: typeof AdminBooksNewRoute
   AdminBooksIndexRoute: typeof AdminBooksIndexRoute
+  AdminOrdersIndexRoute: typeof AdminOrdersIndexRoute
   AdminBooksIdEditRoute: typeof AdminBooksIdEditRoute
 }
 
@@ -293,6 +319,13 @@ declare module '@tanstack/react-router' {
       path: '/login'
       fullPath: '/login'
       preLoaderRoute: typeof LoginRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/orders': {
+      id: '/orders'
+      path: '/orders'
+      fullPath: '/orders'
+      preLoaderRoute: typeof OrdersRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/reset-password': {
@@ -365,6 +398,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminBooksNewRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/admin/orders/': {
+      id: '/admin/orders/'
+      path: '/admin/orders'
+      fullPath: '/admin/orders/'
+      preLoaderRoute: typeof AdminOrdersIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/admin/books/$id/edit': {
       id: '/admin/books/$id/edit'
       path: '/admin/books/$id/edit'
@@ -382,6 +422,7 @@ const rootRouteChildren: RootRouteChildren = {
   FavoritesRoute: FavoritesRoute,
   ForgotPasswordRoute: ForgotPasswordRoute,
   LoginRoute: LoginRoute,
+  OrdersRoute: OrdersRoute,
   ResetPasswordRoute: ResetPasswordRoute,
   SignupRoute: SignupRoute,
   AccountChangePasswordRoute: AccountChangePasswordRoute,
@@ -392,6 +433,7 @@ const rootRouteChildren: RootRouteChildren = {
   BooksIndexRoute: BooksIndexRoute,
   AdminBooksNewRoute: AdminBooksNewRoute,
   AdminBooksIndexRoute: AdminBooksIndexRoute,
+  AdminOrdersIndexRoute: AdminOrdersIndexRoute,
   AdminBooksIdEditRoute: AdminBooksIdEditRoute,
 }
 export const routeTree = rootRouteImport
