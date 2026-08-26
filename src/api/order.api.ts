@@ -2,7 +2,14 @@ import { api } from "./client";
 
 export const ORDERS_PATH = "/orders";
 
-export type OrderStatus = "pending" | "paid" | "failed" | "cancelled";
+export type OrderStatus =
+  | "pending"
+  | "paid"
+  | "failed"
+  | "cancelled"
+  | "return_requested"
+  | "return_approved"
+  | "refunded";
 
 export interface OrderItem {
   book_id: number;
@@ -17,6 +24,7 @@ export interface Order {
   total_amount: number;
   currency: string;
   created_at: string;
+  paid_at: string | null;
   items: OrderItem[];
 }
 

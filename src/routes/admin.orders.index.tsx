@@ -30,8 +30,8 @@ export const Route = createFileRoute("/admin/orders/")({
   ssr: false,
   head: () => ({
     meta: [
-      { title: "إدارة الأوردرات | مكتبة القراء" },
-      { name: "description", content: "لوحة إدارة أوردرات كل المستخدمين." },
+      { title: "الأوردرات | مكتبة القراء" },
+      { name: "description", content: "لوحة إدارة أوردرات المكتبة." },
       { name: "robots", content: "noindex" },
     ],
   }),
@@ -45,13 +45,19 @@ export const Route = createFileRoute("/admin/orders/")({
 const LIMIT = 15;
 
 const STATUS_META: Record<OrderStatus, { label: string; className: string }> = {
-  paid: { label: "تم الدفع", className: "bg-green-100 text-green-700 hover:bg-green-100" },
   pending: { label: "بانتظار الدفع", className: "bg-amber-100 text-amber-700 hover:bg-amber-100" },
-  failed: {
-    label: "فشل الدفع",
-    className: "bg-destructive/10 text-destructive hover:bg-destructive/10",
-  },
+  paid: { label: "تم الدفع", className: "bg-green-100 text-green-700 hover:bg-green-100" },
+  failed: { label: "فشل الدفع", className: "bg-destructive/10 text-destructive hover:bg-destructive/10" },
   cancelled: { label: "ملغي", className: "bg-secondary text-muted-foreground hover:bg-secondary" },
+  return_requested: {
+    label: "طلب استرجاع قيد المراجعة",
+    className: "bg-blue-100 text-blue-700 hover:bg-blue-100",
+  },
+  return_approved: {
+    label: "بانتظار استلام الكتاب",
+    className: "bg-blue-100 text-blue-700 hover:bg-blue-100",
+  },
+  refunded: { label: "تم الاسترجاع", className: "bg-secondary text-muted-foreground hover:bg-secondary" },
 };
 
 function formatPrice(amountInPiastres: number) {
@@ -59,11 +65,7 @@ function formatPrice(amountInPiastres: number) {
 }
 
 function formatDate(iso: string) {
-  return new Date(iso).toLocaleDateString("ar-EG", {
-    year: "numeric",
-    month: "short",
-    day: "numeric",
-  });
+  return new Date(iso).toLocaleDateString("ar-EG", { year: "numeric", month: "short", day: "numeric" });
 }
 
 function AdminOrdersPage() {
@@ -85,7 +87,7 @@ function AdminOrdersPage() {
         <div>
           <h1 className="flex items-center gap-2 text-2xl font-bold md:text-3xl">
             <ClipboardList className="size-6 text-accent" />
-            إدارة الأوردرات
+            الأوردرات
           </h1>
           <p className="mt-1 text-sm text-muted-foreground">
             {pagination ? `${pagination.totalCount} أوردر` : "جاري التحميل…"}
@@ -99,15 +101,18 @@ function AdminOrdersPage() {
             setPage(1);
           }}
         >
-          <SelectTrigger className="w-44">
+          <SelectTrigger className="w-52">
             <SelectValue placeholder="كل الحالات" />
           </SelectTrigger>
           <SelectContent>
             <SelectItem value="all">كل الحالات</SelectItem>
-            <SelectItem value="paid">تم الدفع</SelectItem>
             <SelectItem value="pending">بانتظار الدفع</SelectItem>
+            <SelectItem value="paid">تم الدفع</SelectItem>
             <SelectItem value="failed">فشل الدفع</SelectItem>
             <SelectItem value="cancelled">ملغي</SelectItem>
+            <SelectItem value="return_requested">طلب استرجاع قيد المراجعة</SelectItem>
+            <SelectItem value="return_approved">بانتظار استلام الكتاب</SelectItem>
+            <SelectItem value="refunded">تم الاسترجاع</SelectItem>
           </SelectContent>
         </Select>
       </div>
@@ -116,7 +121,7 @@ function AdminOrdersPage() {
         {isLoading ? (
           <div className="space-y-3">
             {Array.from({ length: 6 }).map((_, index) => (
-              <Skeleton key={index} className="h-14 w-full" />
+              <Skeleton key={index} className="h-16 w-full" />
             ))}
           </div>
         ) : isError ? (
@@ -132,7 +137,7 @@ function AdminOrdersPage() {
             <Table>
               <TableHeader>
                 <TableRow>
-                  <TableHead className="text-right">#</TableHead>
+                  <TableHead className="text-right">الأوردر</TableHead>
                   <TableHead className="text-right">العميل</TableHead>
                   <TableHead className="text-right">الكتب</TableHead>
                   <TableHead className="text-right">الإجمالي</TableHead>
@@ -156,7 +161,7 @@ function AdminOrdersPage() {
                           <span className="text-muted-foreground">مستخدم محذوف</span>
                         )}
                       </TableCell>
-                      <TableCell className="text-muted-foreground">
+                      <TableCell className="max-w-56 truncate text-muted-foreground">
                         {order.items.map((item) => `${item.title} ×${item.quantity}`).join("، ")}
                       </TableCell>
                       <TableCell dir="ltr" className="text-muted-foreground">
@@ -165,9 +170,7 @@ function AdminOrdersPage() {
                       <TableCell>
                         <Badge className={meta.className}>{meta.label}</Badge>
                       </TableCell>
-                      <TableCell className="text-muted-foreground">
-                        {formatDate(order.created_at)}
-                      </TableCell>
+                      <TableCell className="text-muted-foreground">{formatDate(order.created_at)}</TableCell>
                     </TableRow>
                   );
                 })}

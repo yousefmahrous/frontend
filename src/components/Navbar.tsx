@@ -7,6 +7,7 @@ import {
   LogOut,
   Menu,
   PackageSearch,
+  RotateCcw,
   ShoppingCart,
   User,
 } from "lucide-react";
@@ -142,6 +143,14 @@ export function Navbar() {
                     <Link to="/admin/orders" className="gap-2">
                       <ClipboardList className="size-4" />
                       الأوردرات
+                    </Link>
+                  </DropdownMenuItem>
+                )}
+                {isAdmin && (
+                  <DropdownMenuItem asChild>
+                    <Link to="/admin/refunds" className="gap-2">
+                      <RotateCcw className="size-4" />
+                      طلبات الاسترجاع
                     </Link>
                   </DropdownMenuItem>
                 )}
