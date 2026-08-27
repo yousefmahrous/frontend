@@ -9,7 +9,6 @@ export interface AppUser {
   role: UserRole;
 }
 
-/** UI-facing role label. */
 export function roleLabel(role: UserRole | undefined): string {
   return role === "admin" ? "أدمن" : "عميل";
 }
@@ -32,6 +31,18 @@ export async function logout() {
 export async function getMe() {
   const { data } = await api.get<{ success: boolean; user: AppUser }>("/auth/me");
   return data.user;
+}
+
+export async function verifyEmail(token: string) {
+  const { data } = await api.get<{ message: string }>("/auth/verify-email", {
+    params: { token },
+  });
+  return data;
+}
+
+export async function resendVerification(payload: { email: string }) {
+  const { data } = await api.post<{ message: string }>("/auth/resend-verification", payload);
+  return data;
 }
 
 export async function forgotPassword(payload: { email: string }) {

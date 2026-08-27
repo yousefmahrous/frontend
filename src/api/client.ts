@@ -20,14 +20,22 @@ export type FieldErrors = Record<string, string>;
 export class ApiError extends Error {
   status: number;
   fieldErrors?: FieldErrors | undefined;
+  code?: string | undefined;
   isNetwork: boolean;
 
-  constructor(message: string, status: number, fieldErrors?: FieldErrors, isNetwork = false) {
+  constructor(
+    message: string,
+    status: number,
+    fieldErrors?: FieldErrors,
+    isNetwork = false,
+    code?: string,
+  ) {
     super(message);
     this.name = "ApiError";
     this.status = status;
     this.fieldErrors = fieldErrors;
     this.isNetwork = isNetwork;
+    this.code = code;
   }
 }
 
@@ -85,7 +93,9 @@ api.interceptors.response.use(
     const isMeCheck = error.config?.url?.includes("/auth/me");
     if (status === 401 && !isMeCheck) authEvents.onUnauthorized?.();
 
-    return Promise.reject(new ApiError(message, status, extractFieldErrors(data)));
+    const code = typeof data?.["code"] === "string" ? (data["code"] as string) : undefined;
+
+    return Promise.reject(new ApiError(message, status, extractFieldErrors(data), false, code));
   },
 );
 

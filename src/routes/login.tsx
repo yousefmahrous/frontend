@@ -4,7 +4,9 @@ import { Loader2 } from "lucide-react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 
-import { login } from "@/api/auth.api";
+import { useState } from "react";
+
+import { login, resendVerification } from "@/api/auth.api";
 import { ApiError, errorMessage } from "@/api/client";
 import { loginSchema, type LoginValues } from "@/schemas/auth.schema";
 import { AuthShell } from "@/components/AuthShell";
@@ -29,6 +31,8 @@ export const Route = createFileRoute("/login")({
 function LoginPage() {
   const { setUser } = useAuth();
   const navigate = useNavigate();
+  const [unverifiedEmail, setUnverifiedEmail] = useState<string | null>(null);
+  const [resending, setResending] = useState(false);
   const {
     register,
     handleSubmit,
@@ -40,12 +44,18 @@ function LoginPage() {
   });
 
   const onSubmit = handleSubmit(async (values) => {
+    setUnverifiedEmail(null);
     try {
       const res = await login(values);
       setUser(res.user);
       toast.success(res.message);
       void navigate({ to: "/books" });
     } catch (error) {
+      if (error instanceof ApiError && error.code === "EMAIL_NOT_VERIFIED") {
+        setUnverifiedEmail(values.email);
+        toast.error(error.message);
+        return;
+      }
       if (error instanceof ApiError && error.fieldErrors) {
         for (const [field, message] of Object.entries(error.fieldErrors)) {
           setError(field as keyof LoginValues, { message });
@@ -55,6 +65,19 @@ function LoginPage() {
       toast.error(errorMessage(error));
     }
   });
+
+  const onResendVerification = async () => {
+    if (!unverifiedEmail) return;
+    setResending(true);
+    try {
+      const res = await resendVerification({ email: unverifiedEmail });
+      toast.success(res.message);
+    } catch (error) {
+      toast.error(errorMessage(error));
+    } finally {
+      setResending(false);
+    }
+  };
 
   return (
     <AuthShell title="تسجيل الدخول" subtitle="ادخل بيانات حسابك للمتابعة">
@@ -74,6 +97,23 @@ function LoginPage() {
           دخول
         </Button>
       </form>
+
+      {unverifiedEmail && (
+        <div className="mt-4 space-y-2 rounded-md bg-secondary p-3 text-sm text-secondary-foreground">
+          <p>لازم تأكد بريدك الإلكتروني الأول قبل تسجيل الدخول.</p>
+          <Button
+            type="button"
+            variant="outline"
+            size="sm"
+            className="gap-2"
+            disabled={resending}
+            onClick={() => void onResendVerification()}
+          >
+            {resending && <Loader2 className="size-4 animate-spin" />}
+            إعادة إرسال رابط التأكيد
+          </Button>
+        </div>
+      )}
 
       <div className="mt-5 space-y-2 text-sm text-muted-foreground">
         <Link to="/forgot-password" className="block font-medium text-accent hover:underline">

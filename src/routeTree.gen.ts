@@ -18,6 +18,7 @@ import { Route as LoginRouteImport } from './routes/login'
 import { Route as OrdersRouteImport } from './routes/orders'
 import { Route as ResetPasswordRouteImport } from './routes/reset-password'
 import { Route as SignupRouteImport } from './routes/signup'
+import { Route as VerifyEmailRouteImport } from './routes/verify-email'
 import { Route as AccountIndexRouteImport } from './routes/account.index'
 import { Route as AccountChangePasswordRouteImport } from './routes/account.change-password'
 import { Route as BooksIndexRouteImport } from './routes/books.index'
@@ -73,6 +74,11 @@ const ResetPasswordRoute = ResetPasswordRouteImport.update({
 const SignupRoute = SignupRouteImport.update({
   id: '/signup',
   path: '/signup',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const VerifyEmailRoute = VerifyEmailRouteImport.update({
+  id: '/verify-email',
+  path: '/verify-email',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AccountIndexRoute = AccountIndexRouteImport.update({
@@ -141,6 +147,7 @@ export interface FileRoutesByFullPath {
   '/orders': typeof OrdersRoute
   '/reset-password': typeof ResetPasswordRoute
   '/signup': typeof SignupRoute
+  '/verify-email': typeof VerifyEmailRoute
   '/account/change-password': typeof AccountChangePasswordRoute
   '/books/$id': typeof BooksIdRoute
   '/checkout/cancel': typeof CheckoutCancelRoute
@@ -163,6 +170,7 @@ export interface FileRoutesByTo {
   '/orders': typeof OrdersRoute
   '/reset-password': typeof ResetPasswordRoute
   '/signup': typeof SignupRoute
+  '/verify-email': typeof VerifyEmailRoute
   '/account/change-password': typeof AccountChangePasswordRoute
   '/books/$id': typeof BooksIdRoute
   '/checkout/cancel': typeof CheckoutCancelRoute
@@ -186,6 +194,7 @@ export interface FileRoutesById {
   '/orders': typeof OrdersRoute
   '/reset-password': typeof ResetPasswordRoute
   '/signup': typeof SignupRoute
+  '/verify-email': typeof VerifyEmailRoute
   '/account/change-password': typeof AccountChangePasswordRoute
   '/books/$id': typeof BooksIdRoute
   '/checkout/cancel': typeof CheckoutCancelRoute
@@ -210,6 +219,7 @@ export interface FileRouteTypes {
     | '/orders'
     | '/reset-password'
     | '/signup'
+    | '/verify-email'
     | '/account/change-password'
     | '/books/$id'
     | '/checkout/cancel'
@@ -232,6 +242,7 @@ export interface FileRouteTypes {
     | '/orders'
     | '/reset-password'
     | '/signup'
+    | '/verify-email'
     | '/account/change-password'
     | '/books/$id'
     | '/checkout/cancel'
@@ -254,6 +265,7 @@ export interface FileRouteTypes {
     | '/orders'
     | '/reset-password'
     | '/signup'
+    | '/verify-email'
     | '/account/change-password'
     | '/books/$id'
     | '/checkout/cancel'
@@ -277,6 +289,7 @@ export interface RootRouteChildren {
   OrdersRoute: typeof OrdersRoute
   ResetPasswordRoute: typeof ResetPasswordRoute
   SignupRoute: typeof SignupRoute
+  VerifyEmailRoute: typeof VerifyEmailRoute
   AccountChangePasswordRoute: typeof AccountChangePasswordRoute
   BooksIdRoute: typeof BooksIdRoute
   CheckoutCancelRoute: typeof CheckoutCancelRoute
@@ -353,6 +366,13 @@ declare module '@tanstack/react-router' {
       path: '/signup'
       fullPath: '/signup'
       preLoaderRoute: typeof SignupRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/verify-email': {
+      id: '/verify-email'
+      path: '/verify-email'
+      fullPath: '/verify-email'
+      preLoaderRoute: typeof VerifyEmailRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/account/': {
@@ -445,6 +465,7 @@ const rootRouteChildren: RootRouteChildren = {
   OrdersRoute: OrdersRoute,
   ResetPasswordRoute: ResetPasswordRoute,
   SignupRoute: SignupRoute,
+  VerifyEmailRoute: VerifyEmailRoute,
   AccountChangePasswordRoute: AccountChangePasswordRoute,
   BooksIdRoute: BooksIdRoute,
   CheckoutCancelRoute: CheckoutCancelRoute,
