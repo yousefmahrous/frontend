@@ -15,6 +15,30 @@ export const api = axios.create({
   headers: { "Content-Type": "application/json" },
 });
 
+
+let cachedCsrfToken: string | null = null;
+
+
+const SAFE_METHODS = new Set(["get", "head", "options"]);
+
+async function fetchCsrfToken(): Promise<string> {
+  const response = await axios.get<{ csrfToken: string }>(`${API_URL}/csrf-token`, {
+    withCredentials: true,
+  });
+  cachedCsrfToken = response.data.csrfToken;
+  return cachedCsrfToken;
+}
+
+api.interceptors.request.use(async (config) => {
+  const method = config.method?.toLowerCase() ?? "get";
+  if (SAFE_METHODS.has(method)) return config;
+
+  const token = cachedCsrfToken ?? (await fetchCsrfToken());
+  config.headers.set("x-csrf-token", token);
+  return config;
+});
+
+
 export type FieldErrors = Record<string, string>;
 
 export class ApiError extends Error {
@@ -103,4 +127,8 @@ export function errorMessage(error: unknown): string {
   if (error instanceof ApiError) return error.message;
   if (error instanceof Error && error.message) return error.message;
   return "حصل خطأ غير متوقع";
+}
+
+export function resetCsrfToken() {
+  cachedCsrfToken = null;
 }

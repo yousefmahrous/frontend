@@ -1,4 +1,4 @@
-import { api } from "./client";
+import { api, resetCsrfToken } from "./client";
 
 export type UserRole = "customer" | "admin";
 
@@ -20,11 +20,13 @@ export async function signup(payload: { name: string; email: string; password: s
 
 export async function login(payload: { email: string; password: string }) {
   const { data } = await api.post<{ message: string; user: AppUser }>("/auth/login", payload);
+  resetCsrfToken();
   return data;
 }
 
 export async function logout() {
   const { data } = await api.post<{ message?: string }>("/auth/logout", {});
+  resetCsrfToken();
   return data;
 }
 
