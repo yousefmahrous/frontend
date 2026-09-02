@@ -154,23 +154,24 @@ function BookDetails() {
                 {addToCart.isPending ? "جاري الإضافة..." : "أضف للعربية"}
               </Button>
 
-              <Button
-                onClick={handleToggleFavorite}
-                disabled={favorite.isPending}
-                variant="outline"
-                size="lg"
-                className="gap-2"
-                aria-pressed={favorite.isFavorite}
-                aria-label={favorite.isFavorite ? "احذف من المفضلة" : "ضيف للمفضلة"}
-              >
-                <Heart
-                  className={cn(
-                    "size-4",
-                    favorite.isFavorite && "fill-accent text-accent",
-                  )}
-                />
-                {favorite.isFavorite ? "في المفضلة" : "أضف للمفضلة"}
-              </Button>
+            <Button
+              onClick={handleToggleFavorite}
+              disabled={favorite.isPending}
+              variant="outline"
+              size="lg"
+              className="gap-2"
+              aria-pressed={favorite.isFavorite}
+              aria-label={favorite.isFavorite ? "احذف من المفضلة" : "ضيف للمفضلة"}
+              data-testid="book-detail-favorite-toggle"
+            >
+              <Heart
+                className={cn(
+                  "size-4",
+                  favorite.isFavorite && "fill-accent text-accent",
+                )}
+              />
+              {favorite.isFavorite ? "في المفضلة" : "أضف للمفضلة"}
+            </Button>
             </div>
           )}
         </div>
