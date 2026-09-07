@@ -15,20 +15,29 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { useAuth } from "@/context/auth-context";
 
+import en from "@/i18n/locales/en.json";
+import ar from "@/i18n/locales/ar.json";
+import { DEFAULT_LANG, type Lang } from "@/i18n/i18n";
+import { useTranslation } from "react-i18next";
 export const Route = createFileRoute("/login")({
   ssr: false,
-  head: () => ({
-    meta: [
-      { title: "تسجيل الدخول | مكتبة القراء" },
-      { name: "description", content: "سجّل دخولك لمتابعة التصفح وإدارة حسابك في مكتبة القراء." },
-      { property: "og:title", content: "تسجيل الدخول | مكتبة القراء" },
-      { property: "og:description", content: "سجّل دخولك لمكتبة القراء." },
-    ],
-  }),
+  head: ({ match }) => {
+    const lang = (match.context as { lang?: Lang }).lang ?? DEFAULT_LANG;
+    const meta = (lang === "ar" ? ar : en).pageMeta.loginPage;
+    return {
+      meta: [
+        { title: meta.title },
+        { name: "description", content: meta.description },
+        { property: "og:title", content: meta.title },
+        { property: "og:description", content: meta.ogDescription },
+      ],
+    };
+  },
   component: LoginPage,
 });
 
 function LoginPage() {
+  const { t } = useTranslation();
   const { setUser } = useAuth();
   const navigate = useNavigate();
   const [unverifiedEmail, setUnverifiedEmail] = useState<string | null>(null);
@@ -80,27 +89,27 @@ function LoginPage() {
   };
 
   return (
-    <AuthShell title="تسجيل الدخول" subtitle="ادخل بيانات حسابك للمتابعة">
+    <AuthShell title={t("common.login")} subtitle={t("login.subtitle")}>
       <form onSubmit={(event) => void onSubmit(event)} className="space-y-4" noValidate>
         <div className="space-y-2">
-          <Label htmlFor="email">الإيميل</Label>
+          <Label htmlFor="email">{t("common.email")}</Label>
           <Input id="email" type="email" dir="ltr" {...register("email")} />
           {errors.email && <p className="text-sm text-destructive">{errors.email.message}</p>}
         </div>
         <div className="space-y-2">
-          <Label htmlFor="password">كلمة المرور</Label>
+          <Label htmlFor="password">{t("common.password")}</Label>
           <Input id="password" type="password" dir="ltr" {...register("password")} />
           {errors.password && <p className="text-sm text-destructive">{errors.password.message}</p>}
         </div>
         <Button type="submit" className="w-full gap-2" disabled={isSubmitting}>
           {isSubmitting && <Loader2 className="size-4 animate-spin" />}
-          دخول
+          {t("login.submit")}
         </Button>
       </form>
 
       {unverifiedEmail && (
         <div className="mt-4 space-y-2 rounded-md bg-secondary p-3 text-sm text-secondary-foreground">
-          <p>لازم تأكد بريدك الإلكتروني الأول قبل تسجيل الدخول.</p>
+          <p>{t("login.emailNotVerified")}</p>
           <Button
             type="button"
             variant="outline"
@@ -110,19 +119,19 @@ function LoginPage() {
             onClick={() => void onResendVerification()}
           >
             {resending && <Loader2 className="size-4 animate-spin" />}
-            إعادة إرسال رابط التأكيد
+            {t("login.resendVerification")}
           </Button>
         </div>
       )}
 
       <div className="mt-5 space-y-2 text-sm text-muted-foreground">
         <Link to="/forgot-password" className="block font-medium text-accent hover:underline">
-          نسيت كلمة المرور؟
+          {t("login.forgotPassword")}
         </Link>
         <p>
-          ملكش حساب؟{" "}
+          {t("login.noAccount")}{" "}
           <Link to="/signup" className="font-medium text-accent hover:underline">
-            إنشاء حساب جديد
+            {t("login.createNewAccount")}
           </Link>
         </p>
       </div>

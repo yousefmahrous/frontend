@@ -14,20 +14,30 @@ import { useBooksRealtime } from "@/hooks/useBooksRealtime";
 import { useToggleFavorite } from "@/hooks/useFavorites";
 import { ReviewsSection } from "@/components/reviews/ReviewsList";
 
+import en from "@/i18n/locales/en.json";
+import ar from "@/i18n/locales/ar.json";
+import { DEFAULT_LANG, type Lang } from "@/i18n/i18n";
+import { useTranslation } from "react-i18next";
+
 export const Route = createFileRoute("/books/$id")({
   ssr: false,
-  head: () => ({
-    meta: [
-      { title: "تفاصيل الكتاب | مكتبة القراء" },
-      { name: "description", content: "كل تفاصيل الكتاب: الوصف، دار النشر، التصنيف ورقم ISBN." },
-      { property: "og:title", content: "تفاصيل الكتاب | مكتبة القراء" },
-      { property: "og:description", content: "كل تفاصيل الكتاب في مكتبة القراء." },
-    ],
-  }),
+  head: ({ match }) => {
+    const lang = (match.context as { lang?: Lang }).lang ?? DEFAULT_LANG;
+    const meta = (lang === "ar" ? ar : en).pageMeta.bookDetailsPage;
+    return {
+      meta: [
+        { title: meta.title },
+        { name: "description", content: meta.description },
+        { property: "og:title", content: meta.title },
+        { property: "og:description", content: meta.ogDescription },
+      ],
+    };
+  },
   component: BookDetails,
 });
 
 function BookDetails() {
+  const { t } = useTranslation();
   const { id } = Route.useParams();
   const { data: book, isLoading, isError, error, refetch } = useBook(id);
   const { user, isAdmin } = useAuth();
@@ -38,7 +48,7 @@ function BookDetails() {
   useBooksRealtime();
 
   function requireLogin() {
-    toast.info("سجّل دخولك الأول عشان تقدر تكمل");
+    toast.info(t("bookDetails.loginFirst"));
     void navigate({ to: "/login" });
   }
 
@@ -80,9 +90,9 @@ function BookDetails() {
   }
 
   const details = [
-    { icon: Building2, label: "دار النشر", value: book.centre },
+    { icon: Building2, label: t("bookDetails.publisher"), value: book.centre },
     { icon: Hash, label: "ISBN", value: book.number },
-    { icon: Mail, label: "إيميل الناشر", value: book.email },
+    { icon: Mail, label: t("bookDetails.publisherEmail"), value: book.email },
   ];
 
   return (
@@ -90,7 +100,7 @@ function BookDetails() {
       <Button asChild variant="ghost" className="mb-6 gap-2">
         <Link to="/books">
           <ArrowRight className="size-4" />
-          رجوع للكتالوج
+          {t("bookDetails.backToCatalog")}
         </Link>
       </Button>
 
@@ -99,7 +109,7 @@ function BookDetails() {
           {book.avatar_url ? (
             <img
               src={book.avatar_url}
-              alt={`غلاف كتاب ${book.name}`}
+              alt={t("common.bookCoverAlt", { name: book.name })}
               className="aspect-2/3 w-full object-cover"
             />
           ) : (
@@ -111,14 +121,14 @@ function BookDetails() {
 
         <div className="space-y-5">
           <div className="space-y-2">
-            <Badge variant="secondary">{book.category}</Badge>
+            <Badge variant="secondary">{t(`categories.${book.category}`, book.category)}</Badge>
             <h1 className="text-3xl font-extrabold leading-snug">{book.name}</h1>
           </div>
 
           <p className="leading-relaxed text-muted-foreground">{book.adress}</p>
 
           <p className="text-2xl font-extrabold text-accent">
-            {(book.price / 100).toFixed(2)} جنيه
+            {(book.price / 100).toFixed(2)} {t("bookDetails.currency")}
           </p>
 
           <dl className="grid gap-3 rounded-xl border border-border bg-card p-4 sm:grid-cols-2">
@@ -136,10 +146,10 @@ function BookDetails() {
           {book.stock <= 0 ? (
             <Badge variant="destructive" className="w-fit gap-1.5 px-3 py-1.5 text-sm">
               <PackageX className="size-4" />
-              الكمية غير متوفرة حاليًا
+              {t("bookDetails.outOfStockNow")}
             </Badge>
           ) : (
-            <p className="text-sm text-muted-foreground">متبقي {book.stock} نسخة فقط</p>
+            <p className="text-sm text-muted-foreground">{t("bookDetails.copiesLeft", { count: book.stock })}</p>
           )}
 
           {!isAdmin && (
@@ -151,7 +161,7 @@ function BookDetails() {
                 className="gap-2"
               >
                 <ShoppingCart className="size-4" />
-                {addToCart.isPending ? "جاري الإضافة..." : "أضف للعربية"}
+                {addToCart.isPending ? t("bookDetails.adding") : t("common.addToCart")}
               </Button>
 
             <Button
@@ -161,7 +171,7 @@ function BookDetails() {
               size="lg"
               className="gap-2"
               aria-pressed={favorite.isFavorite}
-              aria-label={favorite.isFavorite ? "احذف من المفضلة" : "ضيف للمفضلة"}
+              aria-label={favorite.isFavorite ? t("bookDetails.removeFromFavorites") : t("bookDetails.addToFavorites")}
               data-testid="book-detail-favorite-toggle"
             >
               <Heart
@@ -170,7 +180,7 @@ function BookDetails() {
                   favorite.isFavorite && "fill-accent text-accent",
                 )}
               />
-              {favorite.isFavorite ? "في المفضلة" : "أضف للمفضلة"}
+              {favorite.isFavorite ? t("bookDetails.inFavorites") : t("bookDetails.addToFavorites")}
             </Button>
             </div>
           )}

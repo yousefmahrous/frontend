@@ -9,7 +9,9 @@ import { useAuth } from "@/context/auth-context";
 import { useToggleFavorite } from "@/hooks/useFavorites";
 import { cn } from "@/lib/utils";
 
+import { useTranslation } from "react-i18next";
 export function BookCard({ book }: { book: Book }) {
+  const { t } = useTranslation();
   const cover = book.avatar_url ?? null;
   const { user, isAdmin } = useAuth();
   const navigate = useNavigate();
@@ -20,7 +22,7 @@ export function BookCard({ book }: { book: Book }) {
     e.stopPropagation();
 
     if (!user) {
-      toast.info("سجّل دخولك الأول عشان تقدر تضيف للمفضلة");
+      toast.info(t("bookCard.loginToFavorite"));
       void navigate({ to: "/login" });
       return;
     }
@@ -41,14 +43,14 @@ export function BookCard({ book }: { book: Book }) {
         {cover ? (
           <img
             src={cover}
-            alt={`غلاف كتاب ${book.name}`}
+            alt={t("common.bookCoverAlt", { name: book.name })}
             loading="lazy"
             className="size-full object-cover transition-transform duration-300 group-hover:scale-105"
           />
         ) : (
           <div className="flex size-full flex-col items-center justify-center gap-2 text-muted-foreground">
             <BookOpen className="size-10" />
-            <span className="text-xs">لا يوجد غلاف</span>
+            <span className="text-xs">{t("bookCard.noCover")}</span>
           </div>
         )}
 
@@ -58,7 +60,7 @@ export function BookCard({ book }: { book: Book }) {
             onClick={handleToggleFavorite}
             disabled={favorite.isPending}
             aria-pressed={favorite.isFavorite}
-            aria-label={favorite.isFavorite ? "احذف من المفضلة" : "ضيف للمفضلة"}
+            aria-label={favorite.isFavorite ? t("bookCard.removeFavoriteAria") : t("bookCard.addFavoriteAria")}
             className="absolute left-2 top-2 flex size-8 items-center justify-center rounded-full bg-background/80 backdrop-blur transition-colors hover:bg-background"
           >
             <Heart
@@ -74,7 +76,7 @@ export function BookCard({ book }: { book: Book }) {
         <h3 className="line-clamp-2 font-bold leading-snug text-foreground">{book.name}</h3>
         <p className="text-xs text-muted-foreground">{book.centre}</p>
         <div className="mt-auto pt-2">
-          <Badge variant="secondary">{book.category}</Badge>
+          <Badge variant="secondary">{t(`categories.${book.category}`, book.category)}</Badge>
         </div>
       </div>
     </Link>

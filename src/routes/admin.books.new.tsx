@@ -8,17 +8,25 @@ import { AdminOnly } from "@/components/Guards";
 import { Button } from "@/components/ui/button";
 import { useCreateBook } from "@/hooks/useBooks";
 
+import en from "@/i18n/locales/en.json";
+import ar from "@/i18n/locales/ar.json";
+import { DEFAULT_LANG, type Lang } from "@/i18n/i18n";
+import { useTranslation } from "react-i18next";
 export const Route = createFileRoute("/admin/books/new")({
   ssr: false,
-  head: () => ({
-    meta: [
-      { title: "إضافة كتاب | مكتبة القراء" },
-      { name: "description", content: "أضف كتابًا جديدًا لمتجر مكتبة القراء مع صورة غلاف." },
-      { property: "og:title", content: "إضافة كتاب | مكتبة القراء" },
-      { property: "og:description", content: "أضف كتابًا جديدًا للمتجر." },
-      { name: "robots", content: "noindex" },
-    ],
-  }),
+  head: ({ match }) => {
+    const lang = (match.context as { lang?: Lang }).lang ?? DEFAULT_LANG;
+    const meta = (lang === "ar" ? ar : en).pageMeta.adminBooksNew;
+    return {
+      meta: [
+        { title: meta.title },
+        { name: "description", content: meta.description },
+        { property: "og:title", content: meta.title },
+        { property: "og:description", content: meta.ogDescription },
+        { name: "robots", content: "noindex" },
+      ],
+    };
+  },
   component: () => (
     <AdminOnly>
       <NewBookPage />
@@ -27,6 +35,7 @@ export const Route = createFileRoute("/admin/books/new")({
 });
 
 function NewBookPage() {
+  const { t } = useTranslation();
   const navigate = useNavigate();
   const createBook = useCreateBook();
 
@@ -35,17 +44,17 @@ function NewBookPage() {
       <Button asChild variant="ghost" className="mb-6 gap-2">
         <Link to="/admin/books">
           <ArrowRight className="size-4" />
-          رجوع للإدارة
+          {t("adminBooksNew.backToAdmin")}
         </Link>
       </Button>
-      <h1 className="mb-6 text-2xl font-bold md:text-3xl">إضافة كتاب جديد</h1>
+      <h1 className="mb-6 text-2xl font-bold md:text-3xl">{t("adminBooksNew.title")}</h1>
 
       <BookForm
-        submitLabel="حفظ الكتاب"
+        submitLabel={t("adminBooksNew.saveLabel")}
         onSubmit={async (payload) => {
           try {
             await createBook.mutateAsync(payload);
-            toast.success("تمت إضافة الكتاب");
+            toast.success(t("adminBooksNew.addedSuccess"));
             void navigate({ to: "/admin/books" });
           } catch (error) {
             toast.error(errorMessage(error));

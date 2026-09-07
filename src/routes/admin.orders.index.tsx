@@ -26,15 +26,23 @@ import {
 } from "@/components/ui/table";
 import { useAdminOrders } from "@/hooks/useOrder";
 
+import en from "@/i18n/locales/en.json";
+import ar from "@/i18n/locales/ar.json";
+import { DEFAULT_LANG, type Lang } from "@/i18n/i18n";
+import { useTranslation } from "react-i18next";
 export const Route = createFileRoute("/admin/orders/")({
   ssr: false,
-  head: () => ({
-    meta: [
-      { title: "الأوردرات | مكتبة القراء" },
-      { name: "description", content: "لوحة إدارة أوردرات المكتبة." },
-      { name: "robots", content: "noindex" },
-    ],
-  }),
+  head: ({ match }) => {
+    const lang = (match.context as { lang?: Lang }).lang ?? DEFAULT_LANG;
+    const meta = (lang === "ar" ? ar : en).pageMeta.adminOrdersIndex;
+    return {
+      meta: [
+        { title: meta.title },
+        { name: "description", content: meta.description },
+        { name: "robots", content: "noindex" },
+      ],
+    };
+  },
   component: () => (
     <AdminOnly>
       <AdminOrdersPage />
@@ -44,21 +52,23 @@ export const Route = createFileRoute("/admin/orders/")({
 
 const LIMIT = 15;
 
-const STATUS_META: Record<OrderStatus, { label: string; className: string }> = {
-  pending: { label: "بانتظار الدفع", className: "bg-amber-100 text-amber-700 hover:bg-amber-100" },
-  paid: { label: "تم الدفع", className: "bg-green-100 text-green-700 hover:bg-green-100" },
-  failed: { label: "فشل الدفع", className: "bg-destructive/10 text-destructive hover:bg-destructive/10" },
-  cancelled: { label: "ملغي", className: "bg-secondary text-muted-foreground hover:bg-secondary" },
-  return_requested: {
-    label: "طلب استرجاع قيد المراجعة",
-    className: "bg-blue-100 text-blue-700 hover:bg-blue-100",
-  },
-  return_approved: {
-    label: "بانتظار استلام الكتاب",
-    className: "bg-blue-100 text-blue-700 hover:bg-blue-100",
-  },
-  refunded: { label: "تم الاسترجاع", className: "bg-secondary text-muted-foreground hover:bg-secondary" },
-};
+function getStatusMeta(t: (key: string) => string): Record<OrderStatus, { label: string; className: string }> {
+  return {
+    pending: { label: t("orders.statusPending"), className: "bg-amber-100 text-amber-700 hover:bg-amber-100" },
+    paid: { label: t("orders.statusPaid"), className: "bg-green-100 text-green-700 hover:bg-green-100" },
+    failed: { label: t("orders.statusFailed"), className: "bg-destructive/10 text-destructive hover:bg-destructive/10" },
+    cancelled: { label: t("orders.statusCancelled"), className: "bg-secondary text-muted-foreground hover:bg-secondary" },
+    return_requested: {
+      label: t("orders.statusReturnRequested"),
+      className: "bg-blue-100 text-blue-700 hover:bg-blue-100",
+    },
+    return_approved: {
+      label: t("orders.statusReturnApproved"),
+      className: "bg-blue-100 text-blue-700 hover:bg-blue-100",
+    },
+    refunded: { label: t("orders.statusRefunded"), className: "bg-secondary text-muted-foreground hover:bg-secondary" },
+  };
+}
 
 function formatPrice(amountInPiastres: number) {
   return (amountInPiastres / 100).toFixed(2);
@@ -69,6 +79,7 @@ function formatDate(iso: string) {
 }
 
 function AdminOrdersPage() {
+  const { t } = useTranslation();
   const [page, setPage] = useState(1);
   const [status, setStatus] = useState<OrderStatus | "">("");
 
@@ -87,10 +98,10 @@ function AdminOrdersPage() {
         <div>
           <h1 className="flex items-center gap-2 text-2xl font-bold md:text-3xl">
             <ClipboardList className="size-6 text-accent" />
-            الأوردرات
+            {t("adminOrders.title")}
           </h1>
           <p className="mt-1 text-sm text-muted-foreground">
-            {pagination ? `${pagination.totalCount} أوردر` : "جاري التحميل…"}
+            {pagination ? t("adminOrders.countLabel", { count: pagination.totalCount }) : t("adminOrders.loading")}
           </p>
         </div>
 
@@ -102,17 +113,17 @@ function AdminOrdersPage() {
           }}
         >
           <SelectTrigger className="w-52">
-            <SelectValue placeholder="كل الحالات" />
+            <SelectValue placeholder={t("common.allStatuses")} />
           </SelectTrigger>
           <SelectContent>
-            <SelectItem value="all">كل الحالات</SelectItem>
-            <SelectItem value="pending">بانتظار الدفع</SelectItem>
-            <SelectItem value="paid">تم الدفع</SelectItem>
-            <SelectItem value="failed">فشل الدفع</SelectItem>
-            <SelectItem value="cancelled">ملغي</SelectItem>
-            <SelectItem value="return_requested">طلب استرجاع قيد المراجعة</SelectItem>
-            <SelectItem value="return_approved">بانتظار استلام الكتاب</SelectItem>
-            <SelectItem value="refunded">تم الاسترجاع</SelectItem>
+            <SelectItem value="all">{t("common.allStatuses")}</SelectItem>
+            <SelectItem value="pending">{t("common.pendingPayment")}</SelectItem>
+            <SelectItem value="paid">{t("common.paid")}</SelectItem>
+            <SelectItem value="failed">{t("adminOrders.paymentFailed")}</SelectItem>
+            <SelectItem value="cancelled">{t("common.cancelled")}</SelectItem>
+            <SelectItem value="return_requested">{t("adminOrders.refundRequested")}</SelectItem>
+            <SelectItem value="return_approved">{t("common.pendingBookReceipt")}</SelectItem>
+            <SelectItem value="refunded">{t("common.refunded")}</SelectItem>
           </SelectContent>
         </Select>
       </div>
@@ -129,25 +140,25 @@ function AdminOrdersPage() {
         ) : !orders.length ? (
           <EmptyState
             variant={status ? "search" : "empty"}
-            title="مفيش أوردرات"
-            description={status ? "مفيش أوردرات بالحالة دي." : "لسه محدش عمل أوردر."}
+            title={t("adminOrders.empty")}
+            description={status ? t("adminOrders.noneWithStatus") : t("adminOrders.noOrdersYet")}
           />
         ) : (
           <div className="overflow-hidden rounded-xl border border-border bg-card">
             <Table>
               <TableHeader>
                 <TableRow>
-                  <TableHead className="text-right">الأوردر</TableHead>
-                  <TableHead className="text-right">العميل</TableHead>
-                  <TableHead className="text-right">الكتب</TableHead>
-                  <TableHead className="text-right">الإجمالي</TableHead>
-                  <TableHead className="text-right">الحالة</TableHead>
-                  <TableHead className="text-right">التاريخ</TableHead>
+                  <TableHead className="text-right">{t("common.order")}</TableHead>
+                  <TableHead className="text-right">{t("common.customer")}</TableHead>
+                  <TableHead className="text-right">{t("adminOrders.books")}</TableHead>
+                  <TableHead className="text-right">{t("common.total")}</TableHead>
+                  <TableHead className="text-right">{t("common.status")}</TableHead>
+                  <TableHead className="text-right">{t("common.date")}</TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>
                 {orders.map((order) => {
-                  const meta = STATUS_META[order.status];
+                  const meta = getStatusMeta(t)[order.status];
                   return (
                     <TableRow key={order.id}>
                       <TableCell className="font-medium">#{order.id}</TableCell>
@@ -158,14 +169,14 @@ function AdminOrdersPage() {
                             <p className="text-xs text-muted-foreground">{order.user.email}</p>
                           </div>
                         ) : (
-                          <span className="text-muted-foreground">مستخدم محذوف</span>
+                          <span className="text-muted-foreground">{t("common.deletedUser")}</span>
                         )}
                       </TableCell>
                       <TableCell className="max-w-56 truncate text-muted-foreground">
-                        {order.items.map((item) => `${item.title} ×${item.quantity}`).join("، ")}
+                        {order.items.map((item) => `${item.title} ×${item.quantity}`).join(t("common.listSeparator"))}
                       </TableCell>
                       <TableCell dir="ltr" className="text-muted-foreground">
-                        {formatPrice(order.total_amount)} جنيه
+                        {formatPrice(order.total_amount)} {t("bookDetails.currency")}
                       </TableCell>
                       <TableCell>
                         <Badge className={meta.className}>{meta.label}</Badge>
@@ -188,10 +199,10 @@ function AdminOrdersPage() {
             disabled={!pagination.hasPreviousPage}
             onClick={() => setPage((prev) => Math.max(1, prev - 1))}
           >
-            السابق
+            {t("adminOrders.prev")}
           </Button>
           <span className="text-sm text-muted-foreground">
-            صفحة {pagination.currentPage} من {pagination.totalPages}
+            {t("adminOrders.pageOf", { current: pagination.currentPage, total: pagination.totalPages })}
           </span>
           <Button
             variant="secondary"
@@ -199,7 +210,7 @@ function AdminOrdersPage() {
             disabled={!pagination.hasNextPage}
             onClick={() => setPage((prev) => prev + 1)}
           >
-            التالي
+            {t("adminOrders.next")}
           </Button>
         </div>
       )}

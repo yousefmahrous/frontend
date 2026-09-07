@@ -12,20 +12,29 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 
+import en from "@/i18n/locales/en.json";
+import ar from "@/i18n/locales/ar.json";
+import { DEFAULT_LANG, type Lang } from "@/i18n/i18n";
+import { useTranslation } from "react-i18next";
 export const Route = createFileRoute("/forgot-password")({
   ssr: false,
-  head: () => ({
-    meta: [
-      { title: "نسيت كلمة المرور | مكتبة القراء" },
-      { name: "description", content: "أرسل رابط استعادة كلمة المرور لبريدك الإلكتروني." },
-      { property: "og:title", content: "نسيت كلمة المرور | مكتبة القراء" },
-      { property: "og:description", content: "استعد كلمة مرور حسابك في مكتبة القراء." },
-    ],
-  }),
+  head: ({ match }) => {
+    const lang = (match.context as { lang?: Lang }).lang ?? DEFAULT_LANG;
+    const meta = (lang === "ar" ? ar : en).pageMeta.forgotPasswordPage;
+    return {
+      meta: [
+        { title: meta.title },
+        { name: "description", content: meta.description },
+        { property: "og:title", content: meta.title },
+        { property: "og:description", content: meta.ogDescription },
+      ],
+    };
+  },
   component: ForgotPasswordPage,
 });
 
 function ForgotPasswordPage() {
+  const { t } = useTranslation();
   const {
     register,
     handleSubmit,
@@ -50,28 +59,28 @@ function ForgotPasswordPage() {
   });
 
   return (
-    <AuthShell title="نسيت كلمة المرور" subtitle="هنبعتلك رابط إعادة التعيين على إيميلك">
+    <AuthShell title={t("forgotPassword.title")} subtitle={t("forgotPassword.subtitle")}>
       <form onSubmit={(event) => void onSubmit(event)} className="space-y-4" noValidate>
         <div className="space-y-2">
-          <Label htmlFor="email">الإيميل</Label>
+          <Label htmlFor="email">{t("common.email")}</Label>
           <Input id="email" type="email" dir="ltr" {...register("email")} />
           {errors.email && <p className="text-sm text-destructive">{errors.email.message}</p>}
         </div>
         <Button type="submit" className="w-full gap-2" disabled={isSubmitting}>
           {isSubmitting && <Loader2 className="size-4 animate-spin" />}
-          إرسال الرابط
+          {t("forgotPassword.sendLink")}
         </Button>
       </form>
 
       {isSubmitSuccessful && (
         <p className="mt-4 rounded-md bg-secondary p-3 text-sm text-secondary-foreground">
-          راجع بريدك الإلكتروني، الرابط بيوصل خلال دقايق.
+          {t("forgotPassword.checkEmail")}
         </p>
       )}
 
       <p className="mt-5 text-sm text-muted-foreground">
         <Link to="/login" className="font-medium text-accent hover:underline">
-          رجوع لتسجيل الدخول
+          {t("forgotPassword.backToLogin")}
         </Link>
       </p>
     </AuthShell>

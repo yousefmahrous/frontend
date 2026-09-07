@@ -5,15 +5,25 @@ import { Protected } from "@/components/Guards";
 import { Button } from "@/components/ui/button";
 import { useLatestOrder, useOrder } from "@/hooks/useOrder";
 
+import en from "@/i18n/locales/en.json";
+import ar from "@/i18n/locales/ar.json";
+import { DEFAULT_LANG, type Lang } from "@/i18n/i18n";
+import { useTranslation } from "react-i18next";
 export const Route = createFileRoute("/checkout/success")({
   ssr: false,
   validateSearch: (search: Record<string, unknown>) => ({
     order_id:
       typeof search["order_id"] === "string" ? Number(search["order_id"]) : undefined,
   }),
-  head: () => ({
-    meta: [{ title: "حالة الدفع | مكتبة القراء" }],
-  }),
+  head: ({ match }) => {
+    const lang = (match.context as { lang?: Lang }).lang ?? DEFAULT_LANG;
+    const meta = (lang === "ar" ? ar : en).pageMeta.checkoutSuccessPage;
+    return {
+      meta: [
+        { title: meta.title },
+      ],
+    };
+  },
   component: () => (
     <Protected>
       <SuccessPage />
@@ -22,6 +32,7 @@ export const Route = createFileRoute("/checkout/success")({
 });
 
 function SuccessPage() {
+  const { t } = useTranslation();
   const { order_id } = Route.useSearch();
 
   const byId = useOrder(order_id);
@@ -36,8 +47,8 @@ function SuccessPage() {
     return (
       <StatusView
         icon={<XCircle className="size-16 text-destructive" />}
-        title="مش لاقيين الأوردر ده"
-        description="اتأكد إنك جاي من رابط دفع صحيح، أو راجع أوردراتك من حسابك."
+        title={t("checkoutSuccess.orderNotFound")}
+        description={t("checkoutSuccess.orderNotFoundDesc")}
       />
     );
   }
@@ -46,8 +57,8 @@ function SuccessPage() {
     return (
       <StatusView
         icon={<Loader2 className="size-16 animate-spin text-muted-foreground" />}
-        title="بنتأكد من حالة الدفع..."
-        description="لحظات وهنعرض لك النتيجة."
+        title={t("checkoutSuccess.confirmingBody")}
+        description={t("checkoutSuccess.confirmingBodyDesc")}
       />
     );
   }
@@ -56,8 +67,8 @@ function SuccessPage() {
     return (
       <StatusView
         icon={<CheckCircle2 className="size-16 text-green-600" />}
-        title="تم الدفع بنجاح"
-        description="شكرًا ليك! أوردرك اتأكد وهيتم تجهيزه."
+        title={t("checkoutSuccess.success")}
+        description={t("checkoutSuccess.successDesc")}
       />
     );
   }
@@ -66,8 +77,8 @@ function SuccessPage() {
     return (
       <StatusView
         icon={<Clock className="size-16 animate-pulse text-amber-500" />}
-        title="بنتأكد من الدفع"
-        description="عملية الدفع وصلتنا وبنستنى تأكيد نهائي من بوابة الدفع، ده بياخد كام ثانية عادةً."
+        title={t("checkoutSuccess.confirmingTitle")}
+        description={t("checkoutSuccess.confirmingTitleDesc")}
       />
     );
   }
@@ -75,8 +86,8 @@ function SuccessPage() {
   return (
     <StatusView
       icon={<XCircle className="size-16 text-destructive" />}
-      title="الدفع مكملش"
-      description="يبدو إن العملية اتلغت أو مكتملتش. ممكن ترجع للعربية وتحاول تاني."
+      title={t("checkoutSuccess.incomplete")}
+      description={t("checkoutSuccess.incompleteDesc")}
       showCartLink
     />
   );
@@ -93,6 +104,7 @@ function StatusView({
   description: string;
   showCartLink?: boolean;
 }) {
+  const { t } = useTranslation();
   return (
     <div className="mx-auto flex max-w-lg flex-col items-center gap-4 px-4 py-20 text-center">
       {icon}
@@ -100,7 +112,7 @@ function StatusView({
       <p className="text-muted-foreground">{description}</p>
       <Button asChild>
         <Link to={showCartLink ? "/cart" : "/books"}>
-          {showCartLink ? "الرجوع للعربية" : "تصفح المزيد من الكتب"}
+          {showCartLink ? t("checkoutSuccess.backToCart") : t("checkoutSuccess.browseMoreBooks")}
         </Link>
       </Button>
     </div>

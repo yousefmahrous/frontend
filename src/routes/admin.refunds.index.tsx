@@ -20,6 +20,10 @@ import {
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
+import en from "@/i18n/locales/en.json";
+import ar from "@/i18n/locales/ar.json";
+import { DEFAULT_LANG, type Lang } from "@/i18n/i18n";
+import { useTranslation } from "react-i18next";
 import {
   Select,
   SelectContent,
@@ -45,13 +49,17 @@ import {
 
 export const Route = createFileRoute("/admin/refunds/")({
   ssr: false,
-  head: () => ({
-    meta: [
-      { title: "طلبات الاسترجاع | مكتبة القراء" },
-      { name: "description", content: "لوحة إدارة طلبات استرجاع الأوردرات." },
-      { name: "robots", content: "noindex" },
-    ],
-  }),
+  head: ({ match }) => {
+    const lang = (match.context as { lang?: Lang }).lang ?? DEFAULT_LANG;
+    const meta = (lang === "ar" ? ar : en).pageMeta.adminRefundsIndex;
+    return {
+      meta: [
+        { title: meta.title },
+        { name: "description", content: meta.description },
+        { name: "robots", content: "noindex" },
+      ],
+    };
+  },
   component: () => (
     <AdminOnly>
       <AdminRefundsPage />
@@ -61,22 +69,24 @@ export const Route = createFileRoute("/admin/refunds/")({
 
 const LIMIT = 15;
 
-const STATUS_META: Record<RefundRequestStatus, { label: string; className: string }> = {
-  pending: { label: "بانتظار المراجعة", className: "bg-amber-100 text-amber-700 hover:bg-amber-100" },
-  awaiting_return: {
-    label: "بانتظار استلام الكتاب",
-    className: "bg-blue-100 text-blue-700 hover:bg-blue-100",
-  },
-  completed: {
-    label: "تم الاسترجاع",
-    className: "bg-green-100 text-green-700 hover:bg-green-100",
-  },
-  rejected: {
-    label: "مرفوض",
-    className: "bg-destructive/10 text-destructive hover:bg-destructive/10",
-  },
-  cancelled: { label: "ملغي", className: "bg-secondary text-muted-foreground hover:bg-secondary" },
-};
+function getStatusMeta(t: (key: string) => string): Record<RefundRequestStatus, { label: string; className: string }> {
+  return {
+    pending: { label: t("adminRefunds.statusPending"), className: "bg-amber-100 text-amber-700 hover:bg-amber-100" },
+    awaiting_return: {
+      label: t("adminRefunds.statusAwaitingReturn"),
+      className: "bg-blue-100 text-blue-700 hover:bg-blue-100",
+    },
+    completed: {
+      label: t("adminRefunds.statusCompleted"),
+      className: "bg-green-100 text-green-700 hover:bg-green-100",
+    },
+    rejected: {
+      label: t("adminRefunds.statusRejected"),
+      className: "bg-destructive/10 text-destructive hover:bg-destructive/10",
+    },
+    cancelled: { label: t("adminRefunds.statusCancelled"), className: "bg-secondary text-muted-foreground hover:bg-secondary" },
+  };
+}
 
 function formatPrice(amountInPiastres: number) {
   return (amountInPiastres / 100).toFixed(2);
@@ -87,6 +97,7 @@ function formatDate(iso: string) {
 }
 
 function AdminRefundsPage() {
+  const { t } = useTranslation();
   const [page, setPage] = useState(1);
   const [status, setStatus] = useState<RefundRequestStatus | "">("pending");
   const [confirmComplete, setConfirmComplete] = useState<RefundRequest | null>(null);
@@ -107,7 +118,7 @@ function AdminRefundsPage() {
 
   function handleApprove(id: number) {
     approveMutation.mutate(id, {
-      onSuccess: () => toast.success("تمت الموافقة على الطلب، في انتظار استلام الكتاب"),
+      onSuccess: () => toast.success(t("adminRefunds.approvedToast")),
       onError: (err) => toast.error(errorMessage(err)),
     });
   }
@@ -116,7 +127,7 @@ function AdminRefundsPage() {
     rejectMutation.mutate(
       { id },
       {
-        onSuccess: () => toast.success("تم رفض طلب الاسترجاع"),
+        onSuccess: () => toast.success(t("adminRefunds.rejectedToast")),
         onError: (err) => toast.error(errorMessage(err)),
       },
     );
@@ -126,7 +137,7 @@ function AdminRefundsPage() {
     cancelMutation.mutate(
       { id },
       {
-        onSuccess: () => toast.success("تم إلغاء الطلب، الأوردر رجع لحالته الطبيعية"),
+        onSuccess: () => toast.success(t("adminRefunds.cancelledToast")),
         onError: (err) => toast.error(errorMessage(err)),
       },
     );
@@ -136,7 +147,7 @@ function AdminRefundsPage() {
     if (!confirmComplete) return;
     completeMutation.mutate(confirmComplete.id, {
       onSuccess: () => {
-        toast.success("تم تنفيذ الاسترجاع بنجاح عن طريق Stripe");
+        toast.success(t("adminRefunds.completedToast"));
         setConfirmComplete(null);
       },
       onError: (err) => {
@@ -152,10 +163,10 @@ function AdminRefundsPage() {
         <div>
           <h1 className="flex items-center gap-2 text-2xl font-bold md:text-3xl">
             <RotateCcw className="size-6 text-accent" />
-            طلبات الاسترجاع
+            {t("adminRefunds.title")}
           </h1>
           <p className="mt-1 text-sm text-muted-foreground">
-            {pagination ? `${pagination.totalCount} طلب` : "جاري التحميل…"}
+            {pagination ? t("adminRefunds.countLabel", { count: pagination.totalCount }) : t("adminRefunds.loading")}
           </p>
         </div>
 
@@ -167,15 +178,15 @@ function AdminRefundsPage() {
           }}
         >
           <SelectTrigger className="w-52">
-            <SelectValue placeholder="كل الحالات" />
+            <SelectValue placeholder={t("common.allStatuses")} />
           </SelectTrigger>
           <SelectContent>
-            <SelectItem value="all">كل الحالات</SelectItem>
-            <SelectItem value="pending">بانتظار المراجعة</SelectItem>
-            <SelectItem value="awaiting_return">بانتظار استلام الكتاب</SelectItem>
-            <SelectItem value="completed">تم الاسترجاع</SelectItem>
-            <SelectItem value="rejected">مرفوض</SelectItem>
-            <SelectItem value="cancelled">ملغي</SelectItem>
+            <SelectItem value="all">{t("common.allStatuses")}</SelectItem>
+            <SelectItem value="pending">{t("adminRefunds.pendingReview")}</SelectItem>
+            <SelectItem value="awaiting_return">{t("common.pendingBookReceipt")}</SelectItem>
+            <SelectItem value="completed">{t("common.refunded")}</SelectItem>
+            <SelectItem value="rejected">{t("adminRefunds.rejected")}</SelectItem>
+            <SelectItem value="cancelled">{t("common.cancelled")}</SelectItem>
           </SelectContent>
         </Select>
       </div>
@@ -192,26 +203,26 @@ function AdminRefundsPage() {
         ) : !requests.length ? (
           <EmptyState
             variant={status ? "search" : "empty"}
-            title="مفيش طلبات"
-            description={status ? "مفيش طلبات بالحالة دي." : "لسه محدش طلب استرجاع."}
+            title={t("adminRefunds.empty")}
+            description={status ? t("adminRefunds.noneWithStatus") : t("adminRefunds.noneYet")}
           />
         ) : (
           <div className="overflow-hidden rounded-xl border border-border bg-card">
             <Table>
               <TableHeader>
                 <TableRow>
-                  <TableHead className="text-right">الأوردر</TableHead>
-                  <TableHead className="text-right">العميل</TableHead>
-                  <TableHead className="text-right">السبب</TableHead>
-                  <TableHead className="text-right">الإجمالي</TableHead>
-                  <TableHead className="text-right">الحالة</TableHead>
-                  <TableHead className="text-right">التاريخ</TableHead>
-                  <TableHead className="text-right">الإجراء</TableHead>
+                  <TableHead className="text-right">{t("common.order")}</TableHead>
+                  <TableHead className="text-right">{t("common.customer")}</TableHead>
+                  <TableHead className="text-right">{t("adminRefunds.reason")}</TableHead>
+                  <TableHead className="text-right">{t("common.total")}</TableHead>
+                  <TableHead className="text-right">{t("common.status")}</TableHead>
+                  <TableHead className="text-right">{t("common.date")}</TableHead>
+                  <TableHead className="text-right">{t("adminRefunds.action")}</TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>
                 {requests.map((request) => {
-                  const meta = STATUS_META[request.status];
+                  const meta = getStatusMeta(t)[request.status];
                   return (
                     <TableRow key={request.id}>
                       <TableCell className="font-medium">#{request.order_id}</TableCell>
@@ -222,14 +233,14 @@ function AdminRefundsPage() {
                             <p className="text-xs text-muted-foreground">{request.user.email}</p>
                           </div>
                         ) : (
-                          <span className="text-muted-foreground">مستخدم محذوف</span>
+                          <span className="text-muted-foreground">{t("common.deletedUser")}</span>
                         )}
                       </TableCell>
                       <TableCell className="max-w-56 truncate text-muted-foreground" title={request.reason}>
                         {request.reason}
                       </TableCell>
                       <TableCell dir="ltr" className="text-muted-foreground">
-                        {request.order ? `${formatPrice(request.order.total_amount)} جنيه` : "—"}
+                        {request.order ? `${formatPrice(request.order.total_amount)} ${t("bookDetails.currency")}` : "—"}
                       </TableCell>
                       <TableCell>
                         <Badge className={meta.className}>{meta.label}</Badge>
@@ -268,10 +279,10 @@ function AdminRefundsPage() {
             disabled={!pagination.hasPreviousPage}
             onClick={() => setPage((prev) => Math.max(1, prev - 1))}
           >
-            السابق
+            {t("adminRefunds.prev")}
           </Button>
           <span className="text-sm text-muted-foreground">
-            صفحة {pagination.currentPage} من {pagination.totalPages}
+            {t("adminRefunds.pageOf", { current: pagination.currentPage, total: pagination.totalPages })}
           </span>
           <Button
             variant="secondary"
@@ -279,7 +290,7 @@ function AdminRefundsPage() {
             disabled={!pagination.hasNextPage}
             onClick={() => setPage((prev) => prev + 1)}
           >
-            التالي
+            {t("adminRefunds.next")}
           </Button>
         </div>
       )}
@@ -290,16 +301,15 @@ function AdminRefundsPage() {
       >
         <AlertDialogContent dir="rtl">
           <AlertDialogHeader>
-            <AlertDialogTitle>تأكيد استلام الكتاب وتنفيذ الاسترجاع</AlertDialogTitle>
+            <AlertDialogTitle>{t("adminRefunds.confirmReceiptAction")}</AlertDialogTitle>
             <AlertDialogDescription>
-              متأكد إنك استلمت الكتاب فعليًا من العميل؟ الخطوة دي هتنفّذ استرجاع فلوس حقيقي عن طريق
-              Stripe للأوردر #{confirmComplete?.order_id}، ومينفعش يتراجع فيها بعد كده.
+              {t("adminRefunds.completeConfirmDesc", { id: confirmComplete?.order_id })}
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>
-            <AlertDialogCancel>إلغاء</AlertDialogCancel>
+            <AlertDialogCancel>{t("common.cancel")}</AlertDialogCancel>
             <AlertDialogAction onClick={() => void handleConfirmComplete()}>
-              أيوه، استلمت الكتاب ونفّذ الاسترجاع
+              {t("adminRefunds.confirmCompleteAction")}
             </AlertDialogAction>
           </AlertDialogFooter>
         </AlertDialogContent>
@@ -323,16 +333,17 @@ function RequestActions({
   onComplete: () => void;
   isBusy: boolean;
 }) {
+  const { t } = useTranslation();
   if (request.status === "pending") {
     return (
       <div className="flex gap-2">
         <Button size="sm" variant="outline" disabled={isBusy} onClick={onApprove}>
           <CheckCircle2 className="ms-1 size-3.5" />
-          موافقة
+          {t("adminRefunds.approve")}
         </Button>
         <Button size="sm" variant="ghost" className="text-destructive" disabled={isBusy} onClick={onReject}>
           <XCircle className="ms-1 size-3.5" />
-          رفض
+          {t("adminRefunds.reject")}
         </Button>
       </div>
     );
@@ -343,14 +354,14 @@ function RequestActions({
       <div className="flex gap-2">
         <Button size="sm" onClick={onComplete}>
           <PackageCheck className="ms-1 size-3.5" />
-          تأكيد الاستلام وتنفيذ الاسترجاع
+          {t("adminRefunds.confirmReceiptShort")}
         </Button>
         <Button size="sm" variant="ghost" className="text-destructive" disabled={isBusy} onClick={onCancel}>
-          إلغاء
+          {t("adminRefunds.cancel")}
         </Button>
       </div>
     );
   }
 
-  return <Clock className="size-4 text-muted-foreground" aria-label="مفيش إجراء متاح" />;
+  return <Clock className="size-4 text-muted-foreground" aria-label={t("adminRefunds.noActionAvailable")} />;
 }

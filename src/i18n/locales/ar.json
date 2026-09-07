@@ -1,0 +1,492 @@
+{
+  "meta": {
+    "title": "مكتبة القراء | متجر كتب إلكتروني",
+    "description": "متجر كتب عربي: تصفح روايات وكتب علمية وتاريخية وكتب أطفال واشترِ بسهولة."
+  },
+  "nav": {
+    "home": "الرئيسية",
+    "books": "تصفح الكتب",
+    "cart": "العربية",
+    "favorites": "المفضلة",
+    "orders": "أوردراتي",
+    "account": "حسابي",
+    "changePassword": "تغيير كلمة المرور",
+    "login": "تسجيل الدخول",
+    "signup": "إنشاء حساب",
+    "logout": "تسجيل خروج",
+    "adminBooks": "لوحة التحكم",
+    "adminOrders": "الأوردرات",
+    "adminRefunds": "طلبات الاسترجاع",
+    "contact": "تواصل معنا",
+    "menu": "القائمة"
+  },
+  "toast": {
+    "logoutSuccess": "تم تسجيل الخروج"
+  },
+  "footer": {
+    "rights": "مكتبة القراء — كل الحقوق محفوظة"
+  },
+  "language": {
+    "switchTo": "English",
+    "current": "العربية"
+  },
+  "common": {
+    "brand": "مكتبة القراء",
+    "favoritesAria": "المفضلة",
+    "cartAria": "العربية",
+    "menuAria": "القائمة",
+    "email": "الإيميل",
+    "name": "الاسم",
+    "password": "كلمة المرور",
+    "total": "الإجمالي",
+    "cancel": "إلغاء",
+    "edit": "تعديل",
+    "delete": "حذف",
+    "allStatuses": "كل الحالات",
+    "deletedUser": "مستخدم محذوف",
+    "order": "الأوردر",
+    "date": "التاريخ",
+    "status": "الحالة",
+    "customer": "العميل",
+    "pendingPayment": "بانتظار الدفع",
+    "paid": "تم الدفع",
+    "refunded": "تم الاسترجاع",
+    "cancelled": "ملغي",
+    "pendingBookReceipt": "بانتظار استلام الكتاب",
+    "login": "تسجيل الدخول",
+    "outOfStock": "غير متوفر",
+    "addToCart": "أضف للعربية",
+    "bookCoverAlt": "غلاف كتاب {{name}}",
+    "listSeparator": "، "
+  },
+  "pages": {
+    "notFound": "الصفحة غير موجودة",
+    "notFoundDesc": "الصفحة التي تبحث عنها غير موجودة أو تم نقلها.",
+    "goHome": "العودة للرئيسية",
+    "errorTitle": "لم يتم تحميل هذه الصفحة",
+    "errorDesc": "حدث خطأ ما من جانبنا. يمكنك إعادة تحميل الصفحة أو العودة للرئيسية.",
+    "tryAgain": "حاول مرة أخرى"
+  },
+  "forgotPassword": {
+    "title": "نسيت كلمة المرور",
+    "subtitle": "هنبعتلك رابط إعادة التعيين على إيميلك",
+    "sendLink": "إرسال الرابط",
+    "checkEmail": "راجع بريدك الإلكتروني، الرابط بيوصل خلال دقايق.",
+    "backToLogin": "رجوع لتسجيل الدخول"
+  },
+  "orders": {
+    "title": "أوردراتي",
+    "reasonPlaceholder": "اكتب السبب هنا...",
+    "empty": "مفيش أوردرات لسه",
+    "count": "{{count}} أوردر",
+    "noneWithNoPaidYet": "مفيش أي أوردر اتدفع لحد دلوقتي.",
+    "orderNumber": "أوردر #{{id}}",
+    "requestRefund": "طلب استرجاع",
+    "reasonRequired": "من فضلك اكتب سبب الاسترجاع",
+    "refundRequestSent": "تم إرسال طلب الاسترجاع بنجاح، هيتم مراجعته قريبًا",
+    "refundDialogTitle": "طلب استرجاع الأوردر #{{id}}",
+    "refundDialogDesc": "اكتب سبب رغبتك في استرجاع الأوردر ده. طلبك هيتراجع من فريقنا وهنتواصل معاك بخصوص خطوات إرجاع الكتاب.",
+    "sending": "جاري الإرسال...",
+    "sendRequest": "إرسال الطلب",
+    "statusPaid": "تم الدفع",
+    "statusPending": "بانتظار الدفع",
+    "statusFailed": "فشل الدفع",
+    "statusCancelled": "ملغي",
+    "statusReturnRequested": "طلب الاسترجاع قيد المراجعة",
+    "statusReturnApproved": "بانتظار استلام الكتاب",
+    "statusRefunded": "تم الاسترجاع",
+    "emptyDesc": "لما تشتري كتاب هيظهر أوردرك هنا."
+  },
+  "contact": {
+    "title": "تواصل معنا",
+    "subtitle": "عندك سؤال أو اقتراح؟ ابعتلنا رسالة وهنرد عليك في أقرب وقت",
+    "subject": "الموضوع",
+    "message": "الرسالة",
+    "submit": "إرسال الرسالة",
+    "successMsg": "تم إرسال رسالتك بنجاح، هنرد عليك في أقرب وقت."
+  },
+  "checkoutSuccess": {
+    "incomplete": "الدفع مكملش",
+    "confirmingTitle": "بنتأكد من الدفع",
+    "confirmingBody": "بنتأكد من حالة الدفع...",
+    "success": "تم الدفع بنجاح",
+    "orderNotFound": "مش لاقيين الأوردر ده",
+    "orderNotFoundDesc": "اتأكد إنك جاي من رابط دفع صحيح، أو راجع أوردراتك من حسابك.",
+    "confirmingBodyDesc": "لحظات وهنعرض لك النتيجة.",
+    "successDesc": "شكرًا ليك! أوردرك اتأكد وهيتم تجهيزه.",
+    "confirmingTitleDesc": "عملية الدفع وصلتنا وبنستنى تأكيد نهائي من بوابة الدفع، ده بياخد كام ثانية عادةً.",
+    "incompleteDesc": "يبدو إن العملية اتلغت أو مكتملتش. ممكن ترجع للعربية وتحاول تاني.",
+    "backToCart": "الرجوع للعربية",
+    "browseMoreBooks": "تصفح المزيد من الكتب"
+  },
+  "cart": {
+    "empty": "العربية فاضية",
+    "decreaseQty": "تقليل الكمية",
+    "removeItem": "حذف من العربية",
+    "increaseQty": "زيادة الكمية",
+    "title": "عربيتي",
+    "bookCount": "{{count}} كتاب",
+    "emptyDesc": "لسه ما ضفتش أي كتاب. روح تصفح الكتالوج وضيف اللي يعجبك.",
+    "proceedToCheckout": "المتابعة للدفع"
+  },
+  "adminBooksNew": {
+    "title": "إضافة كتاب جديد",
+    "backToAdmin": "رجوع للإدارة",
+    "saveLabel": "حفظ الكتاب",
+    "addedSuccess": "تمت إضافة الكتاب"
+  },
+  "adminOrders": {
+    "books": "الكتب",
+    "refundRequested": "طلب استرجاع قيد المراجعة",
+    "paymentFailed": "فشل الدفع",
+    "empty": "مفيش أوردرات",
+    "title": "الأوردرات",
+    "countLabel": "{{count}} أوردر",
+    "loading": "جاري التحميل…",
+    "noneWithStatus": "مفيش أوردرات بالحالة دي.",
+    "noOrdersYet": "لسه محدش عمل أوردر.",
+    "prev": "السابق",
+    "next": "التالي",
+    "pageOf": "صفحة {{current}} من {{total}}"
+  },
+  "login": {
+    "subtitle": "ادخل بيانات حسابك للمتابعة",
+    "emailNotVerified": "لازم تأكد بريدك الإلكتروني الأول قبل تسجيل الدخول.",
+    "submit": "دخول",
+    "resendVerification": "إعادة إرسال رابط التأكيد",
+    "forgotPassword": "نسيت كلمة المرور؟",
+    "noAccount": "ملكش حساب؟",
+    "createNewAccount": "إنشاء حساب جديد"
+  },
+  "checkoutCancel": {
+    "title": "اتلغى الدفع",
+    "backToCart": "الرجوع للعربية",
+    "body": "مفيش مشكلة، ممكن ترجع وتحاول تاني وقت ما تحب."
+  },
+  "signup": {
+    "title": "إنشاء حساب",
+    "subtitle": "خطوة واحدة وتبدأ رحلتك مع الكتب",
+    "submit": "إنشاء الحساب",
+    "haveAccount": "عندك حساب؟"
+  },
+  "books": {
+    "searchPlaceholder": "ابحث بعنوان الكتاب أو دار النشر…",
+    "title": "كتالوج الكتب",
+    "countAvailable": "{{count}} كتاب متاح",
+    "loadingBooks": "جاري تحميل الكتب…",
+    "allCategories": "كل التصنيفات",
+    "noResults": "مفيش نتائج مطابقة",
+    "noBooksYet": "مفيش كتب لسه",
+    "tryOtherSearch": "جرّب كلمات بحث تانية أو شيل الفلتر.",
+    "firstBooksAppearHere": "أول ما تتضاف كتب هتظهر هنا لحظيًا.",
+    "prev": "السابق",
+    "next": "التالي"
+  },
+  "resetPassword": {
+    "subtitle": "اختر كلمة مرور قوية لحسابك",
+    "linkExpired": "الرابط ناقص أو منتهي",
+    "invalidLink": "رابط غير صالح",
+    "requestNewLink": "طلب رابط جديد",
+    "newPasswordLabel": "كلمة المرور الجديدة",
+    "newPasswordTitle": "كلمة مرور جديدة",
+    "reopenLinkNote": "افتح الرابط من الإيميل مرة تانية، أو اطلب رابط جديد.",
+    "submit": "تعيين كلمة المرور"
+  },
+  "adminRefunds": {
+    "action": "الإجراء",
+    "reason": "السبب",
+    "pendingReview": "بانتظار المراجعة",
+    "confirmReceiptAction": "تأكيد استلام الكتاب وتنفيذ الاسترجاع",
+    "rejected": "مرفوض",
+    "noActionAvailable": "مفيش إجراء متاح",
+    "empty": "مفيش طلبات",
+    "title": "طلبات الاسترجاع",
+    "countLabel": "{{count}} طلب",
+    "loading": "جاري التحميل…",
+    "statusPending": "بانتظار المراجعة",
+    "statusAwaitingReturn": "بانتظار استلام الكتاب",
+    "statusCompleted": "تم الاسترجاع",
+    "statusRejected": "مرفوض",
+    "statusCancelled": "ملغي",
+    "approvedToast": "تمت الموافقة على الطلب، في انتظار استلام الكتاب",
+    "rejectedToast": "تم رفض طلب الاسترجاع",
+    "cancelledToast": "تم إلغاء الطلب، الأوردر رجع لحالته الطبيعية",
+    "completedToast": "تم تنفيذ الاسترجاع بنجاح عن طريق Stripe",
+    "noneWithStatus": "مفيش طلبات بالحالة دي.",
+    "noneYet": "لسه محدش طلب استرجاع.",
+    "prev": "السابق",
+    "next": "التالي",
+    "pageOf": "صفحة {{current}} من {{total}}",
+    "completeConfirmDesc": "متأكد إنك استلمت الكتاب فعليًا من العميل؟ الخطوة دي هتنفّذ استرجاع فلوس حقيقي عن طريق Stripe للأوردر #{{id}}، ومينفعش يتراجع فيها بعد كده.",
+    "confirmCompleteAction": "أيوه، استلمت الكتاب ونفّذ الاسترجاع",
+    "approve": "موافقة",
+    "reject": "رفض",
+    "confirmReceiptShort": "تأكيد الاستلام وتنفيذ الاسترجاع",
+    "cancel": "إلغاء"
+  },
+  "adminBooksEdit": {
+    "title": "تعديل الكتاب",
+    "saveLabel": "حفظ التعديلات",
+    "updatedSuccess": "تم تحديث الكتاب"
+  },
+  "accountChangePassword": {
+    "reLoginNote": "بعد التغيير هتحتاج تسجّل دخول من جديد",
+    "title": "تغيير كلمة المرور",
+    "newPassword": "كلمة المرور الجديدة",
+    "currentPassword": "كلمة المرور الحالية",
+    "successToast": "غيّرت كلمة المرور، سجّل دخول تاني"
+  },
+  "verifyEmail": {
+    "linkExpired": "الرابط ناقص أو منتهي",
+    "confirmingBody": "بنأكد بريدك الإلكتروني...",
+    "success": "تم تأكيد بريدك الإلكتروني 🎉",
+    "accountActive": "حسابك بقى مفعّل",
+    "problem": "حصلت مشكلة",
+    "invalidLink": "رابط غير صالح",
+    "failed": "فشل تأكيد البريد",
+    "momentsLeft": "لحظات وهنخلص",
+    "needNewLink": "محتاج رابط تأكيد جديد؟ اكتب إيميلك:",
+    "invalidEmail": "الإيميل غير صحيح",
+    "linkSent": "تم إرسال الرابط",
+    "sendNewLink": "إرسال رابط تأكيد جديد",
+    "invalidTokenMsg": "رابط التأكيد غير صالح أو انتهت صلاحيته"
+  },
+  "favorites": {
+    "title": "المفضلة",
+    "empty": "المفضلة فاضية",
+    "removeItem": "حذف من المفضلة",
+    "bookCount": "{{count}} كتاب",
+    "emptyDesc": "لسه ما ضفتش أي كتاب للمفضلة. روح تصفح الكتالوج وضيف اللي يعجبك."
+  },
+  "account": {
+    "title": "حسابي",
+    "accountType": "نوع الحساب"
+  },
+  "adminBooksIndex": {
+    "actions": "إجراءات",
+    "manageBooks": "إدارة الكتب",
+    "searchPlaceholder": "ابحث عن كتاب…",
+    "category": "التصنيف",
+    "titleCol": "العنوان",
+    "cover": "الغلاف",
+    "confirmDelete": "تأكيد الحذف",
+    "publisher": "دار النشر",
+    "countLabel": "{{count}} كتاب",
+    "loading": "جاري التحميل…",
+    "addBook": "إضافة كتاب",
+    "noResults": "مفيش نتائج",
+    "noBooks": "مفيش كتب",
+    "tryOtherSearch": "جرّب كلمة بحث تانية.",
+    "startAdding": "ابدأ بإضافة أول كتاب للمتجر.",
+    "coverAlt": "غلاف {{name}}",
+    "prev": "السابق",
+    "next": "التالي",
+    "pageOf": "صفحة {{current}} من {{total}}",
+    "deleteConfirmDesc": "هل تريد حذف \"{{name}}\"؟ لا يمكن الرجوع بعد الحذف.",
+    "deletedSuccess": "تم حذف \"{{name}}\""
+  },
+  "home": {
+    "latestBooks": "أحدث الكتب",
+    "latestBooksSubtitle": "أول ما يوصل المتجر يظهر هنا فورًا",
+    "createAccount": "إنشاء حساب",
+    "browseCatalog": "تصفح الكتالوج",
+    "seeAll": "شاهد الكل",
+    "empty": "مفيش كتب لسه",
+    "heroBadge": "إصدارات جديدة كل أسبوع",
+    "heroTitle": "مكتبتك العربية، على بعد نقرة واحدة",
+    "heroSubtitle": "آلاف العناوين في الروايات والعلوم والتاريخ وكتب الأطفال، مع تصنيفات واضحة وبحث سريع يوصلك لكتابك في ثواني.",
+    "feature1Title": "تصنيفات متنوعة",
+    "feature1Desc": "روايات، علمي، تاريخي، أطفال",
+    "feature2Title": "توصيل سريع",
+    "feature2Desc": "لكل المحافظات خلال أيام",
+    "popularTitle": "الأكثر شعبية",
+    "popularSubtitle": "أكتر الكتب اللي جذبت اهتمام القراء",
+    "emptyDesc": "سجّل دخولك لتصفح الكتالوج، أو انتظر إضافة أول كتاب من إدارة المتجر."
+  },
+  "guards": {
+    "browseBooks": "تصفح الكتب",
+    "loginPrompt": "سجّل دخولك للوصول لهذه الصفحة.",
+    "unauthorized": "غير مصرح لك",
+    "loginRequired": "محتاج تسجيل دخول",
+    "adminOnly": "هذه الصفحة متاحة لمديري المتجر فقط."
+  },
+  "reviewForm": {
+    "placeholder": "شاركنا رأيك في الكتاب...",
+    "ratingError": "اختار تقييم من 1 لـ5 نجوم",
+    "commentError": "التعليق لازم يكون 3 حروف على الأقل",
+    "editTitle": "عدّل تقييمك",
+    "newTitle": "قيّم الكتاب",
+    "saving": "جاري الحفظ...",
+    "saveEdit": "حفظ التعديل",
+    "submit": "إرسال التقييم"
+  },
+  "reviewsList": {
+    "deleteReview": "احذف التقييم",
+    "title": "التقييمات والمراجعات",
+    "empty": "مفيش تقييمات لسه",
+    "emptyDesc": "كن أول من يقيّم الكتاب ده.",
+    "reviewCount_one": "{{count}} تقييم",
+    "reviewCount_other": "{{count}} تقييمات",
+    "outOfReviewCount_one": "من {{count}} تقييم",
+    "outOfReviewCount_other": "من {{count}} تقييمات"
+  },
+  "bookForm": {
+    "publisherEmail": "إيميل الناشر",
+    "chooseCategory": "اختر التصنيف",
+    "category": "التصنيف",
+    "isbn": "الرقم الدولي المعياري (ISBN)",
+    "price": "السعر (بالجنيه)",
+    "quantity": "الكمية المتاحة",
+    "publisher": "دار النشر",
+    "coverImage": "صورة الغلاف",
+    "titlePlaceholder": "مثال: ثلاثية غرناطة",
+    "publisherPlaceholder": "مثال: دار الشروق",
+    "shortDescription": "نبذة قصيرة عن الكتاب",
+    "description": "وصف الكتاب",
+    "titleLabel": "عنوان الكتاب"
+  },
+  "bookCard": {
+    "noCover": "لا يوجد غلاف",
+    "loginToFavorite": "سجّل دخولك الأول عشان تقدر تضيف للمفضلة",
+    "addFavoriteAria": "ضيف للمفضلة",
+    "removeFavoriteAria": "احذف من المفضلة"
+  },
+  "coverUpload": {
+    "hint": "JPG أو PNG حتى 5 ميجابايت",
+    "removeImage": "إزالة الصورة",
+    "dragDrop": "اسحب صورة الغلاف هنا أو اضغط للاختيار",
+    "previewAlt": "معاينة غلاف الكتاب",
+    "invalidFile": "اختر ملف صورة صالح",
+    "tooLarge": "حجم الصورة أكبر من 5 ميجابايت",
+    "uploading": "جاري رفع الصورة… {{progress}}%",
+    "uploaded": "تم الرفع: {{value}}"
+  },
+  "bookDetails": {
+    "backToCatalog": "رجوع للكتالوج",
+    "publisher": "دار النشر",
+    "publisherEmail": "إيميل الناشر",
+    "currency": "جنيه",
+    "outOfStockNow": "الكمية غير متوفرة حاليًا",
+    "copiesLeft": "متبقي {{count}} نسخة فقط",
+    "adding": "جاري الإضافة...",
+    "removeFromFavorites": "احذف من المفضلة",
+    "addToFavorites": "ضيف للمفضلة",
+    "inFavorites": "في المفضلة",
+    "loginFirst": "سجّل دخولك الأول عشان تقدر تكمل"
+  },
+  "pageMeta": {
+    "accountChangePassword": {
+      "title": "تغيير كلمة المرور | مكتبة القراء",
+      "description": "غيّر كلمة مرور حسابك في مكتبة القراء بشكل آمن.",
+      "ogDescription": "غيّر كلمة مرور حسابك بشكل آمن."
+    },
+    "accountIndex": {
+      "title": "حسابي | مكتبة القراء",
+      "description": "بيانات حسابك في مكتبة القراء : الاسم، الإيميل ونوع الحساب.",
+      "ogDescription": "بيانات حسابك في مكتبة القراء."
+    },
+    "adminBooksEdit": {
+      "title": "تعديل كتاب | مكتبة القراء",
+      "description": "عدّل بيانات الكتاب وصورة الغلاف في متجر مكتبة القراء.",
+      "ogDescription": "عدّل بيانات الكتاب في المتجر."
+    },
+    "adminBooksIndex": {
+      "title": "إدارة الكتب | مكتبة القراء",
+      "description": "لوحة إدارة الكتب: إضافة وتعديل وحذف كتب المتجر.",
+      "ogDescription": "لوحة إدارة كتب المتجر."
+    },
+    "adminBooksNew": {
+      "title": "إضافة كتاب | مكتبة القراء",
+      "description": "أضف كتابًا جديدًا لمتجر مكتبة القراء مع صورة غلاف.",
+      "ogDescription": "أضف كتابًا جديدًا للمتجر."
+    },
+    "adminOrdersIndex": {
+      "title": "الأوردرات | مكتبة القراء",
+      "description": "لوحة إدارة أوردرات المكتبة."
+    },
+    "adminRefundsIndex": {
+      "title": "طلبات الاسترجاع | مكتبة القراء",
+      "description": "لوحة إدارة طلبات استرجاع الأوردرات."
+    },
+    "bookDetailsPage": {
+      "title": "تفاصيل الكتاب | مكتبة القراء",
+      "description": "كل تفاصيل الكتاب: الوصف، دار النشر، التصنيف ورقم ISBN.",
+      "ogDescription": "كل تفاصيل الكتاب في مكتبة القراء."
+    },
+    "booksIndexPage": {
+      "title": "كتالوج الكتب | مكتبة القراء",
+      "description": "تصفح كل كتب المتجر مع بحث فوري وفلترة حسب التصنيف: روايات، علمي، تاريخي، أطفال.",
+      "ogDescription": "تصفح كل كتب المتجر مع بحث وفلترة حسب التصنيف."
+    },
+    "cartPage": {
+      "title": "عربيتي | مكتبة القراء"
+    },
+    "checkoutCancelPage": {
+      "title": "تم إلغاء الدفع | مكتبة القراء"
+    },
+    "checkoutSuccessPage": {
+      "title": "حالة الدفع | مكتبة القراء"
+    },
+    "contactPage": {
+      "title": "تواصل معنا | مكتبة القراء",
+      "description": "ابعتلنا رسالتك وهنرد عليك في أقرب وقت.",
+      "ogDescription": "تواصل مع فريق مكتبة القراء."
+    },
+    "favoritesPage": {
+      "title": "المفضلة | مكتبة القراء"
+    },
+    "forgotPasswordPage": {
+      "title": "نسيت كلمة المرور | مكتبة القراء",
+      "description": "أرسل رابط استعادة كلمة المرور لبريدك الإلكتروني.",
+      "ogDescription": "استعد كلمة مرور حسابك في مكتبة القراء."
+    },
+    "homePage": {
+      "title": "مكتبة القراء | أحدث الكتب العربية",
+      "description": "اكتشف أحدث الإصدارات في مكتبة القراء: روايات، كتب علمية، تاريخية وكتب أطفال.",
+      "ogDescription": "اكتشف أحدث الإصدارات في مكتبة القراء واشترِ كتبك المفضلة."
+    },
+    "loginPage": {
+      "title": "تسجيل الدخول | مكتبة القراء",
+      "description": "سجّل دخولك لمتابعة التصفح وإدارة حسابك في مكتبة القراء.",
+      "ogDescription": "سجّل دخولك لمكتبة القراء."
+    },
+    "ordersPage": {
+      "title": "أوردراتي | مكتبة القراء"
+    },
+    "resetPasswordPage": {
+      "title": "إعادة تعيين كلمة المرور | مكتبة القراء",
+      "description": "اختر كلمة مرور جديدة لحسابك في مكتبة القراء.",
+      "ogDescription": "اختر كلمة مرور جديدة لحسابك."
+    },
+    "signupPage": {
+      "title": "إنشاء حساب | مكتبة القراء",
+      "description": "أنشئ حسابك في مكتبة القراء وابدأ تصفح الكتب فورًا.",
+      "ogDescription": "أنشئ حسابك في مكتبة القراء."
+    },
+    "verifyEmailPage": {
+      "title": "تأكيد البريد الإلكتروني | مكتبة القراء",
+      "description": "تأكيد بريدك الإلكتروني لتفعيل حسابك في مكتبة القراء."
+    }
+  },
+  "stateViews": {
+    "retry": "إعادة المحاولة"
+  },
+  "starRating": {
+    "ariaLabel": "التقييم بالنجوم",
+    "starAriaLabel": "{{count}} نجوم"
+  },
+  "apiErrors": {
+    "networkError": "تعذر الاتصال بالسيرفر",
+    "sessionExpired": "انتهت الجلسة، سجّل دخول من جديد",
+    "forbidden": "غير مصرح لك",
+    "tooManyRequests": "طلبات كتير، حاول تاني بعد شوية",
+    "notFound": "غير موجود",
+    "unexpectedError": "حصل خطأ غير متوقع"
+  },
+  "categories": {
+    "روايات": "روايات",
+    "علمي": "علمي",
+    "تاريخي": "تاريخي",
+    "أطفال": "أطفال"
+  }
+}

@@ -31,17 +31,25 @@ import {
 import { useBooks, useDebouncedValue, useDeleteBook } from "@/hooks/useBooks";
 import { useBooksRealtime } from "@/hooks/useBooksRealtime";
 
+import en from "@/i18n/locales/en.json";
+import ar from "@/i18n/locales/ar.json";
+import { DEFAULT_LANG, type Lang } from "@/i18n/i18n";
+import { useTranslation } from "react-i18next";
 export const Route = createFileRoute("/admin/books/")({
   ssr: false,
-  head: () => ({
-    meta: [
-      { title: "إدارة الكتب | مكتبة القراء" },
-      { name: "description", content: "لوحة إدارة الكتب: إضافة وتعديل وحذف كتب المتجر." },
-      { property: "og:title", content: "إدارة الكتب | مكتبة القراء" },
-      { property: "og:description", content: "لوحة إدارة كتب المتجر." },
-      { name: "robots", content: "noindex" },
-    ],
-  }),
+  head: ({ match }) => {
+    const lang = (match.context as { lang?: Lang }).lang ?? DEFAULT_LANG;
+    const meta = (lang === "ar" ? ar : en).pageMeta.adminBooksIndex;
+    return {
+      meta: [
+        { title: meta.title },
+        { name: "description", content: meta.description },
+        { property: "og:title", content: meta.title },
+        { property: "og:description", content: meta.ogDescription },
+        { name: "robots", content: "noindex" },
+      ],
+    };
+  },
   component: () => (
     <AdminOnly>
       <AdminBooksPage />
@@ -52,6 +60,7 @@ export const Route = createFileRoute("/admin/books/")({
 const LIMIT = 10;
 
 function AdminBooksPage() {
+  const { t } = useTranslation();
   useBooksRealtime();
   const [searchInput, setSearchInput] = useState("");
   const [page, setPage] = useState(1);
@@ -67,7 +76,7 @@ function AdminBooksPage() {
     if (!pendingDelete) return;
     try {
       await deleteBook.mutateAsync(pendingDelete.id);
-      toast.success(`تم حذف "${pendingDelete.name}"`);
+      toast.success(t("adminBooksIndex.deletedSuccess", { name: pendingDelete.name }));
     } catch (deleteError) {
       toast.error(errorMessage(deleteError));
     } finally {
@@ -79,15 +88,15 @@ function AdminBooksPage() {
     <div className="mx-auto max-w-6xl px-4 py-10">
       <div className="flex flex-wrap items-center justify-between gap-4">
         <div>
-          <h1 className="text-2xl font-bold md:text-3xl">إدارة الكتب</h1>
+          <h1 className="text-2xl font-bold md:text-3xl">{t("adminBooksIndex.manageBooks")}</h1>
           <p className="mt-1 text-sm text-muted-foreground">
-            {pagination ? `${pagination.totalCount} كتاب` : "جاري التحميل…"}
+            {pagination ? t("adminBooksIndex.countLabel", { count: pagination.totalCount }) : t("adminBooksIndex.loading")}
           </p>
         </div>
         <Button asChild className="gap-2">
           <Link to="/admin/books/new">
             <Plus className="size-4" />
-            إضافة كتاب
+            {t("adminBooksIndex.addBook")}
           </Link>
         </Button>
       </div>
@@ -100,7 +109,7 @@ function AdminBooksPage() {
             setSearchInput(event.target.value);
             setPage(1);
           }}
-          placeholder="ابحث عن كتاب…"
+          placeholder={t("adminBooksIndex.searchPlaceholder")}
           className="pe-10"
         />
       </div>
@@ -117,20 +126,20 @@ function AdminBooksPage() {
         ) : !books.length ? (
           <EmptyState
             variant={search ? "search" : "empty"}
-            title={search ? "مفيش نتائج" : "مفيش كتب"}
-            description={search ? "جرّب كلمة بحث تانية." : "ابدأ بإضافة أول كتاب للمتجر."}
+            title={search ? t("adminBooksIndex.noResults") : t("adminBooksIndex.noBooks")}
+            description={search ? t("adminBooksIndex.tryOtherSearch") : t("adminBooksIndex.startAdding")}
           />
         ) : (
           <div className="overflow-hidden rounded-xl border border-border bg-card">
             <Table>
               <TableHeader>
                 <TableRow>
-                  <TableHead className="text-right">الغلاف</TableHead>
-                  <TableHead className="text-right">العنوان</TableHead>
-                  <TableHead className="text-right">دار النشر</TableHead>
-                  <TableHead className="text-right">التصنيف</TableHead>
+                  <TableHead className="text-right">{t("adminBooksIndex.cover")}</TableHead>
+                  <TableHead className="text-right">{t("adminBooksIndex.titleCol")}</TableHead>
+                  <TableHead className="text-right">{t("adminBooksIndex.publisher")}</TableHead>
+                  <TableHead className="text-right">{t("adminBooksIndex.category")}</TableHead>
                   <TableHead className="text-right">ISBN</TableHead>
-                  <TableHead className="text-right">إجراءات</TableHead>
+                  <TableHead className="text-right">{t("adminBooksIndex.actions")}</TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>
@@ -141,7 +150,7 @@ function AdminBooksPage() {
                         {book.avatar_url && (
                           <img
                             src={book.avatar_url}
-                            alt={`غلاف ${book.name}`}
+                            alt={t("adminBooksIndex.coverAlt", { name: book.name })}
                             loading="lazy"
                             className="size-full object-cover"
                           />
@@ -158,7 +167,7 @@ function AdminBooksPage() {
                     </TableCell>
                     <TableCell>
                       <div className="flex gap-1">
-                        <Button asChild size="icon" variant="ghost" aria-label="تعديل">
+                        <Button asChild size="icon" variant="ghost" aria-label={t("common.edit")}>
                           <Link to="/admin/books/$id/edit" params={{ id: String(book.id) }}>
                             <Pencil className="size-4" />
                           </Link>
@@ -166,7 +175,7 @@ function AdminBooksPage() {
                         <Button
                           size="icon"
                           variant="ghost"
-                          aria-label="حذف"
+                          aria-label={t("common.delete")}
                           onClick={() =>
                             setPendingDelete({ id: String(book.id), name: book.name })
                           }
@@ -191,10 +200,10 @@ function AdminBooksPage() {
             disabled={!pagination.hasPreviousPage}
             onClick={() => setPage((prev) => Math.max(1, prev - 1))}
           >
-            السابق
+            {t("adminBooksIndex.prev")}
           </Button>
           <span className="text-sm text-muted-foreground">
-            صفحة {pagination.currentPage} من {pagination.totalPages}
+            {t("adminBooksIndex.pageOf", { current: pagination.currentPage, total: pagination.totalPages })}
           </span>
           <Button
             variant="secondary"
@@ -202,7 +211,7 @@ function AdminBooksPage() {
             disabled={!pagination.hasNextPage}
             onClick={() => setPage((prev) => prev + 1)}
           >
-            التالي
+            {t("adminBooksIndex.next")}
           </Button>
         </div>
       )}
@@ -210,14 +219,14 @@ function AdminBooksPage() {
       <AlertDialog open={Boolean(pendingDelete)} onOpenChange={(open) => !open && setPendingDelete(null)}>
         <AlertDialogContent dir="rtl">
           <AlertDialogHeader>
-            <AlertDialogTitle>تأكيد الحذف</AlertDialogTitle>
+            <AlertDialogTitle>{t("adminBooksIndex.confirmDelete")}</AlertDialogTitle>
             <AlertDialogDescription>
-              هل تريد حذف "{pendingDelete?.name}"؟ لا يمكن الرجوع بعد الحذف.
+              {t("adminBooksIndex.deleteConfirmDesc", { name: pendingDelete?.name })}
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>
-            <AlertDialogCancel>إلغاء</AlertDialogCancel>
-            <AlertDialogAction onClick={() => void confirmDelete()}>حذف</AlertDialogAction>
+            <AlertDialogCancel>{t("common.cancel")}</AlertDialogCancel>
+            <AlertDialogAction onClick={() => void confirmDelete()}>{t("common.delete")}</AlertDialogAction>
           </AlertDialogFooter>
         </AlertDialogContent>
       </AlertDialog>

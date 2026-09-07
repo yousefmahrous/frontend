@@ -10,25 +10,31 @@ import { Input } from "@/components/ui/input";
 import { useBooks, useDebouncedValue } from "@/hooks/useBooks";
 import { useBooksRealtime } from "@/hooks/useBooksRealtime";
 
+import en from "@/i18n/locales/en.json";
+import ar from "@/i18n/locales/ar.json";
+import { DEFAULT_LANG, type Lang } from "@/i18n/i18n";
+import { useTranslation } from "react-i18next";
 export const Route = createFileRoute("/books/")({
   ssr: false,
-  head: () => ({
-    meta: [
-      { title: "كتالوج الكتب | مكتبة القراء" },
-      {
-        name: "description",
-        content: "تصفح كل كتب المتجر مع بحث فوري وفلترة حسب التصنيف: روايات، علمي، تاريخي، أطفال.",
-      },
-      { property: "og:title", content: "كتالوج الكتب | مكتبة القراء" },
-      { property: "og:description", content: "تصفح كل كتب المتجر مع بحث وفلترة حسب التصنيف." },
-    ],
-  }),
+  head: ({ match }) => {
+    const lang = (match.context as { lang?: Lang }).lang ?? DEFAULT_LANG;
+    const meta = (lang === "ar" ? ar : en).pageMeta.booksIndexPage;
+    return {
+      meta: [
+        { title: meta.title },
+        { name: "description", content: meta.description },
+        { property: "og:title", content: meta.title },
+        { property: "og:description", content: meta.ogDescription },
+      ],
+    };
+  },
   component: CatalogPage,
 });
 
 const LIMIT = 12;
 
 function CatalogPage() {
+  const { t } = useTranslation();
   useBooksRealtime();
   const [searchInput, setSearchInput] = useState("");
   const [page, setPage] = useState(1);
@@ -58,9 +64,9 @@ function CatalogPage() {
 
   return (
     <div className="mx-auto max-w-6xl px-4 py-10">
-      <h1 className="text-2xl font-bold md:text-3xl">كتالوج الكتب</h1>
+      <h1 className="text-2xl font-bold md:text-3xl">{t("books.title")}</h1>
       <p className="mt-1 text-sm text-muted-foreground">
-        {pagination ? `${pagination.totalCount} كتاب متاح` : "جاري تحميل الكتب…"}
+        {pagination ? t("books.countAvailable", { count: pagination.totalCount }) : t("books.loadingBooks")}
       </p>
 
       <div className="mt-6 space-y-4">
@@ -72,7 +78,7 @@ function CatalogPage() {
               setSearchInput(event.target.value);
               setPage(1);
             }}
-            placeholder="ابحث بعنوان الكتاب أو دار النشر…"
+            placeholder={t("books.searchPlaceholder")}
             className="pe-10"
           />
         </div>
@@ -83,7 +89,7 @@ function CatalogPage() {
             size="sm"
             onClick={() => setCategory(null)}
           >
-            كل التصنيفات
+            {t("books.allCategories")}
           </Button>
           {BOOK_CATEGORIES.map((item) => (
             <Button
@@ -92,7 +98,7 @@ function CatalogPage() {
               size="sm"
               onClick={() => setCategory(item)}
             >
-              {item}
+              {t(`categories.${item}`, item)}
             </Button>
           ))}
         </div>
@@ -106,11 +112,11 @@ function CatalogPage() {
         ) : !books.length ? (
           <EmptyState
             variant={search || category ? "search" : "empty"}
-            title={search || category ? "مفيش نتائج مطابقة" : "مفيش كتب لسه"}
+            title={search || category ? t("books.noResults") : t("books.noBooksYet")}
             description={
               search || category
-                ? "جرّب كلمات بحث تانية أو شيل الفلتر."
-                : "أول ما تتضاف كتب هتظهر هنا لحظيًا."
+                ? t("books.tryOtherSearch")
+                : t("books.firstBooksAppearHere")
             }
           />
         ) : (
@@ -136,7 +142,7 @@ function CatalogPage() {
             className="gap-1"
           >
             <ChevronRight className="size-4" />
-            السابق
+            {t("books.prev")}
           </Button>
           {pageNumbers.map((number) => (
             <Button
@@ -155,7 +161,7 @@ function CatalogPage() {
             onClick={() => setPage((prev) => prev + 1)}
             className="gap-1"
           >
-            التالي
+            {t("books.next")}
             <ChevronLeft className="size-4" />
           </Button>
         </div>

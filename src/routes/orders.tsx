@@ -22,11 +22,21 @@ import { Textarea } from "@/components/ui/textarea";
 import { useMyOrders } from "@/hooks/useOrder";
 import { useMyRefundRequests, useRequestRefund } from "@/hooks/useRefund";
 
+import en from "@/i18n/locales/en.json";
+import ar from "@/i18n/locales/ar.json";
+import { DEFAULT_LANG, type Lang } from "@/i18n/i18n";
+import { useTranslation } from "react-i18next";
 export const Route = createFileRoute("/orders")({
   ssr: false,
-  head: () => ({
-    meta: [{ title: "أوردراتي | مكتبة القراء" }],
-  }),
+  head: ({ match }) => {
+    const lang = (match.context as { lang?: Lang }).lang ?? DEFAULT_LANG;
+    const meta = (lang === "ar" ? ar : en).pageMeta.ordersPage;
+    return {
+      meta: [
+        { title: meta.title },
+      ],
+    };
+  },
   component: () => (
     <Protected>
       <OrdersPage />
@@ -36,46 +46,47 @@ export const Route = createFileRoute("/orders")({
 
 const RETURN_WINDOW_DAYS = 14;
 
-const STATUS_META: Record<
-  OrderStatus,
-  { label: string; className: string; icon: typeof CheckCircle2 }
-> = {
-  paid: {
-    label: "تم الدفع",
-    className: "bg-green-100 text-green-700 hover:bg-green-100",
-    icon: CheckCircle2,
-  },
-  pending: {
-    label: "بانتظار الدفع",
-    className: "bg-amber-100 text-amber-700 hover:bg-amber-100",
-    icon: Clock,
-  },
-  failed: {
-    label: "فشل الدفع",
-    className: "bg-destructive/10 text-destructive hover:bg-destructive/10",
-    icon: XCircle,
-  },
-  cancelled: {
-    label: "ملغي",
-    className: "bg-secondary text-muted-foreground hover:bg-secondary",
-    icon: XCircle,
-  },
-  return_requested: {
-    label: "طلب الاسترجاع قيد المراجعة",
-    className: "bg-blue-100 text-blue-700 hover:bg-blue-100",
-    icon: RotateCcw,
-  },
-  return_approved: {
-    label: "بانتظار استلام الكتاب",
-    className: "bg-blue-100 text-blue-700 hover:bg-blue-100",
-    icon: RotateCcw,
-  },
-  refunded: {
-    label: "تم الاسترجاع",
-    className: "bg-secondary text-muted-foreground hover:bg-secondary",
-    icon: RotateCcw,
-  },
-};
+function getStatusMeta(
+  t: (key: string) => string,
+): Record<OrderStatus, { label: string; className: string; icon: typeof CheckCircle2 }> {
+  return {
+    paid: {
+      label: t("orders.statusPaid"),
+      className: "bg-green-100 text-green-700 hover:bg-green-100",
+      icon: CheckCircle2,
+    },
+    pending: {
+      label: t("orders.statusPending"),
+      className: "bg-amber-100 text-amber-700 hover:bg-amber-100",
+      icon: Clock,
+    },
+    failed: {
+      label: t("orders.statusFailed"),
+      className: "bg-destructive/10 text-destructive hover:bg-destructive/10",
+      icon: XCircle,
+    },
+    cancelled: {
+      label: t("orders.statusCancelled"),
+      className: "bg-secondary text-muted-foreground hover:bg-secondary",
+      icon: XCircle,
+    },
+    return_requested: {
+      label: t("orders.statusReturnRequested"),
+      className: "bg-blue-100 text-blue-700 hover:bg-blue-100",
+      icon: RotateCcw,
+    },
+    return_approved: {
+      label: t("orders.statusReturnApproved"),
+      className: "bg-blue-100 text-blue-700 hover:bg-blue-100",
+      icon: RotateCcw,
+    },
+    refunded: {
+      label: t("orders.statusRefunded"),
+      className: "bg-secondary text-muted-foreground hover:bg-secondary",
+      icon: RotateCcw,
+    },
+  };
+}
 
 function formatPrice(amountInPiastres: number) {
   return (amountInPiastres / 100).toFixed(2);
@@ -97,6 +108,7 @@ function isWithinReturnWindow(paidAt: string | null) {
 }
 
 function OrdersPage() {
+  const { t } = useTranslation();
   const { data: orders, isLoading, isError, error, refetch } = useMyOrders();
   const { data: refundRequests } = useMyRefundRequests();
 
@@ -126,12 +138,12 @@ function OrdersPage() {
     <div className="mx-auto max-w-3xl px-4 py-10">
       <div className="mb-6 flex items-center gap-3">
         <PackageSearch className="size-6 text-accent" />
-        <h1 className="text-2xl font-extrabold">أوردراتي</h1>
-        {items.length > 0 && <Badge variant="secondary">{items.length} أوردر</Badge>}
+        <h1 className="text-2xl font-extrabold">{t("orders.title")}</h1>
+        {items.length > 0 && <Badge variant="secondary">{t("orders.count", { count: items.length })}</Badge>}
       </div>
 
       {items.length === 0 ? (
-        <EmptyState title="مفيش أوردرات لسه" description="لما تشتري كتاب هيظهر أوردرك هنا." />
+        <EmptyState title={t("orders.empty")} description={t("orders.emptyDesc")} />
       ) : (
         <div className="space-y-4">
           {items.map((order) => {
@@ -145,7 +157,7 @@ function OrdersPage() {
 
       {items.length > 0 && paidItems.length === 0 && (
         <p className="mt-6 text-center text-sm text-muted-foreground">
-          مفيش أي أوردر اتدفع لحد دلوقتي.
+          {t("orders.noneWithNoPaidYet")}
         </p>
       )}
     </div>
@@ -159,7 +171,8 @@ function OrderCard({
   order: Order;
   hasActiveRefundRequest: boolean;
 }) {
-  const meta = STATUS_META[order.status];
+  const { t } = useTranslation();
+  const meta = getStatusMeta(t)[order.status];
   const StatusIcon = meta.icon;
   const [dialogOpen, setDialogOpen] = useState(false);
 
@@ -170,7 +183,7 @@ function OrderCard({
     <div className="rounded-xl border border-border bg-card p-4 shadow-sm">
       <div className="flex flex-wrap items-center justify-between gap-2 border-b border-border pb-3">
         <div>
-          <p className="font-bold">أوردر #{order.id}</p>
+          <p className="font-bold">{t("orders.orderNumber", { id: order.id })}</p>
           <p className="text-xs text-muted-foreground">{formatDate(order.created_at)}</p>
         </div>
         <Badge className={meta.className}>
@@ -186,22 +199,22 @@ function OrderCard({
               {item.title} <span className="text-muted-foreground">× {item.quantity}</span>
             </span>
             <span className="text-muted-foreground">
-              {formatPrice(item.unit_price * item.quantity)} جنيه
+              {formatPrice(item.unit_price * item.quantity)} {t("bookDetails.currency")}
             </span>
           </li>
         ))}
       </ul>
 
       <div className="flex items-center justify-between border-t border-border pt-3">
-        <span className="text-sm text-muted-foreground">الإجمالي</span>
-        <span className="text-lg font-extrabold">{formatPrice(order.total_amount)} جنيه</span>
+        <span className="text-sm text-muted-foreground">{t("common.total")}</span>
+        <span className="text-lg font-extrabold">{formatPrice(order.total_amount)} {t("bookDetails.currency")}</span>
       </div>
 
       {canRequestRefund && (
         <div className="mt-3 border-t border-border pt-3">
           <Button variant="outline" size="sm" onClick={() => setDialogOpen(true)}>
             <RotateCcw className="ms-1 size-3.5" />
-            طلب استرجاع
+            {t("orders.requestRefund")}
           </Button>
         </div>
       )}
@@ -220,12 +233,13 @@ function RefundRequestDialog({
   open: boolean;
   onOpenChange: (open: boolean) => void;
 }) {
+  const { t } = useTranslation();
   const [reason, setReason] = useState("");
   const requestRefundMutation = useRequestRefund();
 
   function handleSubmit() {
     if (!reason.trim()) {
-      toast.error("من فضلك اكتب سبب الاسترجاع");
+      toast.error(t("orders.reasonRequired"));
       return;
     }
 
@@ -233,7 +247,7 @@ function RefundRequestDialog({
       { orderId, reason: reason.trim() },
       {
         onSuccess: () => {
-          toast.success("تم إرسال طلب الاسترجاع بنجاح، هيتم مراجعته قريبًا");
+          toast.success(t("orders.refundRequestSent"));
           setReason("");
           onOpenChange(false);
         },
@@ -246,26 +260,25 @@ function RefundRequestDialog({
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent>
         <DialogHeader>
-          <DialogTitle>طلب استرجاع الأوردر #{orderId}</DialogTitle>
+          <DialogTitle>{t("orders.refundDialogTitle", { id: orderId })}</DialogTitle>
           <DialogDescription>
-            اكتب سبب رغبتك في استرجاع الأوردر ده. طلبك هيتراجع من فريقنا وهنتواصل معاك بخصوص خطوات
-            إرجاع الكتاب.
+            {t("orders.refundDialogDesc")}
           </DialogDescription>
         </DialogHeader>
 
         <Textarea
           value={reason}
           onChange={(e) => setReason(e.target.value)}
-          placeholder="اكتب السبب هنا..."
+          placeholder={t("orders.reasonPlaceholder")}
           rows={4}
         />
 
         <DialogFooter>
           <Button variant="secondary" onClick={() => onOpenChange(false)}>
-            إلغاء
+            {t("common.cancel")}
           </Button>
           <Button onClick={handleSubmit} disabled={requestRefundMutation.isPending}>
-            {requestRefundMutation.isPending ? "جاري الإرسال..." : "إرسال الطلب"}
+            {requestRefundMutation.isPending ? t("orders.sending") : t("orders.sendRequest")}
           </Button>
         </DialogFooter>
       </DialogContent>

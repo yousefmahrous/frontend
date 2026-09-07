@@ -13,6 +13,7 @@ import {
 } from "lucide-react";
 import { useState } from "react";
 import { toast } from "sonner";
+import { useTranslation } from "react-i18next";
 
 import { logout } from "@/api/auth.api";
 import { errorMessage } from "@/api/client";
@@ -20,6 +21,7 @@ import { useAuth } from "@/context/auth-context";
 import { useCart } from "@/hooks/useCart";
 import { useFavorites } from "@/hooks/useFavorites";
 import { Button } from "@/components/ui/button";
+import { LanguageSwitcher } from "@/components/LanguageSwitcher";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -30,24 +32,25 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { Skeleton } from "@/components/ui/skeleton";
 
-const navLinks = [
-  { to: "/", label: "الرئيسية" },
-  { to: "/books", label: "تصفح الكتب" },
-  { to: "/contact", label: "تواصل معنا" },
-] as const;
-
 export function Navbar() {
+  const { t } = useTranslation();
   const { user, isLoading, isAdmin, setUser } = useAuth();
   const { data: cart } = useCart();
   const { data: favorites } = useFavorites();
   const navigate = useNavigate();
   const [open, setOpen] = useState(false);
 
+  const navLinks = [
+    { to: "/", label: t("nav.home") },
+    { to: "/books", label: t("nav.books") },
+    { to: "/contact", label: t("nav.contact") },
+  ] as const;
+
   async function handleLogout() {
     try {
       const res = await logout();
       setUser(null);
-      toast.success(res?.message ?? "تم تسجيل الخروج");
+      toast.success(res?.message ?? t("toast.logoutSuccess"));
       void navigate({ to: "/login" });
     } catch (error) {
       toast.error(errorMessage(error));
@@ -59,7 +62,7 @@ export function Navbar() {
       <div className="mx-auto flex h-16 max-w-6xl items-center justify-between gap-4 px-4">
         <Link to="/" className="flex items-center gap-2 font-bold text-lg text-primary">
           <BookOpen className="size-6 text-accent" />
-          مكتبة القراء
+          {t("common.brand")}
         </Link>
 
         <nav className="hidden items-center gap-1 md:flex">
@@ -77,8 +80,16 @@ export function Navbar() {
         </nav>
 
         <div className="flex items-center gap-2">
+          <LanguageSwitcher />
+
           {user && !isAdmin && (
-            <Button asChild variant="ghost" size="icon" className="relative" aria-label="المفضلة">
+            <Button
+              asChild
+              variant="ghost"
+              size="icon"
+              className="relative"
+              aria-label={t("common.favoritesAria")}
+            >
               <Link to="/favorites">
                 <Heart className="size-5" />
                 {Boolean(favorites?.itemsCount) && (
@@ -91,7 +102,13 @@ export function Navbar() {
           )}
 
           {user && !isAdmin && (
-            <Button asChild variant="ghost" size="icon" className="relative" aria-label="العربية">
+            <Button
+              asChild
+              variant="ghost"
+              size="icon"
+              className="relative"
+              aria-label={t("common.cartAria")}
+            >
               <Link to="/cart">
                 <ShoppingCart className="size-5" />
                 {Boolean(cart?.itemsCount) && (
@@ -117,16 +134,16 @@ export function Navbar() {
                 <DropdownMenuLabel className="truncate">{user.email}</DropdownMenuLabel>
                 <DropdownMenuSeparator />
                 <DropdownMenuItem asChild>
-                  <Link to="/account">حسابي</Link>
+                  <Link to="/account">{t("nav.account")}</Link>
                 </DropdownMenuItem>
                 <DropdownMenuItem asChild>
-                  <Link to="/account/change-password">تغيير كلمة المرور</Link>
+                  <Link to="/account/change-password">{t("nav.changePassword")}</Link>
                 </DropdownMenuItem>
                 {!isAdmin && (
                   <DropdownMenuItem asChild>
                     <Link to="/orders" className="gap-2">
                       <PackageSearch className="size-4" />
-                      أوردراتي
+                      {t("nav.orders")}
                     </Link>
                   </DropdownMenuItem>
                 )}
@@ -134,7 +151,7 @@ export function Navbar() {
                   <DropdownMenuItem asChild>
                     <Link to="/admin/books" className="gap-2">
                       <LayoutDashboard className="size-4" />
-                      لوحة التحكم
+                      {t("nav.adminBooks")}
                     </Link>
                   </DropdownMenuItem>
                 )}
@@ -142,7 +159,7 @@ export function Navbar() {
                   <DropdownMenuItem asChild>
                     <Link to="/admin/orders" className="gap-2">
                       <ClipboardList className="size-4" />
-                      الأوردرات
+                      {t("nav.adminOrders")}
                     </Link>
                   </DropdownMenuItem>
                 )}
@@ -150,24 +167,24 @@ export function Navbar() {
                   <DropdownMenuItem asChild>
                     <Link to="/admin/refunds" className="gap-2">
                       <RotateCcw className="size-4" />
-                      طلبات الاسترجاع
+                      {t("nav.adminRefunds")}
                     </Link>
                   </DropdownMenuItem>
                 )}
                 <DropdownMenuSeparator />
                 <DropdownMenuItem onClick={() => void handleLogout()} className="gap-2">
                   <LogOut className="size-4" />
-                  تسجيل خروج
+                  {t("nav.logout")}
                 </DropdownMenuItem>
               </DropdownMenuContent>
             </DropdownMenu>
           ) : (
             <div className="hidden items-center gap-2 sm:flex">
               <Button asChild variant="ghost">
-                <Link to="/login">دخول</Link>
+                <Link to="/login">{t("nav.login")}</Link>
               </Button>
               <Button asChild>
-                <Link to="/signup">إنشاء حساب</Link>
+                <Link to="/signup">{t("nav.signup")}</Link>
               </Button>
             </div>
           )}
@@ -177,7 +194,7 @@ export function Navbar() {
             size="icon"
             className="md:hidden"
             onClick={() => setOpen((prev) => !prev)}
-            aria-label="القائمة"
+            aria-label={t("common.menuAria")}
           >
             <Menu className="size-5" />
           </Button>
@@ -204,14 +221,14 @@ export function Navbar() {
                   onClick={() => setOpen(false)}
                   className="rounded-md px-3 py-2 text-sm font-medium"
                 >
-                  دخول
+                  {t("nav.login")}
                 </Link>
                 <Link
                   to="/signup"
                   onClick={() => setOpen(false)}
                   className="rounded-md px-3 py-2 text-sm font-medium"
                 >
-                  إنشاء حساب
+                  {t("nav.signup")}
                 </Link>
               </>
             )}

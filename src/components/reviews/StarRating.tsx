@@ -1,5 +1,6 @@
 import { Star } from "lucide-react";
 import { useState } from "react";
+import { useTranslation } from "react-i18next";
 import { cn } from "@/lib/utils";
 
 interface StarRatingProps {
@@ -16,6 +17,7 @@ const sizeClasses = {
 };
 
 export function StarRating({ value, onChange, readOnly = false, size = "md" }: StarRatingProps) {
+  const { t } = useTranslation();
   const [hovered, setHovered] = useState<number | null>(null);
   const displayValue = hovered ?? value;
 
@@ -24,7 +26,7 @@ export function StarRating({ value, onChange, readOnly = false, size = "md" }: S
       className={cn("flex items-center gap-0.5", !readOnly && "cursor-pointer")}
       onMouseLeave={() => setHovered(null)}
       role={readOnly ? undefined : "radiogroup"}
-      aria-label={readOnly ? undefined : "التقييم بالنجوم"}
+      aria-label={readOnly ? undefined : t("starRating.ariaLabel")}
     >
       {[1, 2, 3, 4, 5].map((star) => (
         <button
@@ -33,7 +35,7 @@ export function StarRating({ value, onChange, readOnly = false, size = "md" }: S
           disabled={readOnly}
           onMouseEnter={() => !readOnly && setHovered(star)}
           onClick={() => !readOnly && onChange?.(star)}
-          aria-label={`${star} نجوم`}
+          aria-label={t("starRating.starAriaLabel", { count: star })}
           className={cn(
             "transition-transform",
             !readOnly && "hover:scale-110 disabled:cursor-default",

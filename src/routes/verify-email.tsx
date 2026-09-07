@@ -12,22 +12,31 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 
+import en from "@/i18n/locales/en.json";
+import ar from "@/i18n/locales/ar.json";
+import { DEFAULT_LANG, type Lang } from "@/i18n/i18n";
+import { useTranslation } from "react-i18next";
 export const Route = createFileRoute("/verify-email")({
   ssr: false,
   validateSearch: (search: Record<string, unknown>) => ({
     token: typeof search["token"] === "string" ? search["token"] : "",
   }),
-  head: () => ({
-    meta: [
-      { title: "تأكيد البريد الإلكتروني | مكتبة القراء" },
-      { name: "description", content: "تأكيد بريدك الإلكتروني لتفعيل حسابك في مكتبة القراء." },
-      { name: "robots", content: "noindex" },
-    ],
-  }),
+  head: ({ match }) => {
+    const lang = (match.context as { lang?: Lang }).lang ?? DEFAULT_LANG;
+    const meta = (lang === "ar" ? ar : en).pageMeta.verifyEmailPage;
+    return {
+      meta: [
+        { title: meta.title },
+        { name: "description", content: meta.description },
+        { name: "robots", content: "noindex" },
+      ],
+    };
+  },
   component: VerifyEmailPage,
 });
 
 function ResendForm() {
+  const { t } = useTranslation();
   const [email, setEmail] = useState("");
   const [sending, setSending] = useState(false);
   const [sent, setSent] = useState(false);
@@ -35,7 +44,7 @@ function ResendForm() {
   const onResend = async () => {
     const parsed = resendVerificationSchema.safeParse({ email });
     if (!parsed.success) {
-      toast.error(parsed.error.issues[0]?.message ?? "الإيميل غير صحيح");
+      toast.error(parsed.error.issues[0]?.message ?? t("verifyEmail.invalidEmail"));
       return;
     }
     setSending(true);
@@ -52,9 +61,9 @@ function ResendForm() {
 
   return (
     <div className="mt-6 space-y-3 border-t border-border pt-6">
-      <p className="text-sm text-muted-foreground">محتاج رابط تأكيد جديد؟ اكتب إيميلك:</p>
+      <p className="text-sm text-muted-foreground">{t("verifyEmail.needNewLink")}</p>
       <div className="space-y-2">
-        <Label htmlFor="resend-email">الإيميل</Label>
+        <Label htmlFor="resend-email">{t("common.email")}</Label>
         <Input
           id="resend-email"
           type="email"
@@ -71,13 +80,14 @@ function ResendForm() {
         onClick={() => void onResend()}
       >
         {sending && <Loader2 className="size-4 animate-spin" />}
-        {sent ? "تم إرسال الرابط" : "إرسال رابط تأكيد جديد"}
+        {sent ? t("verifyEmail.linkSent") : t("verifyEmail.sendNewLink")}
       </Button>
     </div>
   );
 }
 
 function VerifyEmailPage() {
+  const { t } = useTranslation();
   const { token } = Route.useSearch();
 
   const { data, isPending, isError, error } = useQuery({
@@ -89,9 +99,9 @@ function VerifyEmailPage() {
 
   if (!token) {
     return (
-      <AuthShell title="رابط غير صالح" subtitle="الرابط ناقص أو منتهي">
+      <AuthShell title={t("verifyEmail.invalidLink")} subtitle={t("verifyEmail.linkExpired")}>
         <p className="text-sm text-muted-foreground">
-          افتح الرابط من الإيميل مرة تانية، أو اطلب رابط جديد.
+          {t("resetPassword.reopenLinkNote")}
         </p>
         <ResendForm />
       </AuthShell>
@@ -100,7 +110,7 @@ function VerifyEmailPage() {
 
   if (isPending) {
     return (
-      <AuthShell title="بنأكد بريدك الإلكتروني..." subtitle="لحظات وهنخلص">
+      <AuthShell title={t("verifyEmail.confirmingBody")} subtitle={t("verifyEmail.momentsLeft")}>
         <div className="flex items-center justify-center py-6">
           <Loader2 className="size-8 animate-spin text-accent" />
         </div>
@@ -110,11 +120,11 @@ function VerifyEmailPage() {
 
   if (isError) {
     return (
-      <AuthShell title="فشل تأكيد البريد" subtitle="حصلت مشكلة">
+      <AuthShell title={t("verifyEmail.failed")} subtitle={t("verifyEmail.problem")}>
         <div className="flex flex-col items-center gap-3 py-4 text-center">
           <XCircle className="size-10 text-destructive" />
           <p className="text-sm text-muted-foreground">
-            {error instanceof ApiError ? error.message : "رابط التأكيد غير صالح أو انتهت صلاحيته"}
+            {error instanceof ApiError ? error.message : t("verifyEmail.invalidTokenMsg")}
           </p>
         </div>
         <ResendForm />
@@ -123,13 +133,13 @@ function VerifyEmailPage() {
   }
 
   return (
-    <AuthShell title="تم تأكيد بريدك الإلكتروني 🎉" subtitle="حسابك بقى مفعّل">
+    <AuthShell title={t("verifyEmail.success")} subtitle={t("verifyEmail.accountActive")}>
       <div className="flex flex-col items-center gap-3 py-4 text-center">
         <CheckCircle2 className="size-10 text-primary" />
         <p className="text-sm text-muted-foreground">{data?.message}</p>
       </div>
       <Button asChild className="mt-2 w-full">
-        <Link to="/login">تسجيل الدخول</Link>
+        <Link to="/login">{t("common.login")}</Link>
       </Button>
     </AuthShell>
   );

@@ -12,20 +12,29 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 
+import en from "@/i18n/locales/en.json";
+import ar from "@/i18n/locales/ar.json";
+import { DEFAULT_LANG, type Lang } from "@/i18n/i18n";
+import { useTranslation } from "react-i18next";
 export const Route = createFileRoute("/contact")({
   ssr: false,
-  head: () => ({
-    meta: [
-      { title: "تواصل معنا | مكتبة القراء" },
-      { name: "description", content: "ابعتلنا رسالتك وهنرد عليك في أقرب وقت." },
-      { property: "og:title", content: "تواصل معنا | مكتبة القراء" },
-      { property: "og:description", content: "تواصل مع فريق مكتبة القراء." },
-    ],
-  }),
+  head: ({ match }) => {
+    const lang = (match.context as { lang?: Lang }).lang ?? DEFAULT_LANG;
+    const meta = (lang === "ar" ? ar : en).pageMeta.contactPage;
+    return {
+      meta: [
+        { title: meta.title },
+        { name: "description", content: meta.description },
+        { property: "og:title", content: meta.title },
+        { property: "og:description", content: meta.ogDescription },
+      ],
+    };
+  },
   component: ContactPage,
 });
 
 function ContactPage() {
+  const { t } = useTranslation();
   const {
     register,
     handleSubmit,
@@ -54,41 +63,41 @@ function ContactPage() {
   });
 
   return (
-    <AuthShell title="تواصل معنا" subtitle="عندك سؤال أو اقتراح؟ ابعتلنا رسالة وهنرد عليك في أقرب وقت">
+    <AuthShell title={t("contact.title")} subtitle={t("contact.subtitle")}>
       <form onSubmit={(event) => void onSubmit(event)} className="space-y-4" noValidate>
         <div className="space-y-2">
-          <Label htmlFor="name">الاسم</Label>
+          <Label htmlFor="name">{t("common.name")}</Label>
           <Input id="name" type="text" {...register("name")} />
           {errors.name && <p className="text-sm text-destructive">{errors.name.message}</p>}
         </div>
 
         <div className="space-y-2">
-          <Label htmlFor="email">الإيميل</Label>
+          <Label htmlFor="email">{t("common.email")}</Label>
           <Input id="email" type="email" dir="ltr" {...register("email")} />
           {errors.email && <p className="text-sm text-destructive">{errors.email.message}</p>}
         </div>
 
         <div className="space-y-2">
-          <Label htmlFor="subject">الموضوع</Label>
+          <Label htmlFor="subject">{t("contact.subject")}</Label>
           <Input id="subject" type="text" {...register("subject")} />
           {errors.subject && <p className="text-sm text-destructive">{errors.subject.message}</p>}
         </div>
 
         <div className="space-y-2">
-          <Label htmlFor="message">الرسالة</Label>
+          <Label htmlFor="message">{t("contact.message")}</Label>
           <Textarea id="message" rows={5} {...register("message")} />
           {errors.message && <p className="text-sm text-destructive">{errors.message.message}</p>}
         </div>
 
         <Button type="submit" className="w-full gap-2" disabled={isSubmitting}>
           {isSubmitting ? <Loader2 className="size-4 animate-spin" /> : <Mail className="size-4" />}
-          إرسال الرسالة
+          {t("contact.submit")}
         </Button>
       </form>
 
       {isSubmitSuccessful && (
         <p className="mt-4 rounded-md bg-secondary p-3 text-sm text-secondary-foreground">
-          تم إرسال رسالتك بنجاح، هنرد عليك في أقرب وقت.
+          {t("contact.successMsg")}
         </p>
       )}
     </AuthShell>

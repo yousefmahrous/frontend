@@ -1,5 +1,14 @@
 import axios, { AxiosError } from "axios";
 
+import ar from "@/i18n/locales/ar.json";
+import en from "@/i18n/locales/en.json";
+import { readLangCookie } from "@/i18n/langCookie";
+
+function apiErrorText(key: keyof typeof en.apiErrors): string {
+  const lang = readLangCookie();
+  return (lang === "en" ? en : ar).apiErrors[key];
+}
+
 export const API_URL =
   (import.meta.env['VITE_API_URL'] as string | undefined) ?? "http://localhost:3000/api/v1";
 
@@ -99,7 +108,7 @@ api.interceptors.response.use(
   (response) => response,
   (error: AxiosError) => {
     if (!error.response) {
-      return Promise.reject(new ApiError("تعذر الاتصال بالسيرفر", 0, undefined, true));
+      return Promise.reject(new ApiError(apiErrorText("networkError"), 0, undefined, true));
     }
 
     const status = error.response.status;
@@ -107,11 +116,11 @@ api.interceptors.response.use(
     let message = typeof data?.['message'] === "string" ? (data['message'] as string) : "";
 
     if (!message) {
-      if (status === 401) message = "انتهت الجلسة، سجّل دخول من جديد";
-      else if (status === 403) message = "غير مصرح لك";
-      else if (status === 429) message = "طلبات كتير، حاول تاني بعد شوية";
-      else if (status === 404) message = "غير موجود";
-      else message = "حصل خطأ غير متوقع";
+      if (status === 401) message = apiErrorText("sessionExpired");
+      else if (status === 403) message = apiErrorText("forbidden");
+      else if (status === 429) message = apiErrorText("tooManyRequests");
+      else if (status === 404) message = apiErrorText("notFound");
+      else message = apiErrorText("unexpectedError");
     }
 
     const isMeCheck = error.config?.url?.includes("/auth/me");
@@ -126,7 +135,7 @@ api.interceptors.response.use(
 export function errorMessage(error: unknown): string {
   if (error instanceof ApiError) return error.message;
   if (error instanceof Error && error.message) return error.message;
-  return "حصل خطأ غير متوقع";
+  return apiErrorText("unexpectedError");
 }
 
 export function resetCsrfToken() {

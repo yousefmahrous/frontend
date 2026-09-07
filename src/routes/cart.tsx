@@ -12,11 +12,21 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { useCart, useRemoveCartItem, useUpdateCartItem } from "@/hooks/useCart";
 import { useCheckout } from "@/hooks/usePayment";
 
+import en from "@/i18n/locales/en.json";
+import ar from "@/i18n/locales/ar.json";
+import { DEFAULT_LANG, type Lang } from "@/i18n/i18n";
+import { useTranslation } from "react-i18next";
 export const Route = createFileRoute("/cart")({
   ssr: false,
-  head: () => ({
-    meta: [{ title: "عربيتي | مكتبة القراء" }],
-  }),
+  head: ({ match }) => {
+    const lang = (match.context as { lang?: Lang }).lang ?? DEFAULT_LANG;
+    const meta = (lang === "ar" ? ar : en).pageMeta.cartPage;
+    return {
+      meta: [
+        { title: meta.title },
+      ],
+    };
+  },
   component: () => (
     <Protected>
       <CartPage />
@@ -25,6 +35,7 @@ export const Route = createFileRoute("/cart")({
 });
 
 function CartPage() {
+  const { t } = useTranslation();
   const { data: cart, isLoading, isError, error, refetch } = useCart();
   const checkout = useCheckout();
 
@@ -65,14 +76,14 @@ function CartPage() {
     <div className="mx-auto max-w-3xl px-4 py-10">
       <div className="mb-6 flex items-center gap-3">
         <ShoppingCart className="size-6 text-accent" />
-        <h1 className="text-2xl font-extrabold">عربيتي</h1>
-        {items.length > 0 && <Badge variant="secondary">{cart?.itemsCount} كتاب</Badge>}
+        <h1 className="text-2xl font-extrabold">{t("cart.title")}</h1>
+        {items.length > 0 && <Badge variant="secondary">{t("cart.bookCount", { count: cart?.itemsCount })}</Badge>}
       </div>
 
       {items.length === 0 ? (
         <EmptyState
-          title="العربية فاضية"
-          description="لسه ما ضفتش أي كتاب. روح تصفح الكتالوج وضيف اللي يعجبك."
+          title={t("cart.empty")}
+          description={t("cart.emptyDesc")}
         />
       ) : (
         <>
@@ -84,14 +95,14 @@ function CartPage() {
 
           <div className="mt-6 flex items-center justify-between rounded-xl border border-border bg-card p-4 shadow-sm">
             <div>
-              <p className="text-sm text-muted-foreground">الإجمالي</p>
-              <p className="text-xl font-extrabold">{totalPrice.toFixed(2)} جنيه</p>
+              <p className="text-sm text-muted-foreground">{t("common.total")}</p>
+              <p className="text-xl font-extrabold">{totalPrice.toFixed(2)} {t("bookDetails.currency")}</p>
             </div>
             <Button onClick={handleCheckout} disabled={checkout.isPending}>
               {checkout.isPending ? (
                 <Loader2 className="size-4 animate-spin" />
               ) : (
-                "المتابعة للدفع"
+                t("cart.proceedToCheckout")
               )}
             </Button>
           </div>
@@ -103,6 +114,7 @@ function CartPage() {
 
 
 function CartItemCard({ item }: { item: CartItem }) {
+  const { t } = useTranslation();
   const updateQuantity = useUpdateCartItem();
   const removeItem = useRemoveCartItem();
 
@@ -133,7 +145,7 @@ function CartItemCard({ item }: { item: CartItem }) {
         {item.book.avatar_url ? (
           <img
             src={item.book.avatar_url}
-            alt={`غلاف كتاب ${item.book.name}`}
+            alt={t("common.bookCoverAlt", { name: item.book.name })}
             className="aspect-2/3 w-20 object-cover"
           />
         ) : (
@@ -166,7 +178,7 @@ function CartItemCard({ item }: { item: CartItem }) {
               className="size-8"
               disabled={isBusy || item.quantity <= 1}
               onClick={() => handleQuantityChange(item.quantity - 1)}
-              aria-label="تقليل الكمية"
+              aria-label={t("cart.decreaseQty")}
             >
               <Minus className="size-3.5" />
             </Button>
@@ -183,7 +195,7 @@ function CartItemCard({ item }: { item: CartItem }) {
               className="size-8"
               disabled={isBusy || item.book.stock <= 0}
               onClick={() => handleQuantityChange(item.quantity + 1)}
-              aria-label="زيادة الكمية"
+              aria-label={t("cart.increaseQty")}
             >
               <Plus className="size-3.5" />
             </Button>
@@ -195,7 +207,7 @@ function CartItemCard({ item }: { item: CartItem }) {
             className="text-destructive hover:bg-destructive/10 hover:text-destructive"
             disabled={isBusy}
             onClick={handleRemove}
-            aria-label="حذف من العربية"
+            aria-label={t("cart.removeItem")}
           >
             {removeItem.isPending ? (
               <Loader2 className="size-4 animate-spin" />

@@ -6,7 +6,9 @@ import { useAuth } from "@/context/auth-context";
 import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
 
+import { useTranslation } from "react-i18next";
 function LoadingBlock() {
+  const { t } = useTranslation();
   return (
     <div className="mx-auto max-w-3xl space-y-4 px-4 py-16">
       <Skeleton className="h-8 w-48" />
@@ -16,13 +18,14 @@ function LoadingBlock() {
 }
 
 function NeedsLogin() {
+  const { t } = useTranslation();
   return (
     <div className="mx-auto flex max-w-md flex-col items-center gap-4 px-4 py-24 text-center">
       <ShieldAlert className="size-10 text-accent" />
-      <h1 className="text-xl font-bold">محتاج تسجيل دخول</h1>
-      <p className="text-sm text-muted-foreground">سجّل دخولك للوصول لهذه الصفحة.</p>
+      <h1 className="text-xl font-bold">{t("guards.loginRequired")}</h1>
+      <p className="text-sm text-muted-foreground">{t("guards.loginPrompt")}</p>
       <Button asChild>
-        <Link to="/login">تسجيل الدخول</Link>
+        <Link to="/login">{t("common.login")}</Link>
       </Button>
     </div>
   );
@@ -38,6 +41,7 @@ export function Protected({ children }: { children: ReactNode }) {
 
 /** Requires an active session with role === "admin". */
 export function AdminOnly({ children }: { children: ReactNode }) {
+  const { t } = useTranslation();
   const { user, isLoading, isAdmin } = useAuth();
   if (isLoading) return <LoadingBlock />;
   if (!user) return <NeedsLogin />;
@@ -45,12 +49,10 @@ export function AdminOnly({ children }: { children: ReactNode }) {
     return (
       <div className="mx-auto flex max-w-md flex-col items-center gap-4 px-4 py-24 text-center">
         <ShieldAlert className="size-10 text-destructive" />
-        <h1 className="text-xl font-bold">غير مصرح لك</h1>
-        <p className="text-sm text-muted-foreground">
-          هذه الصفحة متاحة لمديري المتجر فقط.
-        </p>
+        <h1 className="text-xl font-bold">{t("guards.unauthorized")}</h1>
+        <p className="text-sm text-muted-foreground">{t("guards.adminOnly")}</p>
         <Button asChild variant="secondary">
-          <Link to="/books">تصفح الكتب</Link>
+          <Link to="/books">{t("guards.browseBooks")}</Link>
         </Button>
       </div>
     );

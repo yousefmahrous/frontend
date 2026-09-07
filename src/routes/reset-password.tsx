@@ -12,24 +12,33 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 
+import en from "@/i18n/locales/en.json";
+import ar from "@/i18n/locales/ar.json";
+import { DEFAULT_LANG, type Lang } from "@/i18n/i18n";
+import { useTranslation } from "react-i18next";
 export const Route = createFileRoute("/reset-password")({
   ssr: false,
   validateSearch: (search: Record<string, unknown>) => ({
     token: typeof search["token"] === "string" ? search["token"] : "",
   }),
-  head: () => ({
-    meta: [
-      { title: "إعادة تعيين كلمة المرور | مكتبة القراء" },
-      { name: "description", content: "اختر كلمة مرور جديدة لحسابك في مكتبة القراء." },
-      { property: "og:title", content: "إعادة تعيين كلمة المرور | مكتبة القراء" },
-      { property: "og:description", content: "اختر كلمة مرور جديدة لحسابك." },
-      { name: "robots", content: "noindex" },
-    ],
-  }),
+  head: ({ match }) => {
+    const lang = (match.context as { lang?: Lang }).lang ?? DEFAULT_LANG;
+    const meta = (lang === "ar" ? ar : en).pageMeta.resetPasswordPage;
+    return {
+      meta: [
+        { title: meta.title },
+        { name: "description", content: meta.description },
+        { property: "og:title", content: meta.title },
+        { property: "og:description", content: meta.ogDescription },
+        { name: "robots", content: "noindex" },
+      ],
+    };
+  },
   component: ResetPasswordPage,
 });
 
 function ResetPasswordPage() {
+  const { t } = useTranslation();
   const { token } = Route.useSearch();
   const navigate = useNavigate();
   const {
@@ -58,22 +67,22 @@ function ResetPasswordPage() {
 
   if (!token) {
     return (
-      <AuthShell title="رابط غير صالح" subtitle="الرابط ناقص أو منتهي">
+      <AuthShell title={t("resetPassword.invalidLink")} subtitle={t("resetPassword.linkExpired")}>
         <p className="text-sm text-muted-foreground">
-          افتح الرابط من الإيميل مرة تانية، أو اطلب رابط جديد.
+          {t("resetPassword.reopenLinkNote")}
         </p>
         <Button asChild className="mt-4 w-full">
-          <Link to="/forgot-password">طلب رابط جديد</Link>
+          <Link to="/forgot-password">{t("resetPassword.requestNewLink")}</Link>
         </Button>
       </AuthShell>
     );
   }
 
   return (
-    <AuthShell title="كلمة مرور جديدة" subtitle="اختر كلمة مرور قوية لحسابك">
+    <AuthShell title={t("resetPassword.newPasswordTitle")} subtitle={t("resetPassword.subtitle")}>
       <form onSubmit={(event) => void onSubmit(event)} className="space-y-4" noValidate>
         <div className="space-y-2">
-          <Label htmlFor="newPassword">كلمة المرور الجديدة</Label>
+          <Label htmlFor="newPassword">{t("resetPassword.newPasswordLabel")}</Label>
           <Input id="newPassword" type="password" dir="ltr" {...register("newPassword")} />
           {errors.newPassword && (
             <p className="text-sm text-destructive">{errors.newPassword.message}</p>
@@ -81,7 +90,7 @@ function ResetPasswordPage() {
         </div>
         <Button type="submit" className="w-full gap-2" disabled={isSubmitting}>
           {isSubmitting && <Loader2 className="size-4 animate-spin" />}
-          تعيين كلمة المرور
+          {t("resetPassword.submit")}
         </Button>
       </form>
     </AuthShell>

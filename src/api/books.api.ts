@@ -1,3 +1,6 @@
+import ar from "@/i18n/locales/ar.json";
+import en from "@/i18n/locales/en.json";
+import { readLangCookie } from "@/i18n/langCookie";
 import { api, BOOKS_PATH } from "./client";
 
 export type BookCategory = "روايات" | "علمي" | "تاريخي" | "أطفال";
@@ -80,7 +83,7 @@ export async function fetchBook(id: string) {
     `${BOOKS_PATH}/${id}`,
   );
   const book = data.data.user ?? data.data.item;
-  if (!book) throw new Error("غير موجود");
+  if (!book) throw new Error((readLangCookie() === "en" ? en : ar).apiErrors.notFound);
   return book;
 }
 

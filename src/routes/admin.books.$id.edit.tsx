@@ -10,17 +10,25 @@ import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
 import { useBook, useUpdateBook } from "@/hooks/useBooks";
 
+import en from "@/i18n/locales/en.json";
+import ar from "@/i18n/locales/ar.json";
+import { DEFAULT_LANG, type Lang } from "@/i18n/i18n";
+import { useTranslation } from "react-i18next";
 export const Route = createFileRoute("/admin/books/$id/edit")({
   ssr: false,
-  head: () => ({
-    meta: [
-      { title: "تعديل كتاب | مكتبة القراء" },
-      { name: "description", content: "عدّل بيانات الكتاب وصورة الغلاف في متجر مكتبة القراء." },
-      { property: "og:title", content: "تعديل كتاب | مكتبة القراء" },
-      { property: "og:description", content: "عدّل بيانات الكتاب في المتجر." },
-      { name: "robots", content: "noindex" },
-    ],
-  }),
+  head: ({ match }) => {
+    const lang = (match.context as { lang?: Lang }).lang ?? DEFAULT_LANG;
+    const meta = (lang === "ar" ? ar : en).pageMeta.adminBooksEdit;
+    return {
+      meta: [
+        { title: meta.title },
+        { name: "description", content: meta.description },
+        { property: "og:title", content: meta.title },
+        { property: "og:description", content: meta.ogDescription },
+        { name: "robots", content: "noindex" },
+      ],
+    };
+  },
   component: () => (
     <AdminOnly>
       <EditBookPage />
@@ -29,6 +37,7 @@ export const Route = createFileRoute("/admin/books/$id/edit")({
 });
 
 function EditBookPage() {
+  const { t } = useTranslation();
   const { id } = Route.useParams();
   const navigate = useNavigate();
   const { data: book, isLoading, isError, error, refetch } = useBook(id);
@@ -39,10 +48,10 @@ function EditBookPage() {
       <Button asChild variant="ghost" className="mb-6 gap-2">
         <Link to="/admin/books">
           <ArrowRight className="size-4" />
-          رجوع للإدارة
+          {t("adminBooksNew.backToAdmin")}
         </Link>
       </Button>
-      <h1 className="mb-6 text-2xl font-bold md:text-3xl">تعديل الكتاب</h1>
+      <h1 className="mb-6 text-2xl font-bold md:text-3xl">{t("adminBooksEdit.title")}</h1>
 
       {isLoading ? (
         <div className="space-y-4">
@@ -54,7 +63,7 @@ function EditBookPage() {
         <ErrorState message={errorMessage(error)} onRetry={() => void refetch()} />
       ) : (
         <BookForm
-          submitLabel="حفظ التعديلات"
+          submitLabel={t("adminBooksEdit.saveLabel")}
           previewUrl={book.avatar_url ?? null}
           defaultValues={{
             name: book.name,
@@ -70,7 +79,7 @@ function EditBookPage() {
           onSubmit={async (payload) => {
             try {
               await updateBook.mutateAsync(payload);
-              toast.success("تم تحديث الكتاب");
+              toast.success(t("adminBooksEdit.updatedSuccess"));
               void navigate({ to: "/admin/books" });
             } catch (updateError) {
               toast.error(errorMessage(updateError));

@@ -12,20 +12,29 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 
+import en from "@/i18n/locales/en.json";
+import ar from "@/i18n/locales/ar.json";
+import { DEFAULT_LANG, type Lang } from "@/i18n/i18n";
+import { useTranslation } from "react-i18next";
 export const Route = createFileRoute("/signup")({
   ssr: false,
-  head: () => ({
-    meta: [
-      { title: "إنشاء حساب | مكتبة القراء" },
-      { name: "description", content: "أنشئ حسابك في مكتبة القراء وابدأ تصفح الكتب فورًا." },
-      { property: "og:title", content: "إنشاء حساب | مكتبة القراء" },
-      { property: "og:description", content: "أنشئ حسابك في مكتبة القراء." },
-    ],
-  }),
+  head: ({ match }) => {
+    const lang = (match.context as { lang?: Lang }).lang ?? DEFAULT_LANG;
+    const meta = (lang === "ar" ? ar : en).pageMeta.signupPage;
+    return {
+      meta: [
+        { title: meta.title },
+        { name: "description", content: meta.description },
+        { property: "og:title", content: meta.title },
+        { property: "og:description", content: meta.ogDescription },
+      ],
+    };
+  },
   component: SignupPage,
 });
 
 function SignupPage() {
+  const { t } = useTranslation();
   const navigate = useNavigate();
   const {
     register,
@@ -54,33 +63,33 @@ function SignupPage() {
   });
 
   return (
-    <AuthShell title="إنشاء حساب" subtitle="خطوة واحدة وتبدأ رحلتك مع الكتب">
+    <AuthShell title={t("signup.title")} subtitle={t("signup.subtitle")}>
       <form onSubmit={(event) => void onSubmit(event)} className="space-y-4" noValidate>
         <div className="space-y-2">
-          <Label htmlFor="name">الاسم</Label>
+          <Label htmlFor="name">{t("common.name")}</Label>
           <Input id="name" {...register("name")} />
           {errors.name && <p className="text-sm text-destructive">{errors.name.message}</p>}
         </div>
         <div className="space-y-2">
-          <Label htmlFor="email">الإيميل</Label>
+          <Label htmlFor="email">{t("common.email")}</Label>
           <Input id="email" type="email" dir="ltr" {...register("email")} />
           {errors.email && <p className="text-sm text-destructive">{errors.email.message}</p>}
         </div>
         <div className="space-y-2">
-          <Label htmlFor="password">كلمة المرور</Label>
+          <Label htmlFor="password">{t("common.password")}</Label>
           <Input id="password" type="password" dir="ltr" {...register("password")} />
           {errors.password && <p className="text-sm text-destructive">{errors.password.message}</p>}
         </div>
         <Button type="submit" className="w-full gap-2" disabled={isSubmitting}>
           {isSubmitting && <Loader2 className="size-4 animate-spin" />}
-          إنشاء الحساب
+          {t("signup.submit")}
         </Button>
       </form>
 
       <p className="mt-5 text-sm text-muted-foreground">
-        عندك حساب؟{" "}
+        {t("signup.haveAccount")}{" "}
         <Link to="/login" className="font-medium text-accent hover:underline">
-          تسجيل الدخول
+          {t("nav.login")}
         </Link>
       </p>
     </AuthShell>

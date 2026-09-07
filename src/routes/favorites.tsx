@@ -12,11 +12,21 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { useAddToCart } from "@/hooks/useCart";
 import { useFavorites, useRemoveFavorite } from "@/hooks/useFavorites";
 
+import en from "@/i18n/locales/en.json";
+import ar from "@/i18n/locales/ar.json";
+import { DEFAULT_LANG, type Lang } from "@/i18n/i18n";
+import { useTranslation } from "react-i18next";
 export const Route = createFileRoute("/favorites")({
   ssr: false,
-  head: () => ({
-    meta: [{ title: "المفضلة | مكتبة القراء" }],
-  }),
+  head: ({ match }) => {
+    const lang = (match.context as { lang?: Lang }).lang ?? DEFAULT_LANG;
+    const meta = (lang === "ar" ? ar : en).pageMeta.favoritesPage;
+    return {
+      meta: [
+        { title: meta.title },
+      ],
+    };
+  },
   component: () => (
     <Protected>
       <FavoritesPage />
@@ -25,6 +35,7 @@ export const Route = createFileRoute("/favorites")({
 });
 
 function FavoritesPage() {
+  const { t } = useTranslation();
   const { data: favorites, isLoading, isError, error, refetch } = useFavorites();
 
   if (isLoading) {
@@ -52,14 +63,14 @@ function FavoritesPage() {
     <div className="mx-auto max-w-3xl px-4 py-10">
       <div className="mb-6 flex items-center gap-3">
         <Heart className="size-6 text-accent" />
-        <h1 className="text-2xl font-extrabold">المفضلة</h1>
-        {items.length > 0 && <Badge variant="secondary">{favorites?.itemsCount} كتاب</Badge>}
+        <h1 className="text-2xl font-extrabold">{t("favorites.title")}</h1>
+        {items.length > 0 && <Badge variant="secondary">{t("favorites.bookCount", { count: favorites?.itemsCount })}</Badge>}
       </div>
 
       {items.length === 0 ? (
         <EmptyState
-          title="المفضلة فاضية"
-          description="لسه ما ضفتش أي كتاب للمفضلة. روح تصفح الكتالوج وضيف اللي يعجبك."
+          title={t("favorites.empty")}
+          description={t("favorites.emptyDesc")}
         />
       ) : (
         <div className="space-y-4">
@@ -73,6 +84,7 @@ function FavoritesPage() {
 }
 
 function FavoriteItemCard({ item }: { item: FavoriteItem }) {
+  const { t } = useTranslation();
   const removeFavorite = useRemoveFavorite();
   const addToCart = useAddToCart();
 
@@ -100,7 +112,7 @@ function FavoriteItemCard({ item }: { item: FavoriteItem }) {
         {item.book.avatar_url ? (
           <img
             src={item.book.avatar_url}
-            alt={`غلاف كتاب ${item.book.name}`}
+            alt={t("common.bookCoverAlt", { name: item.book.name })}
             className="aspect-2/3 w-20 object-cover"
           />
         ) : (
@@ -138,7 +150,7 @@ function FavoriteItemCard({ item }: { item: FavoriteItem }) {
             ) : (
               <ShoppingCart className="size-3.5" />
             )}
-            {item.book.stock <= 0 ? "غير متوفر" : "أضف للعربية"}
+            {item.book.stock <= 0 ? t("common.outOfStock") : t("common.addToCart")}
           </Button>
 
           <Button
@@ -147,7 +159,7 @@ function FavoriteItemCard({ item }: { item: FavoriteItem }) {
             className="text-destructive hover:bg-destructive/10 hover:text-destructive"
             disabled={removeFavorite.isPending}
             onClick={handleRemove}
-            aria-label="حذف من المفضلة"
+            aria-label={t("favorites.removeItem")}
           >
             {removeFavorite.isPending ? (
               <Loader2 className="size-4 animate-spin" />

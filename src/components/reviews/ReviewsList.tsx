@@ -10,11 +10,16 @@ import { useBookReviews, useDeleteReview } from "@/hooks/useReviews";
 import { StarRating } from "./StarRating";
 import { ReviewForm } from "./ReviewForm";
 
-function formatDate(iso: string) {
-  return new Date(iso).toLocaleDateString("ar-EG", { year: "numeric", month: "long", day: "numeric" });
+import { useTranslation } from "react-i18next";
+import { useLang } from "@/i18n/LangProvider";
+
+function formatDate(iso: string, lang: string) {
+  const locale = lang === "ar" ? "ar-EG" : "en-US";
+  return new Date(iso).toLocaleDateString(locale, { year: "numeric", month: "long", day: "numeric" });
 }
 
 export function ReviewsSummary({ bookId }: { bookId: string }) {
+  const { t } = useTranslation();
   const { data } = useBookReviews(bookId, 1, 1);
 
   if (!data) return null;
@@ -24,13 +29,15 @@ export function ReviewsSummary({ bookId }: { bookId: string }) {
       <StarRating value={Math.round(data.rating_average)} readOnly size="md" />
       <span className="text-sm font-semibold">{data.rating_average.toFixed(1)}</span>
       <span className="text-sm text-muted-foreground">
-        ({data.reviews_count} {data.reviews_count === 1 ? "تقييم" : "تقييمات"})
+        ({t("reviewsList.reviewCount", { count: data.reviews_count })})
       </span>
     </div>
   );
 }
 
 export function ReviewsSection({ bookId }: { bookId: string }) {
+  const { t } = useTranslation();
+  const { lang } = useLang();
   const { user, isAdmin } = useAuth();
   const { data, isLoading, isError, error, refetch } = useBookReviews(bookId, 1, 20);
   const deleteReview = useDeleteReview(bookId);
@@ -48,7 +55,7 @@ export function ReviewsSection({ bookId }: { bookId: string }) {
     <section className="space-y-5">
       <div className="flex items-center gap-2">
         <MessageSquareText className="size-5 text-accent" />
-        <h2 className="text-xl font-bold">التقييمات والمراجعات</h2>
+        <h2 className="text-xl font-bold">{t("reviewsList.title")}</h2>
       </div>
 
       {data && (
@@ -56,7 +63,7 @@ export function ReviewsSection({ bookId }: { bookId: string }) {
           <StarRating value={Math.round(data.rating_average)} readOnly size="lg" />
           <span className="text-lg font-bold">{data.rating_average.toFixed(1)}</span>
           <span className="text-sm text-muted-foreground">
-            من {data.reviews_count} {data.reviews_count === 1 ? "تقييم" : "تقييمات"}
+            {t("reviewsList.outOfReviewCount", { count: data.reviews_count })}
           </span>
         </div>
       )}
@@ -72,7 +79,7 @@ export function ReviewsSection({ bookId }: { bookId: string }) {
       ) : isError ? (
         <ErrorState message={errorMessage(error)} onRetry={() => void refetch()} />
       ) : !data?.reviews.length ? (
-        <EmptyState title="مفيش تقييمات لسه" description="كن أول من يقيّم الكتاب ده." />
+        <EmptyState title={t("reviewsList.empty")} description={t("reviewsList.emptyDesc")} />
       ) : (
         <div className="space-y-3">
           {data.reviews.map((review) => (
@@ -86,7 +93,7 @@ export function ReviewsSection({ bookId }: { bookId: string }) {
                   </Avatar>
                   <div>
                     <p className="text-sm font-semibold">{review.user.name}</p>
-                    <p className="text-xs text-muted-foreground">{formatDate(review.created_at)}</p>
+                    <p className="text-xs text-muted-foreground">{formatDate(review.created_at, lang)}</p>
                   </div>
                 </div>
 
@@ -96,7 +103,7 @@ export function ReviewsSection({ bookId }: { bookId: string }) {
                     size="icon"
                     onClick={() => handleDelete(review.id)}
                     disabled={deleteReview.isPending}
-                    aria-label="احذف التقييم"
+                    aria-label={t("reviewsList.deleteReview")}
                   >
                     <Trash2 className="size-4 text-destructive" />
                   </Button>

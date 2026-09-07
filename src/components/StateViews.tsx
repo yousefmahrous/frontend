@@ -1,4 +1,5 @@
 import { AlertCircle, BookX, RefreshCw, SearchX } from "lucide-react";
+import { useTranslation } from "react-i18next";
 
 import { Button } from "@/components/ui/button";
 
@@ -22,6 +23,7 @@ export function EmptyState({
 }
 
 export function ErrorState({ message, onRetry }: { message: string; onRetry?: () => void }) {
+  const { t } = useTranslation();
   return (
     <div
       role="alert"
@@ -32,7 +34,7 @@ export function ErrorState({ message, onRetry }: { message: string; onRetry?: ()
       {onRetry && (
         <Button variant="secondary" onClick={onRetry} className="gap-2">
           <RefreshCw className="size-4" />
-          إعادة المحاولة
+          {t("stateViews.retry")}
         </Button>
       )}
     </div>

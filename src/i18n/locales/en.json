@@ -1,0 +1,492 @@
+{
+  "meta": {
+    "title": "Readers Library | Online Bookstore",
+    "description": "An online bookstore: browse novels, science, history, and children's books and shop with ease."
+  },
+  "nav": {
+    "home": "Home",
+    "books": "Browse Books",
+    "cart": "Cart",
+    "favorites": "Favorites",
+    "orders": "My Orders",
+    "account": "My Account",
+    "changePassword": "Change Password",
+    "login": "Login",
+    "signup": "Sign Up",
+    "logout": "Logout",
+    "adminBooks": "Dashboard",
+    "adminOrders": "Orders",
+    "adminRefunds": "Refund Requests",
+    "contact": "Contact Us",
+    "menu": "Menu"
+  },
+  "toast": {
+    "logoutSuccess": "Logged out successfully"
+  },
+  "footer": {
+    "rights": "Readers Library — All rights reserved"
+  },
+  "language": {
+    "switchTo": "العربية",
+    "current": "English"
+  },
+  "common": {
+    "brand": "Readers Library",
+    "favoritesAria": "Favorites",
+    "cartAria": "Cart",
+    "menuAria": "Menu",
+    "email": "Email",
+    "name": "Name",
+    "password": "Password",
+    "total": "Total",
+    "cancel": "Cancel",
+    "edit": "Edit",
+    "delete": "Delete",
+    "allStatuses": "All Statuses",
+    "deletedUser": "Deleted user",
+    "order": "Order",
+    "date": "Date",
+    "status": "Status",
+    "customer": "Customer",
+    "pendingPayment": "Pending payment",
+    "paid": "Paid",
+    "refunded": "Refunded",
+    "cancelled": "Cancelled",
+    "pendingBookReceipt": "Awaiting book return",
+    "login": "Login",
+    "outOfStock": "Out of stock",
+    "addToCart": "Add to cart",
+    "bookCoverAlt": "Cover of {{name}}",
+    "listSeparator": ", "
+  },
+  "pages": {
+    "notFound": "Page not found",
+    "notFoundDesc": "The page you're looking for doesn't exist or has been moved.",
+    "goHome": "Go home",
+    "errorTitle": "This page didn't load",
+    "errorDesc": "Something went wrong on our end. You can try refreshing or head back home.",
+    "tryAgain": "Try again"
+  },
+  "forgotPassword": {
+    "title": "Forgot Password",
+    "subtitle": "We'll send a password reset link to your email",
+    "sendLink": "Send Link",
+    "checkEmail": "Check your email, the link should arrive within a few minutes.",
+    "backToLogin": "Back to login"
+  },
+  "orders": {
+    "title": "My Orders",
+    "reasonPlaceholder": "Write the reason here...",
+    "empty": "No orders yet",
+    "count": "{{count}} order",
+    "noneWithNoPaidYet": "No order has been paid yet.",
+    "orderNumber": "Order #{{id}}",
+    "requestRefund": "Request Refund",
+    "reasonRequired": "Please write a reason for the return",
+    "refundRequestSent": "Refund request sent successfully, it will be reviewed soon",
+    "refundDialogTitle": "Request refund for order #{{id}}",
+    "refundDialogDesc": "Write the reason you want to return this order. Your request will be reviewed by our team and we'll contact you about the return steps.",
+    "sending": "Sending...",
+    "sendRequest": "Send Request",
+    "statusPaid": "Paid",
+    "statusPending": "Awaiting Payment",
+    "statusFailed": "Payment Failed",
+    "statusCancelled": "Cancelled",
+    "statusReturnRequested": "Return request under review",
+    "statusReturnApproved": "Awaiting book return",
+    "statusRefunded": "Refunded",
+    "emptyDesc": "Once you buy a book, your order will appear here."
+  },
+  "contact": {
+    "title": "Contact Us",
+    "subtitle": "Have a question or suggestion? Send us a message and we'll reply soon",
+    "subject": "Subject",
+    "message": "Message",
+    "submit": "Send Message",
+    "successMsg": "Your message was sent successfully, we'll reply soon."
+  },
+  "checkoutSuccess": {
+    "incomplete": "Payment not completed",
+    "confirmingTitle": "Confirming Payment",
+    "confirmingBody": "We're confirming your payment status...",
+    "success": "Payment successful",
+    "orderNotFound": "We couldn't find this order",
+    "orderNotFoundDesc": "Make sure you came from a valid payment link, or check your orders from your account.",
+    "confirmingBodyDesc": "One moment, we're loading the result.",
+    "successDesc": "Thank you! Your order is confirmed and will be prepared.",
+    "confirmingTitleDesc": "We received your payment and are waiting for final confirmation from the payment gateway, this usually takes a few seconds.",
+    "incompleteDesc": "It looks like the process was cancelled or incomplete. You can go back to the cart and try again.",
+    "backToCart": "Back to cart",
+    "browseMoreBooks": "Browse more books"
+  },
+  "cart": {
+    "empty": "Your cart is empty",
+    "decreaseQty": "Decrease quantity",
+    "removeItem": "Remove from cart",
+    "increaseQty": "Increase quantity",
+    "title": "My Cart",
+    "bookCount": "{{count}} book",
+    "emptyDesc": "You haven't added any books yet. Browse the catalog and add what you like.",
+    "proceedToCheckout": "Proceed to Checkout"
+  },
+  "adminBooksNew": {
+    "title": "Add New Book",
+    "backToAdmin": "Back to admin",
+    "saveLabel": "Save Book",
+    "addedSuccess": "Book added successfully"
+  },
+  "adminOrders": {
+    "books": "Books",
+    "refundRequested": "Refund request under review",
+    "paymentFailed": "Payment failed",
+    "empty": "No orders",
+    "title": "Orders",
+    "countLabel": "{{count}} order",
+    "loading": "Loading…",
+    "noneWithStatus": "No orders with this status.",
+    "noOrdersYet": "No one has placed an order yet.",
+    "prev": "Previous",
+    "next": "Next",
+    "pageOf": "Page {{current}} of {{total}}"
+  },
+  "login": {
+    "subtitle": "Enter your account details to continue",
+    "emailNotVerified": "You need to verify your email before logging in.",
+    "submit": "Login",
+    "resendVerification": "Resend confirmation link",
+    "forgotPassword": "Forgot password?",
+    "noAccount": "Don't have an account?",
+    "createNewAccount": "Create a new account"
+  },
+  "checkoutCancel": {
+    "title": "Payment Cancelled",
+    "backToCart": "Back to Cart",
+    "body": "No worries, you can come back and try again anytime."
+  },
+  "signup": {
+    "title": "Create Account",
+    "subtitle": "One step away from starting your journey with books",
+    "submit": "Create Account",
+    "haveAccount": "Already have an account?"
+  },
+  "books": {
+    "searchPlaceholder": "Search by book title or publisher…",
+    "title": "Book Catalog",
+    "countAvailable": "{{count}} book available",
+    "loadingBooks": "Loading books…",
+    "allCategories": "All Categories",
+    "noResults": "No matching results",
+    "noBooksYet": "No books yet",
+    "tryOtherSearch": "Try different search terms or clear the filter.",
+    "firstBooksAppearHere": "As soon as books are added they'll appear here instantly.",
+    "prev": "Previous",
+    "next": "Next"
+  },
+  "resetPassword": {
+    "subtitle": "Choose a strong password for your account",
+    "linkExpired": "The link is incomplete or expired",
+    "invalidLink": "Invalid link",
+    "requestNewLink": "Request a new link",
+    "newPasswordLabel": "New Password",
+    "newPasswordTitle": "New Password",
+    "reopenLinkNote": "Open the link from the email again, or request a new one.",
+    "submit": "Reset Password"
+  },
+  "adminRefunds": {
+    "action": "Action",
+    "reason": "Reason",
+    "pendingReview": "Pending review",
+    "confirmReceiptAction": "Confirm book receipt and process refund",
+    "rejected": "Rejected",
+    "noActionAvailable": "No action available",
+    "empty": "No requests",
+    "title": "Refund Requests",
+    "countLabel": "{{count}} request",
+    "loading": "Loading…",
+    "statusPending": "Pending review",
+    "statusAwaitingReturn": "Awaiting book return",
+    "statusCompleted": "Refunded",
+    "statusRejected": "Rejected",
+    "statusCancelled": "Cancelled",
+    "approvedToast": "Request approved, awaiting book return",
+    "rejectedToast": "Refund request rejected",
+    "cancelledToast": "Request cancelled, the order is back to its normal status",
+    "completedToast": "Refund processed successfully via Stripe",
+    "noneWithStatus": "No requests with this status.",
+    "noneYet": "No refund requests yet.",
+    "prev": "Previous",
+    "next": "Next",
+    "pageOf": "Page {{current}} of {{total}}",
+    "completeConfirmDesc": "Are you sure you received the book from the customer? This step will process an actual refund via Stripe for order #{{id}}, and cannot be undone afterwards.",
+    "confirmCompleteAction": "Yes, I received the book, process the refund",
+    "approve": "Approve",
+    "reject": "Reject",
+    "confirmReceiptShort": "Confirm receipt & process refund",
+    "cancel": "Cancel"
+  },
+  "adminBooksEdit": {
+    "title": "Edit Book",
+    "saveLabel": "Save Changes",
+    "updatedSuccess": "Book updated successfully"
+  },
+  "accountChangePassword": {
+    "reLoginNote": "You'll need to log in again after changing it",
+    "title": "Change Password",
+    "newPassword": "New Password",
+    "currentPassword": "Current Password",
+    "successToast": "Password changed, please log in again"
+  },
+  "verifyEmail": {
+    "linkExpired": "The link is incomplete or expired",
+    "confirmingBody": "We're confirming your email...",
+    "success": "Your email has been confirmed 🎉",
+    "accountActive": "Your account is now active",
+    "problem": "Something went wrong",
+    "invalidLink": "Invalid link",
+    "failed": "Email verification failed",
+    "momentsLeft": "Just a moment, almost done",
+    "needNewLink": "Need a new verification link? Enter your email:",
+    "invalidEmail": "Invalid email",
+    "linkSent": "Link sent",
+    "sendNewLink": "Send new confirmation link",
+    "invalidTokenMsg": "The confirmation link is invalid or has expired"
+  },
+  "favorites": {
+    "title": "Favorites",
+    "empty": "Your favorites list is empty",
+    "removeItem": "Remove from favorites",
+    "bookCount": "{{count}} book",
+    "emptyDesc": "You haven't added any books to favorites yet. Browse the catalog and add what you like."
+  },
+  "account": {
+    "title": "My Account",
+    "accountType": "Account Type"
+  },
+  "adminBooksIndex": {
+    "actions": "Actions",
+    "manageBooks": "Manage Books",
+    "searchPlaceholder": "Search for a book…",
+    "category": "Category",
+    "titleCol": "Title",
+    "cover": "Cover",
+    "confirmDelete": "Confirm Delete",
+    "publisher": "Publisher",
+    "countLabel": "{{count}} book",
+    "loading": "Loading…",
+    "addBook": "Add Book",
+    "noResults": "No results",
+    "noBooks": "No books",
+    "tryOtherSearch": "Try a different search term.",
+    "startAdding": "Start by adding the first book to the store.",
+    "coverAlt": "Cover of {{name}}",
+    "prev": "Previous",
+    "next": "Next",
+    "pageOf": "Page {{current}} of {{total}}",
+    "deleteConfirmDesc": "Do you want to delete \"{{name}}\"? This cannot be undone.",
+    "deletedSuccess": "Deleted \"{{name}}\" successfully"
+  },
+  "home": {
+    "latestBooks": "Latest Books",
+    "latestBooksSubtitle": "As soon as it arrives in store, it shows up here",
+    "createAccount": "Create Account",
+    "browseCatalog": "Browse Catalog",
+    "seeAll": "See All",
+    "empty": "No books yet",
+    "heroBadge": "New releases every week",
+    "heroTitle": "Your Arabic library, one click away",
+    "heroSubtitle": "Thousands of titles in novels, science, history, and children's books, with clear categories and fast search that gets you to your book in seconds.",
+    "feature1Title": "Diverse categories",
+    "feature1Desc": "Novels, science, history, children",
+    "feature2Title": "Fast delivery",
+    "feature2Desc": "To all governorates within days",
+    "popularTitle": "Most Popular",
+    "popularSubtitle": "The books that caught readers' attention the most",
+    "emptyDesc": "Log in to browse the catalog, or wait for the store admin to add the first book."
+  },
+  "guards": {
+    "browseBooks": "Browse Books",
+    "loginPrompt": "Log in to access this page.",
+    "unauthorized": "Unauthorized",
+    "loginRequired": "Login Required",
+    "adminOnly": "This page is only available to store admins."
+  },
+  "reviewForm": {
+    "placeholder": "Share your thoughts about the book...",
+    "ratingError": "Please choose a rating from 1 to 5 stars",
+    "commentError": "Comment must be at least 3 characters",
+    "editTitle": "Edit your review",
+    "newTitle": "Rate this book",
+    "saving": "Saving...",
+    "saveEdit": "Save changes",
+    "submit": "Submit review"
+  },
+  "reviewsList": {
+    "deleteReview": "Delete review",
+    "title": "Ratings & Reviews",
+    "empty": "No reviews yet",
+    "emptyDesc": "Be the first to review this book.",
+    "reviewCount_one": "{{count}} review",
+    "reviewCount_other": "{{count}} reviews",
+    "outOfReviewCount_one": "out of {{count}} review",
+    "outOfReviewCount_other": "out of {{count}} reviews"
+  },
+  "bookForm": {
+    "publisherEmail": "Publisher Email",
+    "chooseCategory": "Choose Category",
+    "category": "Category",
+    "isbn": "ISBN",
+    "price": "Price (EGP)",
+    "quantity": "Available Quantity",
+    "publisher": "Publisher",
+    "coverImage": "Cover Image",
+    "titlePlaceholder": "e.g. Granada Trilogy",
+    "publisherPlaceholder": "e.g. Dar Al Shorouk",
+    "shortDescription": "Short description of the book",
+    "description": "Book Description",
+    "titleLabel": "Book Title"
+  },
+  "bookCard": {
+    "noCover": "No Cover",
+    "loginToFavorite": "Log in first to add to favorites",
+    "addFavoriteAria": "Add to favorites",
+    "removeFavoriteAria": "Remove from favorites"
+  },
+  "coverUpload": {
+    "hint": "JPG or PNG up to 5MB",
+    "removeImage": "Remove Image",
+    "dragDrop": "Drag the cover image here or click to select",
+    "previewAlt": "Book cover preview",
+    "invalidFile": "Please choose a valid image file",
+    "tooLarge": "Image size exceeds 5MB",
+    "uploading": "Uploading image… {{progress}}%",
+    "uploaded": "Uploaded: {{value}}"
+  },
+  "bookDetails": {
+    "backToCatalog": "Back to catalog",
+    "publisher": "Publisher",
+    "publisherEmail": "Publisher email",
+    "currency": "EGP",
+    "outOfStockNow": "Currently out of stock",
+    "copiesLeft": "Only {{count}} copies left",
+    "adding": "Adding...",
+    "removeFromFavorites": "Remove from favorites",
+    "addToFavorites": "Add to favorites",
+    "inFavorites": "In favorites",
+    "loginFirst": "Please log in first to continue"
+  },
+  "pageMeta": {
+    "accountChangePassword": {
+      "title": "Change Password | Readers Library",
+      "description": "Change your Readers Library account password securely.",
+      "ogDescription": "Change your account password securely."
+    },
+    "accountIndex": {
+      "title": "My Account | Readers Library",
+      "description": "Your Readers Library account details: name, email, and account type.",
+      "ogDescription": "Your Readers Library account details."
+    },
+    "adminBooksEdit": {
+      "title": "Edit Book | Readers Library",
+      "description": "Edit the book's details and cover image in the Readers Library store.",
+      "ogDescription": "Edit the book's details in the store."
+    },
+    "adminBooksIndex": {
+      "title": "Manage Books | Readers Library",
+      "description": "Book management panel: add, edit, and delete store books.",
+      "ogDescription": "Store book management panel."
+    },
+    "adminBooksNew": {
+      "title": "Add Book | Readers Library",
+      "description": "Add a new book to the Readers Library store with a cover image.",
+      "ogDescription": "Add a new book to the store."
+    },
+    "adminOrdersIndex": {
+      "title": "Orders | Readers Library",
+      "description": "Store orders management panel."
+    },
+    "adminRefundsIndex": {
+      "title": "Refund Requests | Readers Library",
+      "description": "Order refund requests management panel."
+    },
+    "bookDetailsPage": {
+      "title": "Book Details | Readers Library",
+      "description": "All book details: description, publisher, category, and ISBN.",
+      "ogDescription": "All book details on Readers Library."
+    },
+    "booksIndexPage": {
+      "title": "Book Catalog | Readers Library",
+      "description": "Browse all store books with instant search and category filtering: novels, science, history, children's.",
+      "ogDescription": "Browse all store books with search and category filtering."
+    },
+    "cartPage": {
+      "title": "My Cart | Readers Library"
+    },
+    "checkoutCancelPage": {
+      "title": "Payment Cancelled | Readers Library"
+    },
+    "checkoutSuccessPage": {
+      "title": "Payment Status | Readers Library"
+    },
+    "contactPage": {
+      "title": "Contact Us | Readers Library",
+      "description": "Send us your message and we'll reply as soon as possible.",
+      "ogDescription": "Contact the Readers Library team."
+    },
+    "favoritesPage": {
+      "title": "Favorites | Readers Library"
+    },
+    "forgotPasswordPage": {
+      "title": "Forgot Password | Readers Library",
+      "description": "Send a password reset link to your email.",
+      "ogDescription": "Recover your Readers Library account password."
+    },
+    "homePage": {
+      "title": "Readers Library | The Latest Arabic Books",
+      "description": "Discover the latest releases at Readers Library: novels, science, history, and children's books.",
+      "ogDescription": "Discover the latest releases at Readers Library and buy your favorite books."
+    },
+    "loginPage": {
+      "title": "Login | Readers Library",
+      "description": "Log in to continue browsing and manage your Readers Library account.",
+      "ogDescription": "Log in to Readers Library."
+    },
+    "ordersPage": {
+      "title": "My Orders | Readers Library"
+    },
+    "resetPasswordPage": {
+      "title": "Reset Password | Readers Library",
+      "description": "Choose a new password for your Readers Library account.",
+      "ogDescription": "Choose a new password for your account."
+    },
+    "signupPage": {
+      "title": "Sign Up | Readers Library",
+      "description": "Create your Readers Library account and start browsing books right away.",
+      "ogDescription": "Create your Readers Library account."
+    },
+    "verifyEmailPage": {
+      "title": "Verify Email | Readers Library",
+      "description": "Verify your email to activate your Readers Library account."
+    }
+  },
+  "stateViews": {
+    "retry": "Retry"
+  },
+  "starRating": {
+    "ariaLabel": "Star rating",
+    "starAriaLabel": "{{count}} stars"
+  },
+  "apiErrors": {
+    "networkError": "Could not connect to the server",
+    "sessionExpired": "Your session expired, please log in again",
+    "forbidden": "You are not authorized to do this",
+    "tooManyRequests": "Too many requests, please try again shortly",
+    "notFound": "Not found",
+    "unexpectedError": "An unexpected error occurred"
+  },
+  "categories": {
+    "روايات": "Fiction",
+    "علمي": "Science",
+    "تاريخي": "History",
+    "أطفال": "Children"
+  }
+}

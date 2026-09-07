@@ -14,17 +14,25 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { useAuth } from "@/context/auth-context";
 
+import en from "@/i18n/locales/en.json";
+import ar from "@/i18n/locales/ar.json";
+import { DEFAULT_LANG, type Lang } from "@/i18n/i18n";
+import { useTranslation } from "react-i18next";
 export const Route = createFileRoute("/account/change-password")({
   ssr: false,
-  head: () => ({
-    meta: [
-      { title: "تغيير كلمة المرور | مكتبة االقراء" },
-      { name: "description", content: "غيّر كلمة مرور حسابك في مكتبة القراء بشكل آمن." },
-      { property: "og:title", content: "تغيير كلمة المرور | مكتبة االقراء" },
-      { property: "og:description", content: "غيّر كلمة مرور حسابك بشكل آمن." },
-      { name: "robots", content: "noindex" },
-    ],
-  }),
+  head: ({ match }) => {
+    const lang = (match.context as { lang?: Lang }).lang ?? DEFAULT_LANG;
+    const meta = (lang === "ar" ? ar : en).pageMeta.accountChangePassword;
+    return {
+      meta: [
+        { title: meta.title },
+        { name: "description", content: meta.description },
+        { property: "og:title", content: meta.title },
+        { property: "og:description", content: meta.ogDescription },
+        { name: "robots", content: "noindex" },
+      ],
+    };
+  },
   component: () => (
     <Protected>
       <ChangePasswordPage />
@@ -33,6 +41,7 @@ export const Route = createFileRoute("/account/change-password")({
 });
 
 function ChangePasswordPage() {
+  const { t } = useTranslation();
   const { setUser } = useAuth();
   const navigate = useNavigate();
   const {
@@ -49,7 +58,7 @@ function ChangePasswordPage() {
     try {
       await changePassword(values);
       setUser(null);
-      toast.success("غيّرت كلمة المرور، سجّل دخول تاني");
+      toast.success(t("accountChangePassword.successToast"));
       void navigate({ to: "/login" });
     } catch (error) {
       if (error instanceof ApiError && error.fieldErrors) {
@@ -63,17 +72,17 @@ function ChangePasswordPage() {
   });
 
   return (
-    <AuthShell title="تغيير كلمة المرور" subtitle="بعد التغيير هتحتاج تسجّل دخول من جديد">
+    <AuthShell title={t("accountChangePassword.title")} subtitle={t("accountChangePassword.reLoginNote")}>
       <form onSubmit={(event) => void onSubmit(event)} className="space-y-4" noValidate>
         <div className="space-y-2">
-          <Label htmlFor="oldPassword">كلمة المرور الحالية</Label>
+          <Label htmlFor="oldPassword">{t("accountChangePassword.currentPassword")}</Label>
           <Input id="oldPassword" type="password" dir="ltr" {...register("oldPassword")} />
           {errors.oldPassword && (
             <p className="text-sm text-destructive">{errors.oldPassword.message}</p>
           )}
         </div>
         <div className="space-y-2">
-          <Label htmlFor="newPassword">كلمة المرور الجديدة</Label>
+          <Label htmlFor="newPassword">{t("accountChangePassword.newPassword")}</Label>
           <Input id="newPassword" type="password" dir="ltr" {...register("newPassword")} />
           {errors.newPassword && (
             <p className="text-sm text-destructive">{errors.newPassword.message}</p>
@@ -81,7 +90,7 @@ function ChangePasswordPage() {
         </div>
         <Button type="submit" className="w-full gap-2" disabled={isSubmitting}>
           {isSubmitting && <Loader2 className="size-4 animate-spin" />}
-          تغيير كلمة المرور
+          {t("nav.changePassword")}
         </Button>
       </form>
     </AuthShell>
