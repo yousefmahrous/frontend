@@ -11,6 +11,7 @@ import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
 import { useCart, useRemoveCartItem, useUpdateCartItem } from "@/hooks/useCart";
 import { useCheckout } from "@/hooks/usePayment";
+import { pickLocalized } from "@/lib/localized";
 
 import en from "@/i18n/locales/en.json";
 import ar from "@/i18n/locales/ar.json";
@@ -114,7 +115,8 @@ function CartPage() {
 
 
 function CartItemCard({ item }: { item: CartItem }) {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
+  const bookName = pickLocalized(item.book.name, i18n.language as Lang);
   const updateQuantity = useUpdateCartItem();
   const removeItem = useRemoveCartItem();
 
@@ -145,7 +147,7 @@ function CartItemCard({ item }: { item: CartItem }) {
         {item.book.avatar_url ? (
           <img
             src={item.book.avatar_url}
-            alt={t("common.bookCoverAlt", { name: item.book.name })}
+            alt={t("common.bookCoverAlt", { name: bookName })}
             className="aspect-2/3 w-20 object-cover"
           />
         ) : (
@@ -158,14 +160,14 @@ function CartItemCard({ item }: { item: CartItem }) {
       <div className="flex flex-1 flex-col justify-between gap-3">
         <div>
           <Badge variant="secondary" className="mb-1">
-            {item.book.category}
+            {t(`categories.${item.book.category}`, item.book.category)}
           </Badge>
           <Link
             to="/books/$id"
             params={{ id: item.book.id }}
             className="block font-bold hover:text-accent"
           >
-            {item.book.name}
+            {bookName}
           </Link>
           <p className="text-xs text-muted-foreground">ISBN: {item.book.number}</p>
         </div>

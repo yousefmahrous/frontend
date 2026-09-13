@@ -1,10 +1,11 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Loader2 } from "lucide-react";
+import { useMemo } from "react";
 import { useForm } from "react-hook-form";
 
 import { BOOK_CATEGORIES, type BookPayload } from "@/api/books.api";
 import { ApiError } from "@/api/client";
-import { bookSchema, type BookFormValues } from "@/schemas/book.schema";
+import { createBookSchema, type BookFormValues } from "@/schemas/book.schema";
 import { CoverUpload } from "@/components/books/CoverUpload";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -27,14 +28,15 @@ interface BookFormProps {
 }
 
 export function BookForm({ defaultValues, previewUrl, submitLabel, onSubmit }: BookFormProps) {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
+  const bookSchema = useMemo(() => createBookSchema(t), [t, i18n.language]);
   const form = useForm<BookFormValues>({
     resolver: zodResolver(bookSchema),
     defaultValues: {
-      name: "",
+      name: { ar: "", en: "" },
       number: "",
       email: "",
-      adress: "",
+      adress: { ar: "", en: "" },
       centre: "",
       category: "",
       price: 0,
@@ -78,10 +80,28 @@ export function BookForm({ defaultValues, previewUrl, submitLabel, onSubmit }: B
       noValidate
     >
       <div className="space-y-2">
-        <Label htmlFor="name">{t("bookForm.titleLabel")}</Label>
-        <Input id="name" placeholder={t("bookForm.titlePlaceholder")} {...register("name")} />
-        {errors.name && <p className="text-sm text-destructive">{errors.name.message}</p>}
+        <Label htmlFor="name.ar">{t("bookForm.titleLabelAr")}</Label>
+        <Input
+          id="name.ar"
+          placeholder={t("bookForm.titlePlaceholderAr")}
+          {...register("name.ar")}
+        />
+        {errors.name?.ar && <p className="text-sm text-destructive">{errors.name.ar.message}</p>}
       </div>
+
+      <div className="space-y-2">
+        <Label htmlFor="name.en">{t("bookForm.titleLabelEn")}</Label>
+        <Input
+          id="name.en"
+          dir="ltr"
+          placeholder={t("bookForm.titlePlaceholderEn")}
+          {...register("name.en")}
+        />
+        {errors.name?.en && <p className="text-sm text-destructive">{errors.name.en.message}</p>}
+      </div>
+      {errors.name?.message && (
+        <p className="text-sm text-destructive md:col-span-2">{errors.name.message}</p>
+      )}
 
       <div className="space-y-2">
         <Label htmlFor="number">{t("bookForm.isbn")}</Label>
@@ -91,13 +111,23 @@ export function BookForm({ defaultValues, previewUrl, submitLabel, onSubmit }: B
 
       <div className="space-y-2">
         <Label htmlFor="email">{t("bookForm.publisherEmail")}</Label>
-        <Input id="email" type="email" dir="ltr" placeholder="publisher@example.com" {...register("email")} />
+        <Input
+          id="email"
+          type="email"
+          dir="ltr"
+          placeholder="publisher@example.com"
+          {...register("email")}
+        />
         {errors.email && <p className="text-sm text-destructive">{errors.email.message}</p>}
       </div>
 
       <div className="space-y-2">
         <Label htmlFor="centre">{t("bookForm.publisher")}</Label>
-        <Input id="centre" placeholder={t("bookForm.publisherPlaceholder")} {...register("centre")} />
+        <Input
+          id="centre"
+          placeholder={t("bookForm.publisherPlaceholder")}
+          {...register("centre")}
+        />
         {errors.centre && <p className="text-sm text-destructive">{errors.centre.message}</p>}
       </div>
 
@@ -125,16 +155,40 @@ export function BookForm({ defaultValues, previewUrl, submitLabel, onSubmit }: B
       </div>
 
       <div className="space-y-2">
-      <Label htmlFor="stock">{t("bookForm.quantity")}</Label>
-      <Input id="stock" type="number" min={0} dir="ltr" {...register("stock")} />
-      {errors.stock && <p className="text-sm text-destructive">{errors.stock.message}</p>}
-    </div>
+        <Label htmlFor="stock">{t("bookForm.quantity")}</Label>
+        <Input id="stock" type="number" min={0} dir="ltr" {...register("stock")} />
+        {errors.stock && <p className="text-sm text-destructive">{errors.stock.message}</p>}
+      </div>
 
       <div className="space-y-2 md:col-span-2">
-        <Label htmlFor="adress">{t("bookForm.description")}</Label>
-        <Textarea id="adress" rows={4} placeholder={t("bookForm.shortDescription")} {...register("adress")} />
-        {errors.adress && <p className="text-sm text-destructive">{errors.adress.message}</p>}
+        <Label htmlFor="adress.ar">{t("bookForm.descriptionLabelAr")}</Label>
+        <Textarea
+          id="adress.ar"
+          rows={4}
+          placeholder={t("bookForm.shortDescriptionAr")}
+          {...register("adress.ar")}
+        />
+        {errors.adress?.ar && (
+          <p className="text-sm text-destructive">{errors.adress.ar.message}</p>
+        )}
       </div>
+
+      <div className="space-y-2 md:col-span-2">
+        <Label htmlFor="adress.en">{t("bookForm.descriptionLabelEn")}</Label>
+        <Textarea
+          id="adress.en"
+          rows={4}
+          dir="ltr"
+          placeholder={t("bookForm.shortDescriptionEn")}
+          {...register("adress.en")}
+        />
+        {errors.adress?.en && (
+          <p className="text-sm text-destructive">{errors.adress.en.message}</p>
+        )}
+      </div>
+      {errors.adress?.message && (
+        <p className="text-sm text-destructive md:col-span-2">{errors.adress.message}</p>
+      )}
 
       <div className="space-y-2 md:col-span-2">
         <Label>{t("bookForm.coverImage")}</Label>

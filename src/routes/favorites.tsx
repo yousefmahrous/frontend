@@ -11,6 +11,7 @@ import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
 import { useAddToCart } from "@/hooks/useCart";
 import { useFavorites, useRemoveFavorite } from "@/hooks/useFavorites";
+import { pickLocalized } from "@/lib/localized";
 
 import en from "@/i18n/locales/en.json";
 import ar from "@/i18n/locales/ar.json";
@@ -84,7 +85,8 @@ function FavoritesPage() {
 }
 
 function FavoriteItemCard({ item }: { item: FavoriteItem }) {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
+  const bookName = pickLocalized(item.book.name, i18n.language as Lang);
   const removeFavorite = useRemoveFavorite();
   const addToCart = useAddToCart();
 
@@ -112,7 +114,7 @@ function FavoriteItemCard({ item }: { item: FavoriteItem }) {
         {item.book.avatar_url ? (
           <img
             src={item.book.avatar_url}
-            alt={t("common.bookCoverAlt", { name: item.book.name })}
+            alt={t("common.bookCoverAlt", { name: bookName })}
             className="aspect-2/3 w-20 object-cover"
           />
         ) : (
@@ -125,14 +127,14 @@ function FavoriteItemCard({ item }: { item: FavoriteItem }) {
       <div className="flex flex-1 flex-col justify-between gap-3">
         <div>
           <Badge variant="secondary" className="mb-1">
-            {item.book.category}
+            {t(`categories.${item.book.category}`, item.book.category)}
           </Badge>
           <Link
             to="/books/$id"
             params={{ id: item.book.id }}
             className="block font-bold hover:text-accent"
           >
-            {item.book.name}
+            {bookName}
           </Link>
           <p className="text-xs text-muted-foreground">ISBN: {item.book.number}</p>
         </div>

@@ -39,6 +39,8 @@ async function fetchCsrfToken(): Promise<string> {
 }
 
 api.interceptors.request.use(async (config) => {
+  config.headers.set("x-lang", readLangCookie());
+
   const method = config.method?.toLowerCase() ?? "get";
   if (SAFE_METHODS.has(method)) return config;
 

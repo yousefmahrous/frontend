@@ -4,11 +4,11 @@ import { Loader2 } from "lucide-react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 
-import { useState } from "react";
+import { useMemo, useState } from "react";
 
 import { login, resendVerification } from "@/api/auth.api";
 import { ApiError, errorMessage } from "@/api/client";
-import { loginSchema, type LoginValues } from "@/schemas/auth.schema";
+import { createLoginSchema, type LoginValues } from "@/schemas/auth.schema";
 import { AuthShell } from "@/components/AuthShell";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -37,11 +37,12 @@ export const Route = createFileRoute("/login")({
 });
 
 function LoginPage() {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const { setUser } = useAuth();
   const navigate = useNavigate();
   const [unverifiedEmail, setUnverifiedEmail] = useState<string | null>(null);
   const [resending, setResending] = useState(false);
+  const loginSchema = useMemo(() => createLoginSchema(t), [t, i18n.language]);
   const {
     register,
     handleSubmit,

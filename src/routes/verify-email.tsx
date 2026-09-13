@@ -6,7 +6,7 @@ import { toast } from "sonner";
 
 import { resendVerification, verifyEmail } from "@/api/auth.api";
 import { ApiError, errorMessage } from "@/api/client";
-import { resendVerificationSchema } from "@/schemas/auth.schema";
+import { createResendVerificationSchema } from "@/schemas/auth.schema";
 import { AuthShell } from "@/components/AuthShell";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -42,7 +42,7 @@ function ResendForm() {
   const [sent, setSent] = useState(false);
 
   const onResend = async () => {
-    const parsed = resendVerificationSchema.safeParse({ email });
+    const parsed = createResendVerificationSchema(t).safeParse({ email });
     if (!parsed.success) {
       toast.error(parsed.error.issues[0]?.message ?? t("verifyEmail.invalidEmail"));
       return;

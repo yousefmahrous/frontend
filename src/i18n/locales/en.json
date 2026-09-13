@@ -343,7 +343,15 @@
     "publisherPlaceholder": "e.g. Dar Al Shorouk",
     "shortDescription": "Short description of the book",
     "description": "Book Description",
-    "titleLabel": "Book Title"
+    "titleLabel": "Book Title",
+    "titleLabelAr": "Book Title (Arabic)",
+    "titleLabelEn": "Book Title (English)",
+    "titlePlaceholderAr": "e.g. ثلاثية غرناطة",
+    "titlePlaceholderEn": "e.g. Granada Trilogy",
+    "descriptionLabelAr": "Book Description (Arabic)",
+    "descriptionLabelEn": "Book Description (English)",
+    "shortDescriptionAr": "Short description in Arabic",
+    "shortDescriptionEn": "Short description in English"
   },
   "bookCard": {
     "noCover": "No Cover",
@@ -484,9 +492,36 @@
     "unexpectedError": "An unexpected error occurred"
   },
   "categories": {
-    "روايات": "Fiction",
-    "علمي": "Science",
-    "تاريخي": "History",
-    "أطفال": "Children"
+    "novels": "Fiction",
+    "science": "Science",
+    "history": "History",
+    "kids": "Children"
+  },
+  "validation": {
+    "name": { "min": "Name must be at least {{count}} characters" },
+    "email": { "invalid": "Invalid email address" },
+    "password": { "min": "Password must be at least {{count}} characters" },
+    "currentPassword": { "min": "Current password must be at least {{count}} characters" },
+    "newPassword": { "min": "New password must be at least {{count}} characters" },
+    "subject": { "min": "Subject must be at least {{count}} characters" },
+    "message": {
+      "min": "Message must be at least {{count}} characters",
+      "max": "Message is too long"
+    },
+    "book": {
+      "titleAr": { "min": "Book title (Arabic) must be at least {{count}} characters" },
+      "titleEn": { "min": "Book title (English) must be at least {{count}} characters" },
+      "isbn": {
+        "min": "Enter a valid ISBN (10 or 13 digits)",
+        "format": "Invalid ISBN format"
+      },
+      "publisherEmail": { "invalid": "Invalid publisher email" },
+      "descriptionAr": { "min": "Book description (Arabic) must be at least {{count}} characters" },
+      "descriptionEn": { "min": "Book description (English) must be at least {{count}} characters" },
+      "publisher": { "min": "Publisher must be at least {{count}} characters" },
+      "category": { "required": "Choose a book category" },
+      "price": { "type": "Price must be a number", "negative": "Price can't be negative" },
+      "stock": { "type": "Quantity must be a number", "negative": "Quantity can't be negative" }
+    }
   }
 }

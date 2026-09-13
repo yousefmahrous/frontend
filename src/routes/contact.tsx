@@ -1,11 +1,12 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { createFileRoute } from "@tanstack/react-router";
 import { Loader2, Mail } from "lucide-react";
+import { useMemo } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import { sendContactMessage } from "@/api/contact.api";
 import { ApiError, errorMessage } from "@/api/client";
-import { contactSchema, type ContactValues } from "@/schemas/contact.schema";
+import { createContactSchema, type ContactValues } from "@/schemas/contact.schema";
 import { AuthShell } from "@/components/AuthShell";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -34,7 +35,8 @@ export const Route = createFileRoute("/contact")({
 });
 
 function ContactPage() {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
+  const contactSchema = useMemo(() => createContactSchema(t), [t, i18n.language]);
   const {
     register,
     handleSubmit,

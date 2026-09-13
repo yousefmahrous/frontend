@@ -30,6 +30,7 @@ import {
 } from "@/components/ui/table";
 import { useBooks, useDebouncedValue, useDeleteBook } from "@/hooks/useBooks";
 import { useBooksRealtime } from "@/hooks/useBooksRealtime";
+import { pickLocalized } from "@/lib/localized";
 
 import en from "@/i18n/locales/en.json";
 import ar from "@/i18n/locales/ar.json";
@@ -60,7 +61,8 @@ export const Route = createFileRoute("/admin/books/")({
 const LIMIT = 10;
 
 function AdminBooksPage() {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
+  const lang = i18n.language as Lang;
   useBooksRealtime();
   const [searchInput, setSearchInput] = useState("");
   const [page, setPage] = useState(1);
@@ -90,7 +92,9 @@ function AdminBooksPage() {
         <div>
           <h1 className="text-2xl font-bold md:text-3xl">{t("adminBooksIndex.manageBooks")}</h1>
           <p className="mt-1 text-sm text-muted-foreground">
-            {pagination ? t("adminBooksIndex.countLabel", { count: pagination.totalCount }) : t("adminBooksIndex.loading")}
+            {pagination
+              ? t("adminBooksIndex.countLabel", { count: pagination.totalCount })
+              : t("adminBooksIndex.loading")}
           </p>
         </div>
         <Button asChild className="gap-2">
@@ -127,7 +131,9 @@ function AdminBooksPage() {
           <EmptyState
             variant={search ? "search" : "empty"}
             title={search ? t("adminBooksIndex.noResults") : t("adminBooksIndex.noBooks")}
-            description={search ? t("adminBooksIndex.tryOtherSearch") : t("adminBooksIndex.startAdding")}
+            description={
+              search ? t("adminBooksIndex.tryOtherSearch") : t("adminBooksIndex.startAdding")
+            }
           />
         ) : (
           <div className="overflow-hidden rounded-xl border border-border bg-card">
@@ -143,49 +149,54 @@ function AdminBooksPage() {
                 </TableRow>
               </TableHeader>
               <TableBody>
-                {books.map((book) => (
-                  <TableRow key={book.id}>
-                    <TableCell>
-                      <div className="h-14 w-10 overflow-hidden rounded bg-secondary">
-                        {book.avatar_url && (
-                          <img
-                            src={book.avatar_url}
-                            alt={t("adminBooksIndex.coverAlt", { name: book.name })}
-                            loading="lazy"
-                            className="size-full object-cover"
-                          />
-                        )}
-                      </div>
-                    </TableCell>
-                    <TableCell className="font-medium">{book.name}</TableCell>
-                    <TableCell className="text-muted-foreground">{book.centre}</TableCell>
-                    <TableCell>
-                      <Badge variant="secondary">{book.grade}</Badge>
-                    </TableCell>
-                    <TableCell dir="ltr" className="text-muted-foreground">
-                      {book.number}
-                    </TableCell>
-                    <TableCell>
-                      <div className="flex gap-1">
-                        <Button asChild size="icon" variant="ghost" aria-label={t("common.edit")}>
-                          <Link to="/admin/books/$id/edit" params={{ id: String(book.id) }}>
-                            <Pencil className="size-4" />
-                          </Link>
-                        </Button>
-                        <Button
-                          size="icon"
-                          variant="ghost"
-                          aria-label={t("common.delete")}
-                          onClick={() =>
-                            setPendingDelete({ id: String(book.id), name: book.name })
-                          }
-                        >
-                          <Trash2 className="size-4 text-destructive" />
-                        </Button>
-                      </div>
-                    </TableCell>
-                  </TableRow>
-                ))}
+                {books.map((book) => {
+                  const bookName = pickLocalized(book.name, lang);
+                  return (
+                    <TableRow key={book.id}>
+                      <TableCell>
+                        <div className="h-14 w-10 overflow-hidden rounded bg-secondary">
+                          {book.avatar_url && (
+                            <img
+                              src={book.avatar_url}
+                              alt={t("adminBooksIndex.coverAlt", { name: bookName })}
+                              loading="lazy"
+                              className="size-full object-cover"
+                            />
+                          )}
+                        </div>
+                      </TableCell>
+                      <TableCell className="font-medium">{bookName}</TableCell>
+                      <TableCell className="text-muted-foreground">{book.centre}</TableCell>
+                      <TableCell>
+                        <Badge variant="secondary">
+                          {t(`categories.${book.category}`, book.category)}
+                        </Badge>
+                      </TableCell>
+                      <TableCell dir="ltr" className="text-muted-foreground">
+                        {book.number}
+                      </TableCell>
+                      <TableCell>
+                        <div className="flex gap-1">
+                          <Button asChild size="icon" variant="ghost" aria-label={t("common.edit")}>
+                            <Link to="/admin/books/$id/edit" params={{ id: String(book.id) }}>
+                              <Pencil className="size-4" />
+                            </Link>
+                          </Button>
+                          <Button
+                            size="icon"
+                            variant="ghost"
+                            aria-label={t("common.delete")}
+                            onClick={() =>
+                              setPendingDelete({ id: String(book.id), name: bookName })
+                            }
+                          >
+                            <Trash2 className="size-4 text-destructive" />
+                          </Button>
+                        </div>
+                      </TableCell>
+                    </TableRow>
+                  );
+                })}
               </TableBody>
             </Table>
           </div>
@@ -203,7 +214,10 @@ function AdminBooksPage() {
             {t("adminBooksIndex.prev")}
           </Button>
           <span className="text-sm text-muted-foreground">
-            {t("adminBooksIndex.pageOf", { current: pagination.currentPage, total: pagination.totalPages })}
+            {t("adminBooksIndex.pageOf", {
+              current: pagination.currentPage,
+              total: pagination.totalPages,
+            })}
           </span>
           <Button
             variant="secondary"
@@ -216,7 +230,10 @@ function AdminBooksPage() {
         </div>
       )}
 
-      <AlertDialog open={Boolean(pendingDelete)} onOpenChange={(open) => !open && setPendingDelete(null)}>
+      <AlertDialog
+        open={Boolean(pendingDelete)}
+        onOpenChange={(open) => !open && setPendingDelete(null)}
+      >
         <AlertDialogContent dir="rtl">
           <AlertDialogHeader>
             <AlertDialogTitle>{t("adminBooksIndex.confirmDelete")}</AlertDialogTitle>
@@ -226,7 +243,9 @@ function AdminBooksPage() {
           </AlertDialogHeader>
           <AlertDialogFooter>
             <AlertDialogCancel>{t("common.cancel")}</AlertDialogCancel>
-            <AlertDialogAction onClick={() => void confirmDelete()}>{t("common.delete")}</AlertDialogAction>
+            <AlertDialogAction onClick={() => void confirmDelete()}>
+              {t("common.delete")}
+            </AlertDialogAction>
           </AlertDialogFooter>
         </AlertDialogContent>
       </AlertDialog>

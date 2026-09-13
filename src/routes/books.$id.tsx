@@ -1,5 +1,14 @@
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
-import { ArrowRight, BookOpen, Building2, Hash, Heart, Mail, PackageX, ShoppingCart } from "lucide-react";
+import {
+  ArrowRight,
+  BookOpen,
+  Building2,
+  Hash,
+  Heart,
+  Mail,
+  PackageX,
+  ShoppingCart,
+} from "lucide-react";
 import { toast } from "sonner";
 import { errorMessage } from "@/api/client";
 import { ErrorState } from "@/components/StateViews";
@@ -12,6 +21,7 @@ import { useAddToCart } from "@/hooks/useCart";
 import { useBook } from "@/hooks/useBooks";
 import { useBooksRealtime } from "@/hooks/useBooksRealtime";
 import { useToggleFavorite } from "@/hooks/useFavorites";
+import { pickLocalized } from "@/lib/localized";
 import { ReviewsSection } from "@/components/reviews/ReviewsList";
 
 import en from "@/i18n/locales/en.json";
@@ -37,7 +47,8 @@ export const Route = createFileRoute("/books/$id")({
 });
 
 function BookDetails() {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
+  const lang = i18n.language as Lang;
   const { id } = Route.useParams();
   const { data: book, isLoading, isError, error, refetch } = useBook(id);
   const { user, isAdmin } = useAuth();
@@ -89,6 +100,9 @@ function BookDetails() {
     );
   }
 
+  const bookName = pickLocalized(book.name, lang);
+  const bookDescription = pickLocalized(book.adress, lang);
+
   const details = [
     { icon: Building2, label: t("bookDetails.publisher"), value: book.centre },
     { icon: Hash, label: "ISBN", value: book.number },
@@ -109,7 +123,7 @@ function BookDetails() {
           {book.avatar_url ? (
             <img
               src={book.avatar_url}
-              alt={t("common.bookCoverAlt", { name: book.name })}
+              alt={t("common.bookCoverAlt", { name: bookName })}
               className="aspect-2/3 w-full object-cover"
             />
           ) : (
@@ -122,10 +136,10 @@ function BookDetails() {
         <div className="space-y-5">
           <div className="space-y-2">
             <Badge variant="secondary">{t(`categories.${book.category}`, book.category)}</Badge>
-            <h1 className="text-3xl font-extrabold leading-snug">{book.name}</h1>
+            <h1 className="text-3xl font-extrabold leading-snug">{bookName}</h1>
           </div>
 
-          <p className="leading-relaxed text-muted-foreground">{book.adress}</p>
+          <p className="leading-relaxed text-muted-foreground">{bookDescription}</p>
 
           <p className="text-2xl font-extrabold text-accent">
             {(book.price / 100).toFixed(2)} {t("bookDetails.currency")}
@@ -149,7 +163,9 @@ function BookDetails() {
               {t("bookDetails.outOfStockNow")}
             </Badge>
           ) : (
-            <p className="text-sm text-muted-foreground">{t("bookDetails.copiesLeft", { count: book.stock })}</p>
+            <p className="text-sm text-muted-foreground">
+              {t("bookDetails.copiesLeft", { count: book.stock })}
+            </p>
           )}
 
           {!isAdmin && (
@@ -164,31 +180,32 @@ function BookDetails() {
                 {addToCart.isPending ? t("bookDetails.adding") : t("common.addToCart")}
               </Button>
 
-            <Button
-              onClick={handleToggleFavorite}
-              disabled={favorite.isPending}
-              variant="outline"
-              size="lg"
-              className="gap-2"
-              aria-pressed={favorite.isFavorite}
-              aria-label={favorite.isFavorite ? t("bookDetails.removeFromFavorites") : t("bookDetails.addToFavorites")}
-              data-testid="book-detail-favorite-toggle"
-            >
-              <Heart
-                className={cn(
-                  "size-4",
-                  favorite.isFavorite && "fill-accent text-accent",
-                )}
-              />
-              {favorite.isFavorite ? t("bookDetails.inFavorites") : t("bookDetails.addToFavorites")}
-            </Button>
+              <Button
+                onClick={handleToggleFavorite}
+                disabled={favorite.isPending}
+                variant="outline"
+                size="lg"
+                className="gap-2"
+                aria-pressed={favorite.isFavorite}
+                aria-label={
+                  favorite.isFavorite
+                    ? t("bookDetails.removeFromFavorites")
+                    : t("bookDetails.addToFavorites")
+                }
+                data-testid="book-detail-favorite-toggle"
+              >
+                <Heart className={cn("size-4", favorite.isFavorite && "fill-accent text-accent")} />
+                {favorite.isFavorite
+                  ? t("bookDetails.inFavorites")
+                  : t("bookDetails.addToFavorites")}
+              </Button>
             </div>
           )}
         </div>
       </div>
-    <div className="mt-12 border-t border-border pt-10">
-      <ReviewsSection bookId={id} />
-    </div>
+      <div className="mt-12 border-t border-border pt-10">
+        <ReviewsSection bookId={id} />
+      </div>
     </div>
   );
 }

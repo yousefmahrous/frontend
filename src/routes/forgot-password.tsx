@@ -1,12 +1,13 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { Loader2 } from "lucide-react";
+import { useMemo } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 
 import { forgotPassword } from "@/api/auth.api";
 import { ApiError, errorMessage } from "@/api/client";
-import { forgotPasswordSchema, type ForgotPasswordValues } from "@/schemas/auth.schema";
+import { createForgotPasswordSchema, type ForgotPasswordValues } from "@/schemas/auth.schema";
 import { AuthShell } from "@/components/AuthShell";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -34,7 +35,8 @@ export const Route = createFileRoute("/forgot-password")({
 });
 
 function ForgotPasswordPage() {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
+  const forgotPasswordSchema = useMemo(() => createForgotPasswordSchema(t), [t, i18n.language]);
   const {
     register,
     handleSubmit,

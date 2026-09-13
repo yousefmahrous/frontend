@@ -13,7 +13,7 @@ import {
 
 export const booksKeys = {
   all: ["books"] as const,
-  list: (params: { page: number; limit: number; search: string }) =>
+  list: (params: { page: number; limit: number; search: string; category?: string | null }) =>
     ["books", "list", params] as const,
   detail: (id: string) => ["books", "detail", id] as const,
   popular: (limit: number) => ["books", "popular", limit] as const,
@@ -28,10 +28,16 @@ export function useDebouncedValue<T>(value: T, delay = 400) {
   return debounced;
 }
 
-export function useBooks(params: { page: number; limit: number; search: string }) {
+export function useBooks(params: { page: number; limit: number; search: string; category?: string | null }) {
   return useQuery({
     queryKey: booksKeys.list(params),
-    queryFn: () => fetchBooks(params),
+    queryFn: () =>
+      fetchBooks({
+        page: params.page,
+        limit: params.limit,
+        search: params.search,
+        ...(params.category ? { category: params.category } : {}),
+      }),
     placeholderData: keepPreviousData,
     retry: false,
   });

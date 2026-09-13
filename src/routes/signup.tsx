@@ -1,12 +1,13 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { Loader2 } from "lucide-react";
+import { useMemo } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 
 import { signup } from "@/api/auth.api";
 import { ApiError, errorMessage } from "@/api/client";
-import { signupSchema, type SignupValues } from "@/schemas/auth.schema";
+import { createSignupSchema, type SignupValues } from "@/schemas/auth.schema";
 import { AuthShell } from "@/components/AuthShell";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -34,8 +35,9 @@ export const Route = createFileRoute("/signup")({
 });
 
 function SignupPage() {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const navigate = useNavigate();
+  const signupSchema = useMemo(() => createSignupSchema(t), [t, i18n.language]);
   const {
     register,
     handleSubmit,

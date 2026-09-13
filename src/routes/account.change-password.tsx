@@ -1,12 +1,13 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { Loader2 } from "lucide-react";
+import { useMemo } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 
 import { changePassword } from "@/api/auth.api";
 import { ApiError, errorMessage } from "@/api/client";
-import { changePasswordSchema, type ChangePasswordValues } from "@/schemas/auth.schema";
+import { createChangePasswordSchema, type ChangePasswordValues } from "@/schemas/auth.schema";
 import { AuthShell } from "@/components/AuthShell";
 import { Protected } from "@/components/Guards";
 import { Button } from "@/components/ui/button";
@@ -41,9 +42,10 @@ export const Route = createFileRoute("/account/change-password")({
 });
 
 function ChangePasswordPage() {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const { setUser } = useAuth();
   const navigate = useNavigate();
+  const changePasswordSchema = useMemo(() => createChangePasswordSchema(t), [t, i18n.language]);
   const {
     register,
     handleSubmit,

@@ -45,12 +45,10 @@ function CatalogPage() {
     page,
     limit: LIMIT,
     search,
+    category,
   });
 
-  const books = useMemo(() => {
-    const items = data?.items ?? [];
-    return category ? items.filter((book) => book.category === category) : items;
-  }, [data?.items, category]);
+  const books = data?.items ?? [];
 
   const pagination = data?.pagination;
   const pageNumbers = useMemo(() => {
@@ -87,7 +85,10 @@ function CatalogPage() {
           <Button
             variant={category === null ? "default" : "secondary"}
             size="sm"
-            onClick={() => setCategory(null)}
+            onClick={() => {
+              setCategory(null);
+              setPage(1);
+            }}
           >
             {t("books.allCategories")}
           </Button>
@@ -96,7 +97,10 @@ function CatalogPage() {
               key={item}
               variant={category === item ? "default" : "secondary"}
               size="sm"
-              onClick={() => setCategory(item)}
+              onClick={() => {
+                setCategory(item);
+                setPage(1);
+              }}
             >
               {t(`categories.${item}`, item)}
             </Button>

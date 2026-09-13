@@ -1,18 +1,21 @@
 import ar from "@/i18n/locales/ar.json";
 import en from "@/i18n/locales/en.json";
 import { readLangCookie } from "@/i18n/langCookie";
+import type { LocalizedText } from "@/lib/localized";
 import { api, BOOKS_PATH } from "./client";
 
-export type BookCategory = "روايات" | "علمي" | "تاريخي" | "أطفال";
+export type { LocalizedText };
 
-export const BOOK_CATEGORIES: BookCategory[] = ["روايات", "علمي", "تاريخي", "أطفال"];
+export type BookCategory = "novels" | "science" | "history" | "kids";
+
+export const BOOK_CATEGORIES: BookCategory[] = ["novels", "science", "history", "kids"];
 
 export interface Book {
   id: string;
-  name: string;
+  name: LocalizedText;
   number: string;
   email: string;
-  adress: string;
+  adress: LocalizedText;
   centre: string;
   category: BookCategory | string;
   price: number;
@@ -24,10 +27,10 @@ export interface Book {
 }
 
 export interface BookPayload {
-  name: string;
+  name: LocalizedText;
   number: string;
   email: string;
-  adress: string;
+  adress: LocalizedText;
   centre: string;
   category: string;
   price: number;
@@ -49,7 +52,7 @@ export interface BooksListResult {
   pagination: Pagination;
 }
 
-export async function fetchBooks(params: { page: number; limit: number; search?: string }) {
+export async function fetchBooks(params: { page: number; limit: number; search?: string; category?: string }) {
   const { data } = await api.get<{
     success: boolean;
     data: { users?: Book[]; items?: Book[]; pagination: Pagination };
@@ -58,6 +61,7 @@ export async function fetchBooks(params: { page: number; limit: number; search?:
       page: params.page,
       limit: params.limit,
       ...(params.search ? { search: params.search } : {}),
+      ...(params.category ? { category: params.category } : {}),
     },
   });
 

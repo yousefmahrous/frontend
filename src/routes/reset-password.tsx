@@ -1,12 +1,13 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { Loader2 } from "lucide-react";
+import { useMemo } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 
 import { resetPassword } from "@/api/auth.api";
 import { ApiError, errorMessage } from "@/api/client";
-import { resetPasswordSchema, type ResetPasswordValues } from "@/schemas/auth.schema";
+import { createResetPasswordSchema, type ResetPasswordValues } from "@/schemas/auth.schema";
 import { AuthShell } from "@/components/AuthShell";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -38,9 +39,10 @@ export const Route = createFileRoute("/reset-password")({
 });
 
 function ResetPasswordPage() {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const { token } = Route.useSearch();
   const navigate = useNavigate();
+  const resetPasswordSchema = useMemo(() => createResetPasswordSchema(t), [t, i18n.language]);
   const {
     register,
     handleSubmit,

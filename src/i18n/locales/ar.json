@@ -343,7 +343,15 @@
     "publisherPlaceholder": "مثال: دار الشروق",
     "shortDescription": "نبذة قصيرة عن الكتاب",
     "description": "وصف الكتاب",
-    "titleLabel": "عنوان الكتاب"
+    "titleLabel": "عنوان الكتاب",
+    "titleLabelAr": "عنوان الكتاب (عربي)",
+    "titleLabelEn": "عنوان الكتاب (إنجليزي)",
+    "titlePlaceholderAr": "مثال: ثلاثية غرناطة",
+    "titlePlaceholderEn": "e.g. Granada Trilogy",
+    "descriptionLabelAr": "وصف الكتاب (عربي)",
+    "descriptionLabelEn": "وصف الكتاب (إنجليزي)",
+    "shortDescriptionAr": "نبذة قصيرة عن الكتاب بالعربي",
+    "shortDescriptionEn": "نبذة قصيرة عن الكتاب بالإنجليزي"
   },
   "bookCard": {
     "noCover": "لا يوجد غلاف",
@@ -484,9 +492,35 @@
     "unexpectedError": "حصل خطأ غير متوقع"
   },
   "categories": {
-    "روايات": "روايات",
-    "علمي": "علمي",
-    "تاريخي": "تاريخي",
-    "أطفال": "أطفال"
+    "novels": "روايات",
+    "science": "علمي",
+    "history": "تاريخي",
+    "kids": "أطفال"
+  },"validation": {
+    "name": { "min": "الاسم لازم يكون {{count}} أحرف على الأقل" },
+    "email": { "invalid": "الإيميل غير صحيح" },
+    "password": { "min": "كلمة المرور لازم تكون {{count}} أحرف على الأقل" },
+    "currentPassword": { "min": "كلمة المرور الحالية لازم تكون {{count}} أحرف على الأقل" },
+    "newPassword": { "min": "كلمة المرور الجديدة لازم تكون {{count}} أحرف على الأقل" },
+    "subject": { "min": "الموضوع لازم يكون {{count}} أحرف على الأقل" },
+    "message": {
+      "min": "الرسالة لازم تكون {{count}} أحرف على الأقل",
+      "max": "الرسالة طويلة جدًا"
+    },
+    "book": {
+      "titleAr": { "min": "عنوان الكتاب (عربي) لازم يكون {{count}} أحرف على الأقل" },
+      "titleEn": { "min": "عنوان الكتاب (إنجليزي) لازم يكون {{count}} أحرف على الأقل" },
+      "isbn": {
+        "min": "أدخل رقم ISBN صحيح (10 أو 13 رقم)",
+        "format": "صيغة ISBN غير صحيحة"
+      },
+      "publisherEmail": { "invalid": "إيميل الناشر غير صحيح" },
+      "descriptionAr": { "min": "وصف الكتاب (عربي) لازم يكون {{count}} أحرف على الأقل" },
+      "descriptionEn": { "min": "وصف الكتاب (إنجليزي) لازم يكون {{count}} أحرف على الأقل" },
+      "publisher": { "min": "دار النشر لازم تكون {{count}} أحرف على الأقل" },
+      "category": { "required": "اختر تصنيف الكتاب" },
+      "price": { "type": "السعر لازم يكون رقم", "negative": "السعر متقدرش يكون سالب" },
+      "stock": { "type": "الكمية لازم تكون رقم", "negative": "الكمية متقدرش تكون سالبة" }
+    }
   }
 }
