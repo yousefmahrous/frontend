@@ -25,10 +25,13 @@ import { Route as BooksIndexRouteImport } from './routes/books.index'
 import { Route as BooksIdRouteImport } from './routes/books.$id'
 import { Route as CheckoutCancelRouteImport } from './routes/checkout.cancel'
 import { Route as CheckoutSuccessRouteImport } from './routes/checkout.success'
+import { Route as TicketsIndexRouteImport } from './routes/tickets.index'
+import { Route as TicketsIdRouteImport } from './routes/tickets.$id'
 import { Route as AdminBooksIndexRouteImport } from './routes/admin.books.index'
 import { Route as AdminBooksNewRouteImport } from './routes/admin.books.new'
 import { Route as AdminOrdersIndexRouteImport } from './routes/admin.orders.index'
 import { Route as AdminRefundsIndexRouteImport } from './routes/admin.refunds.index'
+import { Route as AdminTicketsIndexRouteImport } from './routes/admin.tickets.index'
 import { Route as AdminBooksIdEditRouteImport } from './routes/admin.books.$id.edit'
 
 const IndexRoute = IndexRouteImport.update({
@@ -111,6 +114,16 @@ const CheckoutSuccessRoute = CheckoutSuccessRouteImport.update({
   path: '/checkout/success',
   getParentRoute: () => rootRouteImport,
 } as any)
+const TicketsIndexRoute = TicketsIndexRouteImport.update({
+  id: '/tickets/',
+  path: '/tickets/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const TicketsIdRoute = TicketsIdRouteImport.update({
+  id: '/tickets/$id',
+  path: '/tickets/$id',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const AdminBooksIndexRoute = AdminBooksIndexRouteImport.update({
   id: '/admin/books/',
   path: '/admin/books/',
@@ -129,6 +142,11 @@ const AdminOrdersIndexRoute = AdminOrdersIndexRouteImport.update({
 const AdminRefundsIndexRoute = AdminRefundsIndexRouteImport.update({
   id: '/admin/refunds/',
   path: '/admin/refunds/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AdminTicketsIndexRoute = AdminTicketsIndexRouteImport.update({
+  id: '/admin/tickets/',
+  path: '/admin/tickets/',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AdminBooksIdEditRoute = AdminBooksIdEditRouteImport.update({
@@ -152,12 +170,15 @@ export interface FileRoutesByFullPath {
   '/books/$id': typeof BooksIdRoute
   '/checkout/cancel': typeof CheckoutCancelRoute
   '/checkout/success': typeof CheckoutSuccessRoute
+  '/tickets/$id': typeof TicketsIdRoute
   '/account/': typeof AccountIndexRoute
   '/books/': typeof BooksIndexRoute
+  '/tickets/': typeof TicketsIndexRoute
   '/admin/books/new': typeof AdminBooksNewRoute
   '/admin/books/': typeof AdminBooksIndexRoute
   '/admin/orders/': typeof AdminOrdersIndexRoute
   '/admin/refunds/': typeof AdminRefundsIndexRoute
+  '/admin/tickets/': typeof AdminTicketsIndexRoute
   '/admin/books/$id/edit': typeof AdminBooksIdEditRoute
 }
 export interface FileRoutesByTo {
@@ -175,12 +196,15 @@ export interface FileRoutesByTo {
   '/books/$id': typeof BooksIdRoute
   '/checkout/cancel': typeof CheckoutCancelRoute
   '/checkout/success': typeof CheckoutSuccessRoute
+  '/tickets/$id': typeof TicketsIdRoute
   '/account': typeof AccountIndexRoute
   '/books': typeof BooksIndexRoute
+  '/tickets': typeof TicketsIndexRoute
   '/admin/books/new': typeof AdminBooksNewRoute
   '/admin/books': typeof AdminBooksIndexRoute
   '/admin/orders': typeof AdminOrdersIndexRoute
   '/admin/refunds': typeof AdminRefundsIndexRoute
+  '/admin/tickets': typeof AdminTicketsIndexRoute
   '/admin/books/$id/edit': typeof AdminBooksIdEditRoute
 }
 export interface FileRoutesById {
@@ -199,12 +223,15 @@ export interface FileRoutesById {
   '/books/$id': typeof BooksIdRoute
   '/checkout/cancel': typeof CheckoutCancelRoute
   '/checkout/success': typeof CheckoutSuccessRoute
+  '/tickets/$id': typeof TicketsIdRoute
   '/account/': typeof AccountIndexRoute
   '/books/': typeof BooksIndexRoute
+  '/tickets/': typeof TicketsIndexRoute
   '/admin/books/new': typeof AdminBooksNewRoute
   '/admin/books/': typeof AdminBooksIndexRoute
   '/admin/orders/': typeof AdminOrdersIndexRoute
   '/admin/refunds/': typeof AdminRefundsIndexRoute
+  '/admin/tickets/': typeof AdminTicketsIndexRoute
   '/admin/books/$id/edit': typeof AdminBooksIdEditRoute
 }
 export interface FileRouteTypes {
@@ -224,12 +251,15 @@ export interface FileRouteTypes {
     | '/books/$id'
     | '/checkout/cancel'
     | '/checkout/success'
+    | '/tickets/$id'
     | '/account/'
     | '/books/'
+    | '/tickets/'
     | '/admin/books/new'
     | '/admin/books/'
     | '/admin/orders/'
     | '/admin/refunds/'
+    | '/admin/tickets/'
     | '/admin/books/$id/edit'
   fileRoutesByTo: FileRoutesByTo
   to:
@@ -247,12 +277,15 @@ export interface FileRouteTypes {
     | '/books/$id'
     | '/checkout/cancel'
     | '/checkout/success'
+    | '/tickets/$id'
     | '/account'
     | '/books'
+    | '/tickets'
     | '/admin/books/new'
     | '/admin/books'
     | '/admin/orders'
     | '/admin/refunds'
+    | '/admin/tickets'
     | '/admin/books/$id/edit'
   id:
     | '__root__'
@@ -270,12 +303,15 @@ export interface FileRouteTypes {
     | '/books/$id'
     | '/checkout/cancel'
     | '/checkout/success'
+    | '/tickets/$id'
     | '/account/'
     | '/books/'
+    | '/tickets/'
     | '/admin/books/new'
     | '/admin/books/'
     | '/admin/orders/'
     | '/admin/refunds/'
+    | '/admin/tickets/'
     | '/admin/books/$id/edit'
   fileRoutesById: FileRoutesById
 }
@@ -294,12 +330,15 @@ export interface RootRouteChildren {
   BooksIdRoute: typeof BooksIdRoute
   CheckoutCancelRoute: typeof CheckoutCancelRoute
   CheckoutSuccessRoute: typeof CheckoutSuccessRoute
+  TicketsIdRoute: typeof TicketsIdRoute
   AccountIndexRoute: typeof AccountIndexRoute
   BooksIndexRoute: typeof BooksIndexRoute
+  TicketsIndexRoute: typeof TicketsIndexRoute
   AdminBooksNewRoute: typeof AdminBooksNewRoute
   AdminBooksIndexRoute: typeof AdminBooksIndexRoute
   AdminOrdersIndexRoute: typeof AdminOrdersIndexRoute
   AdminRefundsIndexRoute: typeof AdminRefundsIndexRoute
+  AdminTicketsIndexRoute: typeof AdminTicketsIndexRoute
   AdminBooksIdEditRoute: typeof AdminBooksIdEditRoute
 }
 
@@ -417,6 +456,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof CheckoutSuccessRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/tickets/': {
+      id: '/tickets/'
+      path: '/tickets'
+      fullPath: '/tickets/'
+      preLoaderRoute: typeof TicketsIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/tickets/$id': {
+      id: '/tickets/$id'
+      path: '/tickets/$id'
+      fullPath: '/tickets/$id'
+      preLoaderRoute: typeof TicketsIdRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/admin/books/': {
       id: '/admin/books/'
       path: '/admin/books'
@@ -445,6 +498,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminRefundsIndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/admin/tickets/': {
+      id: '/admin/tickets/'
+      path: '/admin/tickets'
+      fullPath: '/admin/tickets/'
+      preLoaderRoute: typeof AdminTicketsIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/admin/books/$id/edit': {
       id: '/admin/books/$id/edit'
       path: '/admin/books/$id/edit'
@@ -470,12 +530,15 @@ const rootRouteChildren: RootRouteChildren = {
   BooksIdRoute: BooksIdRoute,
   CheckoutCancelRoute: CheckoutCancelRoute,
   CheckoutSuccessRoute: CheckoutSuccessRoute,
+  TicketsIdRoute: TicketsIdRoute,
   AccountIndexRoute: AccountIndexRoute,
   BooksIndexRoute: BooksIndexRoute,
+  TicketsIndexRoute: TicketsIndexRoute,
   AdminBooksNewRoute: AdminBooksNewRoute,
   AdminBooksIndexRoute: AdminBooksIndexRoute,
   AdminOrdersIndexRoute: AdminOrdersIndexRoute,
   AdminRefundsIndexRoute: AdminRefundsIndexRoute,
+  AdminTicketsIndexRoute: AdminTicketsIndexRoute,
   AdminBooksIdEditRoute: AdminBooksIdEditRoute,
 }
 export const routeTree = rootRouteImport

@@ -17,8 +17,10 @@
     "adminBooks": "Dashboard",
     "adminOrders": "Orders",
     "adminRefunds": "Refund Requests",
+    "adminTickets": "Support Tickets",
     "contact": "Contact Us",
-    "menu": "Menu"
+    "menu": "Menu",
+    "tickets": "Support Tickets"
   },
   "toast": {
     "logoutSuccess": "Logged out successfully"
@@ -416,6 +418,10 @@
       "title": "Refund Requests | Readers Library",
       "description": "Order refund requests management panel."
     },
+    "adminTicketsIndex": {
+      "title": "Support Tickets | Readers Library",
+      "description": "Customer support tickets management panel."
+    },
     "bookDetailsPage": {
       "title": "Book Details | Readers Library",
       "description": "All book details: description, publisher, category, and ISBN.",
@@ -474,6 +480,12 @@
     "verifyEmailPage": {
       "title": "Verify Email | Readers Library",
       "description": "Verify your email to activate your Readers Library account."
+    },
+    "ticketsPage": {
+      "title": "My Tickets | Readers Library"
+    },
+    "ticketDetailPage": {
+      "title": "Ticket Details | Readers Library"
     }
   },
   "stateViews": {
@@ -498,30 +510,108 @@
     "kids": "Children"
   },
   "validation": {
-    "name": { "min": "Name must be at least {{count}} characters" },
-    "email": { "invalid": "Invalid email address" },
-    "password": { "min": "Password must be at least {{count}} characters" },
-    "currentPassword": { "min": "Current password must be at least {{count}} characters" },
-    "newPassword": { "min": "New password must be at least {{count}} characters" },
-    "subject": { "min": "Subject must be at least {{count}} characters" },
+    "name": {
+      "min": "Name must be at least {{count}} characters"
+    },
+    "email": {
+      "invalid": "Invalid email address"
+    },
+    "password": {
+      "min": "Password must be at least {{count}} characters"
+    },
+    "currentPassword": {
+      "min": "Current password must be at least {{count}} characters"
+    },
+    "newPassword": {
+      "min": "New password must be at least {{count}} characters"
+    },
+    "subject": {
+      "min": "Subject must be at least {{count}} characters"
+    },
     "message": {
       "min": "Message must be at least {{count}} characters",
       "max": "Message is too long"
     },
     "book": {
-      "titleAr": { "min": "Book title (Arabic) must be at least {{count}} characters" },
-      "titleEn": { "min": "Book title (English) must be at least {{count}} characters" },
+      "titleAr": {
+        "min": "Book title (Arabic) must be at least {{count}} characters"
+      },
+      "titleEn": {
+        "min": "Book title (English) must be at least {{count}} characters"
+      },
       "isbn": {
         "min": "Enter a valid ISBN (10 or 13 digits)",
         "format": "Invalid ISBN format"
       },
-      "publisherEmail": { "invalid": "Invalid publisher email" },
-      "descriptionAr": { "min": "Book description (Arabic) must be at least {{count}} characters" },
-      "descriptionEn": { "min": "Book description (English) must be at least {{count}} characters" },
-      "publisher": { "min": "Publisher must be at least {{count}} characters" },
-      "category": { "required": "Choose a book category" },
-      "price": { "type": "Price must be a number", "negative": "Price can't be negative" },
-      "stock": { "type": "Quantity must be a number", "negative": "Quantity can't be negative" }
+      "publisherEmail": {
+        "invalid": "Invalid publisher email"
+      },
+      "descriptionAr": {
+        "min": "Book description (Arabic) must be at least {{count}} characters"
+      },
+      "descriptionEn": {
+        "min": "Book description (English) must be at least {{count}} characters"
+      },
+      "publisher": {
+        "min": "Publisher must be at least {{count}} characters"
+      },
+      "category": {
+        "required": "Choose a book category"
+      },
+      "price": {
+        "type": "Price must be a number",
+        "negative": "Price can't be negative"
+      },
+      "stock": {
+        "type": "Quantity must be a number",
+        "negative": "Quantity can't be negative"
+      }
     }
+  },
+  "ticket": {
+    "pageTitle": "My Support Tickets",
+    "pageSubtitle": "Track your conversations with our support team",
+    "newTicket": "Open New Ticket",
+    "newTicketDialogTitle": "Open a support ticket",
+    "newTicketDialogDesc": "Describe your issue and our support team will get back to you.",
+    "subjectLabel": "Subject",
+    "subjectPlaceholder": "e.g. Payment issue",
+    "messageLabel": "Message",
+    "messagePlaceholder": "Describe your issue in detail...",
+    "submit": "Open Ticket",
+    "submitting": "Opening...",
+    "createdToast": "Your ticket has been opened",
+    "empty": "No tickets yet",
+    "emptyDesc": "You haven't contacted support before. Open a new ticket if you need help.",
+    "loadError": "An error occurred while loading your tickets",
+    "statusOpened": "Opened",
+    "statusPending": "Awaiting Support",
+    "statusUnderReview": "Under Review",
+    "statusResolved": "Resolved",
+    "backToList": "Back to my tickets",
+    "chatPlaceholder": "Write your message...",
+    "send": "Send",
+    "closedNotice": "This ticket is closed. Open a new ticket if you need further help.",
+    "you": "You",
+    "support": "Support",
+    "notFound": "Ticket not found"
+  },
+  "adminTickets": {
+    "title": "Support Tickets",
+    "countLabel": "{{count}} ticket in total",
+    "countLabel_other": "{{count}} tickets in total",
+    "loading": "Loading tickets...",
+    "empty": "No tickets found",
+    "noneWithStatus": "No tickets with this status",
+    "noneYet": "No support tickets have been opened yet",
+    "subject": "Subject",
+    "lastMessage": "Last Message",
+    "action": "Action",
+    "view": "View",
+    "prev": "Previous",
+    "next": "Next",
+    "pageOf": "Page {{current}} of {{total}}",
+    "statusUpdatedToast": "Ticket status updated",
+    "customerFallback": "Customer"
   }
 }

@@ -4,8 +4,10 @@ import {
   ClipboardList,
   Heart,
   LayoutDashboard,
+  LifeBuoy,
   LogOut,
   Menu,
+  MessagesSquare,
   PackageSearch,
   RotateCcw,
   ShoppingCart,
@@ -147,6 +149,14 @@ export function Navbar() {
                     </Link>
                   </DropdownMenuItem>
                 )}
+                {!isAdmin && (
+                  <DropdownMenuItem asChild>
+                    <Link to="/tickets" className="gap-2">
+                      <MessagesSquare className="size-4" />
+                      {t("nav.tickets")}
+                    </Link>
+                  </DropdownMenuItem>
+                )}
                 {isAdmin && (
                   <DropdownMenuItem asChild>
                     <Link to="/admin/books" className="gap-2">
@@ -168,6 +178,14 @@ export function Navbar() {
                     <Link to="/admin/refunds" className="gap-2">
                       <RotateCcw className="size-4" />
                       {t("nav.adminRefunds")}
+                    </Link>
+                  </DropdownMenuItem>
+                )}
+                {isAdmin && (
+                  <DropdownMenuItem asChild>
+                    <Link to="/admin/tickets" className="gap-2">
+                      <LifeBuoy className="size-4" />
+                      {t("nav.adminTickets")}
                     </Link>
                   </DropdownMenuItem>
                 )}
