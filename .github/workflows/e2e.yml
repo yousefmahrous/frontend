@@ -100,6 +100,27 @@ jobs:
         working-directory: frontend
         run: bun install --frozen-lockfile
 
+      - name: Generate e2e test fixtures
+        working-directory: frontend
+        env:
+          E2E_CUSTOMER_EMAIL: ${{ secrets.E2E_CUSTOMER_EMAIL }}
+          E2E_CUSTOMER_PASSWORD: ${{ secrets.E2E_CUSTOMER_PASSWORD }}
+          E2E_ADMIN_EMAIL: ${{ secrets.E2E_ADMIN_EMAIL }}
+          E2E_ADMIN_PASSWORD: ${{ secrets.E2E_ADMIN_PASSWORD }}
+        run: |
+          mkdir -p e2e/fixtures
+          cat > e2e/fixtures/test-users.ts << EOF2
+          export const CUSTOMER = {
+            email: '${E2E_CUSTOMER_EMAIL}',
+            password: '${E2E_CUSTOMER_PASSWORD}',
+          };
+
+          export const ADMIN = {
+            email: '${E2E_ADMIN_EMAIL}',
+            password: '${E2E_ADMIN_PASSWORD}',
+          };
+          EOF2
+
       - name: Install Playwright browsers
         working-directory: frontend
         run: bunx playwright install --with-deps chromium
