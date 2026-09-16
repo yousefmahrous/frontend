@@ -58,7 +58,7 @@ jobs:
       - name: Checkout backend
         uses: actions/checkout@v4
         with:
-          repository: https://github.com/yousefmahrous/backend
+          repository: yousefmahrous/backend
           path: backend
 
       - uses: actions/setup-node@v4
