@@ -26,6 +26,7 @@ import { Label } from "@/components/ui/label";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Textarea } from "@/components/ui/textarea";
 import { useCreateTicket, useMyTickets } from "@/hooks/useTicket";
+import { getTicketStatusMeta } from "@/lib/status";
 import { createTicketSchema, type CreateTicketValues } from "../schemas/ticket.schema";
 
 import en from "@/i18n/locales/en.json";
@@ -45,21 +46,6 @@ export const Route = createFileRoute("/tickets/")({
     </Protected>
   ),
 });
-
-function getStatusMeta(t: (key: string) => string): Record<TicketStatus, { label: string; className: string }> {
-  return {
-    opened: { label: t("ticket.statusOpened"), className: "bg-blue-100 text-blue-700 hover:bg-blue-100" },
-    pending: { label: t("ticket.statusPending"), className: "bg-amber-100 text-amber-700 hover:bg-amber-100" },
-    under_review: {
-      label: t("ticket.statusUnderReview"),
-      className: "bg-purple-100 text-purple-700 hover:bg-purple-100",
-    },
-    resolved: {
-      label: t("ticket.statusResolved"),
-      className: "bg-green-100 text-green-700 hover:bg-green-100",
-    },
-  };
-}
 
 function formatDate(iso: string) {
   return new Date(iso).toLocaleDateString("ar-EG", {
@@ -132,7 +118,7 @@ function TicketsPage() {
 
 function TicketCard({ ticket }: { ticket: Ticket }) {
   const { t } = useTranslation();
-  const meta = getStatusMeta(t)[ticket.status];
+  const meta = getTicketStatusMeta(t)[ticket.status];
 
   return (
     <Link

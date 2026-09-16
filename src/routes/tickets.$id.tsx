@@ -22,6 +22,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { useAuth } from "@/context/auth-context";
 import { useSendTicketMessage, useTicketDetail, useUpdateTicketStatus } from "@/hooks/useTicket";
 import { useTicketSocket } from "@/hooks/useTicketSocket";
+import { getTicketStatusMeta } from "@/lib/status";
 import { cn } from "@/lib/utils";
 
 import en from "@/i18n/locales/en.json";
@@ -41,29 +42,6 @@ export const Route = createFileRoute("/tickets/$id")({
     </Protected>
   ),
 });
-
-function getStatusMeta(
-  t: (key: string) => string,
-): Record<TicketStatus, { label: string; className: string }> {
-  return {
-    opened: {
-      label: t("ticket.statusOpened"),
-      className: "bg-blue-100 text-blue-700 hover:bg-blue-100",
-    },
-    pending: {
-      label: t("ticket.statusPending"),
-      className: "bg-amber-100 text-amber-700 hover:bg-amber-100",
-    },
-    under_review: {
-      label: t("ticket.statusUnderReview"),
-      className: "bg-purple-100 text-purple-700 hover:bg-purple-100",
-    },
-    resolved: {
-      label: t("ticket.statusResolved"),
-      className: "bg-green-100 text-green-700 hover:bg-green-100",
-    },
-  };
-}
 
 function formatTime(iso: string) {
   return new Date(iso).toLocaleTimeString("ar-EG", { hour: "2-digit", minute: "2-digit" });
@@ -98,7 +76,7 @@ function TicketChatPage() {
     );
   }
 
-  const meta = getStatusMeta(t)[ticket.status];
+  const meta = getTicketStatusMeta(t)[ticket.status];
   const currentUserId = user ? Number(user.id) : null;
 
   return (
@@ -128,7 +106,6 @@ function TicketChatPage() {
 
       <MessageList
         messages={ticket.messages ?? []}
-        isAdmin={isAdmin}
         currentUserId={currentUserId}
         customerName={ticket.user?.name}
       />
@@ -146,14 +123,17 @@ function TicketChatPage() {
 
 function MessageList({
   messages,
-  isAdmin,
   currentUserId,
   customerName,
 }: {
   messages: TicketMessage[];
-  isAdmin: boolean;
   currentUserId: number | null;
-  customerName?: string;
+  // `ticket.user?.name` is passed at the call site whether or not it exists,
+  // so the key is always present — the VALUE can be undefined. Under
+  // exactOptionalPropertyTypes, `customerName?: string` means "key may be
+  // omitted, but if present must be a string", which rejects an explicit
+  // `undefined` value. `string | undefined` matches what's actually passed.
+  customerName: string | undefined;
 }) {
   const bottomRef = useRef<HTMLDivElement>(null);
 
@@ -167,7 +147,6 @@ function MessageList({
         <MessageBubble
           key={message.id}
           message={message}
-          isAdmin={isAdmin}
           currentUserId={currentUserId}
           customerName={customerName}
         />
@@ -179,14 +158,12 @@ function MessageList({
 
 function MessageBubble({
   message,
-  isAdmin,
   currentUserId,
   customerName,
 }: {
   message: TicketMessage;
-  isAdmin: boolean;
   currentUserId: number | null;
-  customerName?: string;
+  customerName: string | undefined;
 }) {
   const { t } = useTranslation();
 
@@ -199,7 +176,12 @@ function MessageBubble({
     );
   }
 
-  const isOwnMessage = isAdmin ? message.sender_type === "admin" : message.sender_type === "user";
+  // Ownership must be checked per-sender, not per-role: `isAdmin ? sender_type
+  // === "admin" : ...` marked EVERY admin's message as "you" for ANY admin
+  // viewing the ticket, since it only compared roles. With more than one
+  // support agent, agent B would see agent A's replies rendered as their own
+  // (right-aligned, "You" label). Compare the actual sender id instead.
+  const isOwnMessage = currentUserId != null && message.sender_id === currentUserId;
   const senderLabel = isOwnMessage
     ? t("ticket.you")
     : message.sender_type === "admin"
@@ -226,7 +208,7 @@ function MessageBubble({
 
 function TicketStatusControl({ ticketId, status }: { ticketId: number; status: TicketStatus }) {
   const { t } = useTranslation();
-  const statusMeta = getStatusMeta(t);
+  const statusMeta = getTicketStatusMeta(t);
   const updateStatusMutation = useUpdateTicketStatus(ticketId);
 
   function handleChange(value: string) {

@@ -21,6 +21,7 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { Textarea } from "@/components/ui/textarea";
 import { useMyOrders } from "@/hooks/useOrder";
 import { useMyRefundRequests, useRequestRefund } from "@/hooks/useRefund";
+import { getOrderStatusMeta } from "@/lib/status";
 
 import en from "@/i18n/locales/en.json";
 import ar from "@/i18n/locales/ar.json";
@@ -46,47 +47,20 @@ export const Route = createFileRoute("/orders")({
 
 const RETURN_WINDOW_DAYS = 14;
 
-function getStatusMeta(
-  t: (key: string) => string,
-): Record<OrderStatus, { label: string; className: string; icon: typeof CheckCircle2 }> {
-  return {
-    paid: {
-      label: t("orders.statusPaid"),
-      className: "bg-green-100 text-green-700 hover:bg-green-100",
-      icon: CheckCircle2,
-    },
-    pending: {
-      label: t("orders.statusPending"),
-      className: "bg-amber-100 text-amber-700 hover:bg-amber-100",
-      icon: Clock,
-    },
-    failed: {
-      label: t("orders.statusFailed"),
-      className: "bg-destructive/10 text-destructive hover:bg-destructive/10",
-      icon: XCircle,
-    },
-    cancelled: {
-      label: t("orders.statusCancelled"),
-      className: "bg-secondary text-muted-foreground hover:bg-secondary",
-      icon: XCircle,
-    },
-    return_requested: {
-      label: t("orders.statusReturnRequested"),
-      className: "bg-blue-100 text-blue-700 hover:bg-blue-100",
-      icon: RotateCcw,
-    },
-    return_approved: {
-      label: t("orders.statusReturnApproved"),
-      className: "bg-blue-100 text-blue-700 hover:bg-blue-100",
-      icon: RotateCcw,
-    },
-    refunded: {
-      label: t("orders.statusRefunded"),
-      className: "bg-secondary text-muted-foreground hover:bg-secondary",
-      icon: RotateCcw,
-    },
-  };
-}
+// orders.tsx is the only screen that shows a per-status icon next to the
+// badge, so that mapping stays local here instead of living in the shared
+// status helper (which would otherwise force every non-icon consumer to
+// import lucide-react for nothing). Label/className come from
+// getOrderStatusMeta in @/lib/status.
+const ORDER_STATUS_ICONS: Record<OrderStatus, typeof CheckCircle2> = {
+  paid: CheckCircle2,
+  pending: Clock,
+  failed: XCircle,
+  cancelled: XCircle,
+  return_requested: RotateCcw,
+  return_approved: RotateCcw,
+  refunded: RotateCcw,
+};
 
 function formatPrice(amountInPiastres: number) {
   return (amountInPiastres / 100).toFixed(2);
@@ -172,8 +146,8 @@ function OrderCard({
   hasActiveRefundRequest: boolean;
 }) {
   const { t } = useTranslation();
-  const meta = getStatusMeta(t)[order.status];
-  const StatusIcon = meta.icon;
+  const meta = getOrderStatusMeta(t)[order.status];
+  const StatusIcon = ORDER_STATUS_ICONS[order.status];
   const [dialogOpen, setDialogOpen] = useState(false);
 
   const canRequestRefund =

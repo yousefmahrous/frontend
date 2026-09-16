@@ -1,0 +1,125 @@
+name: E2E
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+jobs:
+  e2e:
+    name: Playwright e2e
+    runs-on: ubuntu-latest
+
+    services:
+      postgres:
+        image: postgres:16-alpine
+        env:
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: postgres
+          POSTGRES_DB: bookstore
+        ports: ['5432:5432']
+        options: >-
+          --health-cmd "pg_isready -U postgres"
+          --health-interval 5s
+          --health-timeout 5s
+          --health-retries 10
+      redis:
+        image: redis:7-alpine
+        ports: ['6379:6379']
+        options: >-
+          --health-cmd "redis-cli ping"
+          --health-interval 5s
+          --health-timeout 5s
+          --health-retries 10
+
+    env:
+      DATABASE_URL: postgresql://postgres:postgres@localhost:5432/bookstore?schema=public
+      REDIS_URL: redis://localhost:6379
+      PORT: 3000
+      NODE_ENV: test
+      CLIENT_URL_DEV: http://localhost:8080
+      CLIENT_URL_DEV_2: http://localhost:3000
+      SESSION_SECRET: ${{ secrets.SESSION_SECRET }}
+      STRIPE_SECRET_KEY: ${{ secrets.STRIPE_SECRET_KEY }}
+      STRIPE_WEBHOOK_SECRET: ${{ secrets.STRIPE_WEBHOOK_SECRET }}
+      RESEND_API_KEY: ${{ secrets.RESEND_API_KEY }}
+      CONTACT_RECEIVER_EMAIL: ${{ secrets.CONTACT_RECEIVER_EMAIL }}
+      B2_ACCESS_KEY_ID: ${{ secrets.B2_ACCESS_KEY_ID }}
+      B2_SECRET_ACCESS_KEY: ${{ secrets.B2_SECRET_ACCESS_KEY }}
+      B2_BUCKET_NAME: ${{ secrets.B2_BUCKET_NAME }}
+      B2_ENDPOINT: ${{ secrets.B2_ENDPOINT }}
+
+    steps:
+      - name: Checkout frontend
+        uses: actions/checkout@v4
+        with:
+          path: frontend
+
+      - name: Checkout backend
+        uses: actions/checkout@v4
+        with:
+          repository: https://github.com/yousefmahrous/backend
+          path: backend
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Install backend dependencies
+        working-directory: backend
+        run: npm ci
+
+      - name: Run migrations
+        working-directory: backend
+        run: npm run migrate:deploy
+
+      - name: Seed test users & catalog
+        working-directory: backend
+        run: npm run seed:e2e
+
+      - name: Start backend
+        working-directory: backend
+        run: |
+          nohup node src/app.js > backend.log 2>&1 &
+          echo "Waiting for backend to become healthy..."
+          for i in $(seq 1 30); do
+            if curl -sf http://localhost:3000/health > /dev/null; then
+              echo "Backend is up."
+              exit 0
+            fi
+            sleep 1
+          done
+          echo "Backend never became healthy:"
+          cat backend.log
+          exit 1
+
+      - name: Install frontend dependencies
+        working-directory: frontend
+        run: npm ci
+
+      - name: Install Playwright browsers
+        working-directory: frontend
+        run: npx playwright install --with-deps chromium
+
+      - name: Run Playwright e2e tests
+        working-directory: frontend
+        env:
+          VITE_API_URL: http://localhost:3000/api/v1
+          VITE_STRIPE_PUBLISHABLE_KEY: ${{ secrets.VITE_STRIPE_PUBLISHABLE_KEY }}
+        run: npx playwright test
+
+      - name: Upload Playwright report
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: playwright-report
+          path: frontend/playwright-report
+          retention-days: 14
+
+      - name: Upload backend log
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: backend-log
+          path: backend/backend.log
+          retention-days: 14

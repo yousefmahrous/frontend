@@ -17,6 +17,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Skeleton } from "@/components/ui/skeleton";
+import { getTicketStatusMeta } from "@/lib/status";
 import {
   Table,
   TableBody,
@@ -53,21 +54,6 @@ export const Route = createFileRoute("/admin/tickets/")({
 
 const LIMIT = 15;
 
-function getStatusMeta(t: (key: string) => string): Record<TicketStatus, { label: string; className: string }> {
-  return {
-    opened: { label: t("ticket.statusOpened"), className: "bg-blue-100 text-blue-700 hover:bg-blue-100" },
-    pending: { label: t("ticket.statusPending"), className: "bg-amber-100 text-amber-700 hover:bg-amber-100" },
-    under_review: {
-      label: t("ticket.statusUnderReview"),
-      className: "bg-purple-100 text-purple-700 hover:bg-purple-100",
-    },
-    resolved: {
-      label: t("ticket.statusResolved"),
-      className: "bg-green-100 text-green-700 hover:bg-green-100",
-    },
-  };
-}
-
 function formatDate(iso: string) {
   return new Date(iso).toLocaleDateString("ar-EG", { year: "numeric", month: "short", day: "numeric" });
 }
@@ -85,7 +71,7 @@ function AdminTicketsPage() {
 
   const tickets = data?.items ?? [];
   const pagination = data?.pagination;
-  const statusMeta = getStatusMeta(t);
+  const statusMeta = getTicketStatusMeta(t);
 
   return (
     <div className="mx-auto max-w-6xl px-4 py-10">

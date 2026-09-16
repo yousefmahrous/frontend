@@ -5,6 +5,7 @@ import { useState } from "react";
 import { errorMessage } from "@/api/client";
 import type { OrderStatus } from "@/api/order.api";
 import { AdminOnly } from "@/components/Guards";
+import { getOrderStatusMeta } from "@/lib/status";
 import { EmptyState, ErrorState } from "@/components/StateViews";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -51,24 +52,6 @@ export const Route = createFileRoute("/admin/orders/")({
 });
 
 const LIMIT = 15;
-
-function getStatusMeta(t: (key: string) => string): Record<OrderStatus, { label: string; className: string }> {
-  return {
-    pending: { label: t("orders.statusPending"), className: "bg-amber-100 text-amber-700 hover:bg-amber-100" },
-    paid: { label: t("orders.statusPaid"), className: "bg-green-100 text-green-700 hover:bg-green-100" },
-    failed: { label: t("orders.statusFailed"), className: "bg-destructive/10 text-destructive hover:bg-destructive/10" },
-    cancelled: { label: t("orders.statusCancelled"), className: "bg-secondary text-muted-foreground hover:bg-secondary" },
-    return_requested: {
-      label: t("orders.statusReturnRequested"),
-      className: "bg-blue-100 text-blue-700 hover:bg-blue-100",
-    },
-    return_approved: {
-      label: t("orders.statusReturnApproved"),
-      className: "bg-blue-100 text-blue-700 hover:bg-blue-100",
-    },
-    refunded: { label: t("orders.statusRefunded"), className: "bg-secondary text-muted-foreground hover:bg-secondary" },
-  };
-}
 
 function formatPrice(amountInPiastres: number) {
   return (amountInPiastres / 100).toFixed(2);
@@ -158,7 +141,7 @@ function AdminOrdersPage() {
               </TableHeader>
               <TableBody>
                 {orders.map((order) => {
-                  const meta = getStatusMeta(t)[order.status];
+                  const meta = getOrderStatusMeta(t)[order.status];
                   return (
                     <TableRow key={order.id}>
                       <TableCell className="font-medium">#{order.id}</TableCell>

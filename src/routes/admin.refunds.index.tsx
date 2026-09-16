@@ -7,6 +7,7 @@ import { errorMessage } from "@/api/client";
 import type { RefundRequest, RefundRequestStatus } from "@/api/refund.api";
 import { AdminOnly } from "@/components/Guards";
 import { EmptyState, ErrorState } from "@/components/StateViews";
+import { getRefundStatusMeta } from "@/lib/status";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -68,25 +69,6 @@ export const Route = createFileRoute("/admin/refunds/")({
 });
 
 const LIMIT = 15;
-
-function getStatusMeta(t: (key: string) => string): Record<RefundRequestStatus, { label: string; className: string }> {
-  return {
-    pending: { label: t("adminRefunds.statusPending"), className: "bg-amber-100 text-amber-700 hover:bg-amber-100" },
-    awaiting_return: {
-      label: t("adminRefunds.statusAwaitingReturn"),
-      className: "bg-blue-100 text-blue-700 hover:bg-blue-100",
-    },
-    completed: {
-      label: t("adminRefunds.statusCompleted"),
-      className: "bg-green-100 text-green-700 hover:bg-green-100",
-    },
-    rejected: {
-      label: t("adminRefunds.statusRejected"),
-      className: "bg-destructive/10 text-destructive hover:bg-destructive/10",
-    },
-    cancelled: { label: t("adminRefunds.statusCancelled"), className: "bg-secondary text-muted-foreground hover:bg-secondary" },
-  };
-}
 
 function formatPrice(amountInPiastres: number) {
   return (amountInPiastres / 100).toFixed(2);
@@ -222,7 +204,7 @@ function AdminRefundsPage() {
               </TableHeader>
               <TableBody>
                 {requests.map((request) => {
-                  const meta = getStatusMeta(t)[request.status];
+                  const meta = getRefundStatusMeta(t)[request.status];
                   return (
                     <TableRow key={request.id}>
                       <TableCell className="font-medium">#{request.order_id}</TableCell>
