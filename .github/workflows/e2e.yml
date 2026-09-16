@@ -58,7 +58,7 @@ jobs:
       - name: Checkout backend
         uses: actions/checkout@v4
         with:
-          repository: https://github.com/yousefmahrous/backend
+          repository: yousefmahrous/backend
           path: backend
 
       - uses: actions/setup-node@v4
@@ -93,20 +93,23 @@ jobs:
           cat backend.log
           exit 1
 
+      - name: Set up Bun
+        uses: oven-sh/setup-bun@v2
+
       - name: Install frontend dependencies
         working-directory: frontend
-        run: npm ci
+        run: bun install --frozen-lockfile
 
       - name: Install Playwright browsers
         working-directory: frontend
-        run: npx playwright install --with-deps chromium
+        run: bunx playwright install --with-deps chromium
 
       - name: Run Playwright e2e tests
         working-directory: frontend
         env:
           VITE_API_URL: http://localhost:3000/api/v1
           VITE_STRIPE_PUBLISHABLE_KEY: ${{ secrets.VITE_STRIPE_PUBLISHABLE_KEY }}
-        run: npx playwright test
+        run: bunx playwright test
 
       - name: Upload Playwright report
         uses: actions/upload-artifact@v4
