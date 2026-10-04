@@ -566,6 +566,9 @@
         "type": "الكمية لازم تكون رقم",
         "negative": "الكمية متقدرش تكون سالبة"
       }
+    },
+    "generic": {
+      "between": "لازم يكون بين {{min}} و {{max}} حرف"
     }
   },
   "ticket": {
@@ -613,5 +616,52 @@
     "pageOf": "صفحة {{current}} من {{total}}",
     "statusUpdatedToast": "تم تحديث حالة التذكرة",
     "customerFallback": "العميل"
+  },
+  "vendorGuard": {
+    "notRegistered": "معندكش حساب بائع لسه.",
+    "notActive": "حساب البائع بتاعك مش نشط.",
+    "status_pending": "طلبك لسه قيد المراجعة.",
+    "status_suspended": "حساب البائع بتاعك موقوف.",
+    "status_rejected": "طلبك اترفض. تقدر تقدّم تاني.",
+    "goToApply": "روح لصفحة التقديم كبائع"
+  },
+  "vendorApply": {
+    "title": "سجّل كبائع",
+    "intro": "قدّم طلب لفتح متجرك الخاص على المنصة وابدأ تبيع منتجاتك.",
+    "storeNameLabel": "اسم المتجر",
+    "storeNamePlaceholder": "مثال: مكتبة الشروق",
+    "submit": "إرسال الطلب",
+    "appliedSuccess": "تم إرسال طلبك بنجاح",
+    "alreadyHaveStatus": "حالة الطلب",
+    "storeName": "اسم المتجر",
+    "reapply": "إعادة التقديم"
+  },
+  "vendorProducts": {
+    "manage": "منتجاتي",
+    "addProduct": "إضافة منتج",
+    "noProducts": "لسه مضفتش أي منتج",
+    "startAdding": "دوس على \"إضافة منتج\" عشان تضيف أول منتج",
+    "deletedSuccess": "تم حذف \"{{name}}\" بنجاح",
+    "editTitle": "تعديل المنتج",
+    "newTitle": "إضافة منتج جديد",
+    "backToProducts": "رجوع لمنتجاتي"
+  },
+  "adminVendors": {
+    "title": "طلبات البائعين",
+    "noVendors": "مفيش طلبات بائعين",
+    "approve": "موافقة",
+    "suspend": "إيقاف",
+    "reactivate": "إعادة تفعيل",
+    "reject": "رفض",
+    "statusUpdated": "تم تحديث حالة البائع",
+    "filterAll": "الكل",
+    "store": "المتجر",
+    "owner": "المالك",
+    "status": "الحالة",
+    "actions": "الإجراءات",
+    "status_pending": "قيد المراجعة",
+    "status_active": "نشط",
+    "status_suspended": "موقوف",
+    "status_rejected": "مرفوض"
   }
 }

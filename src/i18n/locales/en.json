@@ -566,6 +566,9 @@
         "type": "Quantity must be a number",
         "negative": "Quantity can't be negative"
       }
+    },
+    "generic": {
+      "between": "Must be between {{min}} and {{max}} characters"
     }
   },
   "ticket": {
@@ -613,5 +616,52 @@
     "pageOf": "Page {{current}} of {{total}}",
     "statusUpdatedToast": "Ticket status updated",
     "customerFallback": "Customer"
+  },
+  "vendorGuard": {
+    "notRegistered": "You don't have a vendor account yet.",
+    "notActive": "Your vendor account isn't active.",
+    "status_pending": "Your vendor application is still under review.",
+    "status_suspended": "Your vendor account has been suspended.",
+    "status_rejected": "Your vendor application was rejected. You can apply again.",
+    "goToApply": "Go to vendor application"
+  },
+  "vendorApply": {
+    "title": "Become a Vendor",
+    "intro": "Apply to open your own store on our platform and start selling your products.",
+    "storeNameLabel": "Store name",
+    "storeNamePlaceholder": "e.g. Al Shorouk Bookstore",
+    "submit": "Submit application",
+    "appliedSuccess": "Your application has been submitted",
+    "alreadyHaveStatus": "Application status",
+    "storeName": "Store name",
+    "reapply": "Re-apply"
+  },
+  "vendorProducts": {
+    "manage": "My Products",
+    "addProduct": "Add Product",
+    "noProducts": "You haven't added any products yet",
+    "startAdding": "Click \"Add Product\" to list your first item",
+    "deletedSuccess": "\"{{name}}\" deleted successfully",
+    "editTitle": "Edit Product",
+    "newTitle": "Add New Product",
+    "backToProducts": "Back to my products"
+  },
+  "adminVendors": {
+    "title": "Vendor Applications",
+    "noVendors": "No vendor applications",
+    "approve": "Approve",
+    "suspend": "Suspend",
+    "reactivate": "Reactivate",
+    "reject": "Reject",
+    "statusUpdated": "Vendor status updated",
+    "filterAll": "All",
+    "store": "Store",
+    "owner": "Owner",
+    "status": "Status",
+    "actions": "Actions",
+    "status_pending": "Pending",
+    "status_active": "Active",
+    "status_suspended": "Suspended",
+    "status_rejected": "Rejected"
   }
 }
