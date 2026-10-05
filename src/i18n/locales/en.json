@@ -18,6 +18,10 @@
     "adminOrders": "Orders",
     "adminRefunds": "Refund Requests",
     "adminTickets": "Support Tickets",
+    "adminVendors": "Vendors",
+    "vendorProducts": "My Products",
+    "becomeVendor": "Become a Vendor",
+    "vendorStatus": "Vendor Application",
     "contact": "Contact Us",
     "menu": "Menu",
     "tickets": "Support Tickets"
@@ -42,6 +46,8 @@
     "password": "Password",
     "total": "Total",
     "cancel": "Cancel",
+    "save": "Save",
+    "success": "Done successfully",
     "edit": "Edit",
     "delete": "Delete",
     "allStatuses": "All Statuses",
@@ -620,6 +626,7 @@
   "vendorGuard": {
     "notRegistered": "You don't have a vendor account yet.",
     "notActive": "Your vendor account isn't active.",
+    "status_active": "Your vendor account is active.",
     "status_pending": "Your vendor application is still under review.",
     "status_suspended": "Your vendor account has been suspended.",
     "status_rejected": "Your vendor application was rejected. You can apply again.",

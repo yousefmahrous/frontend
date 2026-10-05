@@ -11,6 +11,7 @@ import {
   PackageSearch,
   RotateCcw,
   ShoppingCart,
+  Store,
   User,
 } from "lucide-react";
 import { useState } from "react";
@@ -22,6 +23,7 @@ import { errorMessage } from "@/api/client";
 import { useAuth } from "@/context/auth-context";
 import { useCart } from "@/hooks/useCart";
 import { useFavorites } from "@/hooks/useFavorites";
+import { useMyVendor } from "@/hooks/useVendor";
 import { Button } from "@/components/ui/button";
 import { LanguageSwitcher } from "@/components/LanguageSwitcher";
 import {
@@ -39,6 +41,8 @@ export function Navbar() {
   const { user, isLoading, isAdmin, setUser } = useAuth();
   const { data: cart } = useCart();
   const { data: favorites } = useFavorites();
+  const { data: vendor } = useMyVendor(Boolean(user) && !isAdmin);
+  const isActiveVendor = vendor?.status === "active";
   const navigate = useNavigate();
   const [open, setOpen] = useState(false);
 
@@ -186,6 +190,38 @@ export function Navbar() {
                     <Link to="/admin/tickets" className="gap-2">
                       <LifeBuoy className="size-4" />
                       {t("nav.adminTickets")}
+                    </Link>
+                  </DropdownMenuItem>
+                )}
+                {isAdmin && (
+                  <DropdownMenuItem asChild>
+                    <Link to="/admin/vendors" className="gap-2">
+                      <Store className="size-4" />
+                      {t("nav.adminVendors")}
+                    </Link>
+                  </DropdownMenuItem>
+                )}
+                {!isAdmin && isActiveVendor && (
+                  <DropdownMenuItem asChild>
+                    <Link to="/vendor/products" className="gap-2">
+                      <Store className="size-4" />
+                      {t("nav.vendorProducts")}
+                    </Link>
+                  </DropdownMenuItem>
+                )}
+                {!isAdmin && vendor && !isActiveVendor && (
+                  <DropdownMenuItem asChild>
+                    <Link to="/vendor/apply" className="gap-2">
+                      <Store className="size-4" />
+                      {t("nav.vendorStatus")}
+                    </Link>
+                  </DropdownMenuItem>
+                )}
+                {!isAdmin && !vendor && (
+                  <DropdownMenuItem asChild>
+                    <Link to="/vendor/apply" className="gap-2">
+                      <Store className="size-4" />
+                      {t("nav.becomeVendor")}
                     </Link>
                   </DropdownMenuItem>
                 )}

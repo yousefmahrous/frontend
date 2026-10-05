@@ -18,6 +18,10 @@
     "adminOrders": "الأوردرات",
     "adminRefunds": "طلبات الاسترجاع",
     "adminTickets": "تذاكر الدعم",
+    "adminVendors": "التجار",
+    "vendorProducts": "منتجاتي",
+    "becomeVendor": "كن تاجرًا",
+    "vendorStatus": "حالة طلب التاجر",
     "contact": "تواصل معنا",
     "menu": "القائمة",
     "tickets": "تذاكر الدعم"
@@ -42,6 +46,8 @@
     "password": "كلمة المرور",
     "total": "الإجمالي",
     "cancel": "إلغاء",
+    "save": "حفظ",
+    "success": "تمت العملية بنجاح",
     "edit": "تعديل",
     "delete": "حذف",
     "allStatuses": "كل الحالات",
@@ -620,6 +626,7 @@
   "vendorGuard": {
     "notRegistered": "معندكش حساب بائع لسه.",
     "notActive": "حساب البائع بتاعك مش نشط.",
+    "status_active": "حساب البائع بتاعك نشط.",
     "status_pending": "طلبك لسه قيد المراجعة.",
     "status_suspended": "حساب البائع بتاعك موقوف.",
     "status_rejected": "طلبك اترفض. تقدر تقدّم تاني.",

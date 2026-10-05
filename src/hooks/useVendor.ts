@@ -23,11 +23,12 @@ export const vendorKeys = {
     ["vendor", "admin", params] as const,
 };
 
-export function useMyVendor() {
+export function useMyVendor(enabled = true) {
   return useQuery({
     queryKey: vendorKeys.me,
     queryFn: fetchMyVendor,
     retry: false,
+    enabled,
   });
 }
 
