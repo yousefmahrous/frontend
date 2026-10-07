@@ -5,6 +5,7 @@ import { toast } from "sonner";
 
 import { errorMessage } from "@/api/client";
 import type { Order, OrderStatus } from "@/api/order.api";
+import { OrderShipments } from "@/components/orders/OrderShipments";
 import { Protected } from "@/components/Guards";
 import { EmptyState, ErrorState } from "@/components/StateViews";
 import { Badge } from "@/components/ui/badge";
@@ -47,11 +48,6 @@ export const Route = createFileRoute("/orders")({
 
 const RETURN_WINDOW_DAYS = 14;
 
-// orders.tsx is the only screen that shows a per-status icon next to the
-// badge, so that mapping stays local here instead of living in the shared
-// status helper (which would otherwise force every non-icon consumer to
-// import lucide-react for nothing). Label/className come from
-// getOrderStatusMeta in @/lib/status.
 const ORDER_STATUS_ICONS: Record<OrderStatus, typeof CheckCircle2> = {
   paid: CheckCircle2,
   pending: Clock,
@@ -183,6 +179,8 @@ function OrderCard({
         <span className="text-sm text-muted-foreground">{t("common.total")}</span>
         <span className="text-lg font-extrabold">{formatPrice(order.total_amount)} {t("bookDetails.currency")}</span>
       </div>
+
+      <OrderShipments order={order} />
 
       {canRequestRefund && (
         <div className="mt-3 border-t border-border pt-3">

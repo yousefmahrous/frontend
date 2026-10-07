@@ -1,16 +1,17 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { BookOpen, Loader2, Minus, Plus, ShoppingCart, Trash2 } from "lucide-react";
+import { useState } from "react";
 import { toast } from "sonner";
 
 import { errorMessage } from "@/api/client";
 import type { CartItem } from "@/api/cart.api";
+import { ShippingDialog } from "@/components/checkout/ShippingDialog";
 import { Protected } from "@/components/Guards";
 import { EmptyState, ErrorState } from "@/components/StateViews";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
 import { useCart, useRemoveCartItem, useUpdateCartItem } from "@/hooks/useCart";
-import { useCheckout } from "@/hooks/usePayment";
 import { pickLocalized } from "@/lib/localized";
 
 import en from "@/i18n/locales/en.json";
@@ -38,7 +39,7 @@ export const Route = createFileRoute("/cart")({
 function CartPage() {
   const { t } = useTranslation();
   const { data: cart, isLoading, isError, error, refetch } = useCart();
-  const checkout = useCheckout();
+  const [shippingOpen, setShippingOpen] = useState(false);
 
   if (isLoading) {
     return (
@@ -67,12 +68,6 @@ function CartPage() {
     0,
   );
 
-  function handleCheckout() {
-    checkout.mutate(undefined, {
-      onError: (err) => toast.error(errorMessage(err)),
-    });
-  }
-
   return (
     <div className="mx-auto max-w-3xl px-4 py-10">
       <div className="mb-6 flex items-center gap-3">
@@ -99,14 +94,10 @@ function CartPage() {
               <p className="text-sm text-muted-foreground">{t("common.total")}</p>
               <p className="text-xl font-extrabold">{totalPrice.toFixed(2)} {t("bookDetails.currency")}</p>
             </div>
-            <Button onClick={handleCheckout} disabled={checkout.isPending}>
-              {checkout.isPending ? (
-                <Loader2 className="size-4 animate-spin" />
-              ) : (
-                t("cart.proceedToCheckout")
-              )}
-            </Button>
+            <Button onClick={() => setShippingOpen(true)}>{t("cart.proceedToCheckout")}</Button>
           </div>
+
+          <ShippingDialog open={shippingOpen} onOpenChange={setShippingOpen} />
         </>
       )}
     </div>

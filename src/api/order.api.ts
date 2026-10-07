@@ -18,6 +18,27 @@ export interface OrderItem {
   unit_price: number;
 }
 
+export type FulfillmentStatus = "pending" | "processing" | "shipped" | "delivered";
+
+export interface OrderShipping {
+  name: string;
+  phone: string;
+  address: string;
+  city: string;
+  notes: string | null;
+}
+
+export interface OrderShipment {
+  id: number;
+  vendor: { id: number; store_name: string } | null;
+  fulfillment_status: FulfillmentStatus;
+  carrier: string | null;
+  tracking_number: string | null;
+  shipped_at: string | null;
+  delivered_at: string | null;
+  items: OrderItem[];
+}
+
 export interface Order {
   id: number;
   status: OrderStatus;
@@ -26,6 +47,8 @@ export interface Order {
   created_at: string;
   paid_at: string | null;
   items: OrderItem[];
+  shipping: OrderShipping | null;
+  shipments: OrderShipment[];
 }
 
 export interface OrderCustomer {

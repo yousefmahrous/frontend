@@ -24,7 +24,8 @@
     "vendorStatus": "حالة طلب التاجر",
     "contact": "تواصل معنا",
     "menu": "القائمة",
-    "tickets": "تذاكر الدعم"
+    "tickets": "تذاكر الدعم",
+    "vendorOrders": "الأوردرات الواردة"
   },
   "toast": {
     "logoutSuccess": "تم تسجيل الخروج"
@@ -492,6 +493,9 @@
     },
     "ticketDetailPage": {
       "title": "تفاصيل التذكرة | مكتبة القراء"
+    },
+    "vendorOrdersPage": {
+      "title": "الأوردرات الواردة | مكتبة القراء"
     }
   },
   "stateViews": {
@@ -670,5 +674,64 @@
     "status_active": "نشط",
     "status_suspended": "موقوف",
     "status_rejected": "مرفوض"
+  },
+  "shipping": {
+    "title": "بيانات الشحن",
+    "description": "هنوصّل الأوردر لفين؟",
+    "name": "الاسم بالكامل",
+    "phone": "رقم الموبايل",
+    "phonePlaceholder": "01012345678",
+    "address": "العنوان",
+    "addressPlaceholder": "الشارع، العمارة، الدور، الشقة",
+    "city": "المدينة",
+    "notes": "ملاحظات (اختياري)",
+    "notesPlaceholder": "مثلاً: اتصل قبل التوصيل",
+    "continueToPayment": "المتابعة للدفع",
+    "validation": {
+      "nameMin": "الاسم يجب ألا يقل عن 3 أحرف",
+      "nameMax": "الاسم يجب ألا يزيد عن 80 حرفًا",
+      "phoneInvalid": "اكتب رقم موبايل مصري صحيح (مثال: 01012345678)",
+      "addressMin": "اكتب العنوان بالتفصيل (10 أحرف على الأقل)",
+      "addressMax": "العنوان يجب ألا يزيد عن 250 حرفًا",
+      "cityMin": "اسم المدينة يجب ألا يقل عن حرفين",
+      "cityMax": "اسم المدينة يجب ألا يزيد عن 60 حرفًا",
+      "notesMax": "الملاحظات يجب ألا تزيد عن 300 حرف"
+    }
+  },
+  "fulfillment": {
+    "pending": "في انتظار البائع",
+    "processing": "جاري التجهيز",
+    "shipped": "تم الشحن",
+    "delivered": "تم التسليم",
+    "shipments": "الشحنات",
+    "shipmentFrom": "من {{store}}",
+    "shippingAddress": "عنوان الشحن",
+    "carrier": "شركة الشحن",
+    "trackingNumber": "رقم التتبع"
+  },
+  "vendorOrders": {
+    "title": "الأوردرات الواردة",
+    "empty": "مفيش أوردرات لسه",
+    "emptyDesc": "الأوردرات المدفوعة اللي فيها كتبك هتظهر هنا.",
+    "orderNumber": "أوردر #{{id}}",
+    "customer": "العميل",
+    "phone": "الموبايل",
+    "address": "العنوان",
+    "notes": "ملاحظات",
+    "items": "المنتجات",
+    "subtotal": "إجمالي بضاعتك",
+    "allStatuses": "كل حالات الشحن",
+    "markProcessing": "ابدأ التجهيز",
+    "markShipped": "تم الشحن",
+    "markDelivered": "تم التسليم",
+    "shipDialogTitle": "شحن أوردر #{{id}}",
+    "shipDialogDesc": "اكتب شركة الشحن ورقم التتبع لو متاح.",
+    "carrier": "شركة الشحن",
+    "carrierPlaceholder": "مثلاً: بوسطة، أرامكس",
+    "carrierRequired": "شركة الشحن مطلوبة",
+    "trackingNumber": "رقم التتبع (اختياري)",
+    "confirmShip": "تأكيد الشحن",
+    "onHold": "الأوردر ده عليه طلب استرجاع أو استرداد ومينفعش يتعدّل.",
+    "updated": "تم تحديث حالة الأوردر"
   }
 }

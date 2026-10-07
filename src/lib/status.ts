@@ -1,4 +1,4 @@
-import type { OrderStatus } from "@/api/order.api";
+import type { FulfillmentStatus, OrderStatus } from "@/api/order.api";
 import type { RefundRequestStatus } from "@/api/refund.api";
 import type { TicketStatus } from "@/api/ticket.api";
 
@@ -36,6 +36,29 @@ export function getOrderStatusMeta(
     refunded: {
       label: t("orders.statusRefunded"),
       className: "bg-secondary text-muted-foreground hover:bg-secondary",
+    },
+  };
+}
+
+export function getFulfillmentStatusMeta(
+  t: Translate,
+): Record<FulfillmentStatus, StatusMeta> {
+  return {
+    pending: {
+      label: t("fulfillment.pending"),
+      className: "bg-amber-100 text-amber-700 hover:bg-amber-100",
+    },
+    processing: {
+      label: t("fulfillment.processing"),
+      className: "bg-blue-100 text-blue-700 hover:bg-blue-100",
+    },
+    shipped: {
+      label: t("fulfillment.shipped"),
+      className: "bg-purple-100 text-purple-700 hover:bg-purple-100",
+    },
+    delivered: {
+      label: t("fulfillment.delivered"),
+      className: "bg-green-100 text-green-700 hover:bg-green-100",
     },
   };
 }

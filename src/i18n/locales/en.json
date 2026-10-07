@@ -24,7 +24,8 @@
     "vendorStatus": "Vendor Application",
     "contact": "Contact Us",
     "menu": "Menu",
-    "tickets": "Support Tickets"
+    "tickets": "Support Tickets",
+    "vendorOrders": "Orders Received"
   },
   "toast": {
     "logoutSuccess": "Logged out successfully"
@@ -492,6 +493,9 @@
     },
     "ticketDetailPage": {
       "title": "Ticket Details | Readers Library"
+    },
+    "vendorOrdersPage": {
+      "title": "Orders Received | Readers Library"
     }
   },
   "stateViews": {
@@ -670,5 +674,64 @@
     "status_active": "Active",
     "status_suspended": "Suspended",
     "status_rejected": "Rejected"
+  },
+  "shipping": {
+    "title": "Shipping details",
+    "description": "Where should we deliver your order?",
+    "name": "Full name",
+    "phone": "Mobile number",
+    "phonePlaceholder": "01012345678",
+    "address": "Address",
+    "addressPlaceholder": "Street, building, floor, apartment",
+    "city": "City",
+    "notes": "Notes (optional)",
+    "notesPlaceholder": "E.g. call before delivery",
+    "continueToPayment": "Continue to payment",
+    "validation": {
+      "nameMin": "Full name must be at least 3 characters",
+      "nameMax": "Full name must be at most 80 characters",
+      "phoneInvalid": "Enter a valid Egyptian mobile number (e.g. 01012345678)",
+      "addressMin": "Please enter the full address (at least 10 characters)",
+      "addressMax": "Address must be at most 250 characters",
+      "cityMin": "City must be at least 2 characters",
+      "cityMax": "City must be at most 60 characters",
+      "notesMax": "Notes must be at most 300 characters"
+    }
+  },
+  "fulfillment": {
+    "pending": "Awaiting seller",
+    "processing": "Being prepared",
+    "shipped": "Shipped",
+    "delivered": "Delivered",
+    "shipments": "Shipments",
+    "shipmentFrom": "From {{store}}",
+    "shippingAddress": "Shipping address",
+    "carrier": "Shipping company",
+    "trackingNumber": "Tracking number"
+  },
+  "vendorOrders": {
+    "title": "Orders Received",
+    "empty": "No orders yet",
+    "emptyDesc": "Paid orders containing your books will appear here.",
+    "orderNumber": "Order #{{id}}",
+    "customer": "Customer",
+    "phone": "Mobile",
+    "address": "Address",
+    "notes": "Notes",
+    "items": "Items",
+    "subtotal": "Your subtotal",
+    "allStatuses": "All shipping statuses",
+    "markProcessing": "Start preparing",
+    "markShipped": "Mark as shipped",
+    "markDelivered": "Mark as delivered",
+    "shipDialogTitle": "Ship order #{{id}}",
+    "shipDialogDesc": "Enter the shipping company and, if available, the tracking number.",
+    "carrier": "Shipping company",
+    "carrierPlaceholder": "E.g. Bosta, Aramex",
+    "carrierRequired": "Shipping company is required",
+    "trackingNumber": "Tracking number (optional)",
+    "confirmShip": "Confirm shipping",
+    "onHold": "This order is under return or refund and can't be updated.",
+    "updated": "Order status updated"
   }
 }
