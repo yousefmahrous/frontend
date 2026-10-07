@@ -34,6 +34,7 @@ import { Route as AdminOrdersIndexRouteImport } from './routes/admin.orders.inde
 import { Route as AdminRefundsIndexRouteImport } from './routes/admin.refunds.index'
 import { Route as AdminTicketsIndexRouteImport } from './routes/admin.tickets.index'
 import { Route as AdminVendorsIndexRouteImport } from './routes/admin.vendors.index'
+import { Route as VendorOrdersIndexRouteImport } from './routes/vendor.orders.index'
 import { Route as VendorProductsIndexRouteImport } from './routes/vendor.products.index'
 import { Route as VendorProductsNewRouteImport } from './routes/vendor.products.new'
 import { Route as AdminBooksIdEditRouteImport } from './routes/admin.books.$id.edit'
@@ -164,6 +165,11 @@ const AdminVendorsIndexRoute = AdminVendorsIndexRouteImport.update({
   path: '/admin/vendors/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const VendorOrdersIndexRoute = VendorOrdersIndexRouteImport.update({
+  id: '/vendor/orders/',
+  path: '/vendor/orders/',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const VendorProductsIndexRoute = VendorProductsIndexRouteImport.update({
   id: '/vendor/products/',
   path: '/vendor/products/',
@@ -212,6 +218,7 @@ export interface FileRoutesByFullPath {
   '/admin/refunds/': typeof AdminRefundsIndexRoute
   '/admin/tickets/': typeof AdminTicketsIndexRoute
   '/admin/vendors/': typeof AdminVendorsIndexRoute
+  '/vendor/orders/': typeof VendorOrdersIndexRoute
   '/vendor/products/': typeof VendorProductsIndexRoute
   '/admin/books/$id/edit': typeof AdminBooksIdEditRoute
   '/vendor/products/$id/edit': typeof VendorProductsIdEditRoute
@@ -243,6 +250,7 @@ export interface FileRoutesByTo {
   '/admin/refunds': typeof AdminRefundsIndexRoute
   '/admin/tickets': typeof AdminTicketsIndexRoute
   '/admin/vendors': typeof AdminVendorsIndexRoute
+  '/vendor/orders': typeof VendorOrdersIndexRoute
   '/vendor/products': typeof VendorProductsIndexRoute
   '/admin/books/$id/edit': typeof AdminBooksIdEditRoute
   '/vendor/products/$id/edit': typeof VendorProductsIdEditRoute
@@ -275,6 +283,7 @@ export interface FileRoutesById {
   '/admin/refunds/': typeof AdminRefundsIndexRoute
   '/admin/tickets/': typeof AdminTicketsIndexRoute
   '/admin/vendors/': typeof AdminVendorsIndexRoute
+  '/vendor/orders/': typeof VendorOrdersIndexRoute
   '/vendor/products/': typeof VendorProductsIndexRoute
   '/admin/books/$id/edit': typeof AdminBooksIdEditRoute
   '/vendor/products/$id/edit': typeof VendorProductsIdEditRoute
@@ -308,6 +317,7 @@ export interface FileRouteTypes {
     | '/admin/refunds/'
     | '/admin/tickets/'
     | '/admin/vendors/'
+    | '/vendor/orders/'
     | '/vendor/products/'
     | '/admin/books/$id/edit'
     | '/vendor/products/$id/edit'
@@ -339,6 +349,7 @@ export interface FileRouteTypes {
     | '/admin/refunds'
     | '/admin/tickets'
     | '/admin/vendors'
+    | '/vendor/orders'
     | '/vendor/products'
     | '/admin/books/$id/edit'
     | '/vendor/products/$id/edit'
@@ -370,6 +381,7 @@ export interface FileRouteTypes {
     | '/admin/refunds/'
     | '/admin/tickets/'
     | '/admin/vendors/'
+    | '/vendor/orders/'
     | '/vendor/products/'
     | '/admin/books/$id/edit'
     | '/vendor/products/$id/edit'
@@ -402,6 +414,7 @@ export interface RootRouteChildren {
   AdminRefundsIndexRoute: typeof AdminRefundsIndexRoute
   AdminTicketsIndexRoute: typeof AdminTicketsIndexRoute
   AdminVendorsIndexRoute: typeof AdminVendorsIndexRoute
+  VendorOrdersIndexRoute: typeof VendorOrdersIndexRoute
   VendorProductsIndexRoute: typeof VendorProductsIndexRoute
   AdminBooksIdEditRoute: typeof AdminBooksIdEditRoute
   VendorProductsIdEditRoute: typeof VendorProductsIdEditRoute
@@ -584,6 +597,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminVendorsIndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/vendor/orders/': {
+      id: '/vendor/orders/'
+      path: '/vendor/orders'
+      fullPath: '/vendor/orders/'
+      preLoaderRoute: typeof VendorOrdersIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/vendor/products/': {
       id: '/vendor/products/'
       path: '/vendor/products'
@@ -642,6 +662,7 @@ const rootRouteChildren: RootRouteChildren = {
   AdminRefundsIndexRoute: AdminRefundsIndexRoute,
   AdminTicketsIndexRoute: AdminTicketsIndexRoute,
   AdminVendorsIndexRoute: AdminVendorsIndexRoute,
+  VendorOrdersIndexRoute: VendorOrdersIndexRoute,
   VendorProductsIndexRoute: VendorProductsIndexRoute,
   AdminBooksIdEditRoute: AdminBooksIdEditRoute,
   VendorProductsIdEditRoute: VendorProductsIdEditRoute,

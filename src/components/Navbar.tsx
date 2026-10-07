@@ -12,6 +12,7 @@ import {
   RotateCcw,
   ShoppingCart,
   Store,
+  Truck,
   User,
 } from "lucide-react";
 import { useState } from "react";
@@ -206,6 +207,14 @@ export function Navbar() {
                     <Link to="/vendor/products" className="gap-2">
                       <Store className="size-4" />
                       {t("nav.vendorProducts")}
+                    </Link>
+                  </DropdownMenuItem>
+                )}
+                {!isAdmin && isActiveVendor && (
+                  <DropdownMenuItem asChild>
+                    <Link to="/vendor/orders" className="gap-2">
+                      <Truck className="size-4" />
+                      {t("nav.vendorOrders")}
                     </Link>
                   </DropdownMenuItem>
                 )}

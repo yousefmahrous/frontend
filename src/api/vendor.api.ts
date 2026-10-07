@@ -1,5 +1,6 @@
 import { api } from "./client";
 import type { Book, BookPayload, BooksListResult, Pagination } from "./books.api";
+import type { FulfillmentStatus, OrderShipping } from "./order.api";
 
 export type VendorStatus = "pending" | "active" | "suspended" | "rejected";
 
@@ -84,4 +85,53 @@ export async function deleteMyProduct(id: string) {
     `/vendors/books/${id}`,
   );
   return data;
+}
+
+export interface VendorOrderItem {
+  book_id: number;
+  title: string;
+  quantity: number;
+  unit_price: number;
+}
+
+export interface VendorOrder {
+  id: number;
+  order_id: number;
+  order_status: string;
+  paid_at: string | null;
+  created_at: string;
+  fulfillment_status: FulfillmentStatus;
+  carrier: string | null;
+  tracking_number: string | null;
+  shipped_at: string | null;
+  delivered_at: string | null;
+  shipping: OrderShipping;
+  items: VendorOrderItem[];
+  subtotal: number;
+}
+
+export interface FulfillmentPayload {
+  status: Exclude<FulfillmentStatus, "pending">;
+  carrier?: string | undefined;
+  tracking_number?: string | undefined;
+}
+
+export async function fetchMyVendorOrders(params: {
+  page: number;
+  limit: number;
+  status?: FulfillmentStatus | undefined;
+}) {
+  const { data } = await api.get<{
+    success: boolean;
+    data: { items: VendorOrder[]; pagination: Pagination };
+  }>("/vendors/orders", { params });
+  return data.data;
+}
+
+export async function updateVendorOrderFulfillment(id: number, payload: FulfillmentPayload) {
+  const { data } = await api.patch<{ success: boolean; message: string; data: VendorOrder }>(
+    `/vendors/orders/${id}/fulfillment`,
+    payload,
+  );
+  return data.data;
 }
