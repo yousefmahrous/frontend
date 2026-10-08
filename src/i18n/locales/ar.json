@@ -156,7 +156,8 @@
     "noOrdersYet": "لسه محدش عمل أوردر.",
     "prev": "السابق",
     "next": "التالي",
-    "pageOf": "صفحة {{current}} من {{total}}"
+    "pageOf": "صفحة {{current}} من {{total}}",
+    "sellers": "البائعون"
   },
   "login": {
     "subtitle": "ادخل بيانات حسابك للمتابعة",

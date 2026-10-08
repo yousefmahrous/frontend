@@ -5,7 +5,7 @@ import { useState } from "react";
 import { errorMessage } from "@/api/client";
 import type { OrderStatus } from "@/api/order.api";
 import { AdminOnly } from "@/components/Guards";
-import { getOrderStatusMeta } from "@/lib/status";
+import { getFulfillmentStatusMeta, getOrderStatusMeta } from "@/lib/status";
 import { EmptyState, ErrorState } from "@/components/StateViews";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -133,6 +133,7 @@ function AdminOrdersPage() {
                 <TableRow>
                   <TableHead className="text-right">{t("common.order")}</TableHead>
                   <TableHead className="text-right">{t("common.customer")}</TableHead>
+                  <TableHead className="text-right">{t("adminOrders.sellers")}</TableHead>
                   <TableHead className="text-right">{t("adminOrders.books")}</TableHead>
                   <TableHead className="text-right">{t("common.total")}</TableHead>
                   <TableHead className="text-right">{t("common.status")}</TableHead>
@@ -142,6 +143,7 @@ function AdminOrdersPage() {
               <TableBody>
                 {orders.map((order) => {
                   const meta = getOrderStatusMeta(t)[order.status];
+                  const fulfillmentMeta = getFulfillmentStatusMeta(t);
                   return (
                     <TableRow key={order.id}>
                       <TableCell className="font-medium">#{order.id}</TableCell>
@@ -153,6 +155,25 @@ function AdminOrdersPage() {
                           </div>
                         ) : (
                           <span className="text-muted-foreground">{t("common.deletedUser")}</span>
+                        )}
+                      </TableCell>
+                      <TableCell>
+                        {order.shipments.length ? (
+                          <div className="space-y-1">
+                            {order.shipments.map((shipment) => {
+                              const shipmentMeta = fulfillmentMeta[shipment.fulfillment_status];
+                              return (
+                                <div key={shipment.id} className="flex items-center gap-2">
+                                  <span className="text-sm">{shipment.vendor?.store_name ?? "—"}</span>
+                                  {order.paid_at && (
+                                    <Badge className={shipmentMeta.className}>{shipmentMeta.label}</Badge>
+                                  )}
+                                </div>
+                              );
+                            })}
+                          </div>
+                        ) : (
+                          <span className="text-muted-foreground">—</span>
                         )}
                       </TableCell>
                       <TableCell className="max-w-56 truncate text-muted-foreground">

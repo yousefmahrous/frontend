@@ -156,7 +156,8 @@
     "noOrdersYet": "No one has placed an order yet.",
     "prev": "Previous",
     "next": "Next",
-    "pageOf": "Page {{current}} of {{total}}"
+    "pageOf": "Page {{current}} of {{total}}",
+    "sellers": "Sellers"
   },
   "login": {
     "subtitle": "Enter your account details to continue",
