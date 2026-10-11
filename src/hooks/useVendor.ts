@@ -7,6 +7,8 @@ import {
   fetchMyProduct,
   fetchMyProducts,
   fetchMyVendorOrders,
+  fetchMyPayouts,
+  fetchVendorEarnings,
   fetchMyVendor,
   fetchVendorsAdmin,
   updateMyProduct,
@@ -128,5 +130,22 @@ export function useUpdateFulfillment() {
     mutationFn: ({ id, ...payload }: FulfillmentPayload & { id: number }) =>
       updateVendorOrderFulfillment(id, payload),
     onSuccess: () => void queryClient.invalidateQueries({ queryKey: ["vendor", "orders"] }),
+  });
+}
+
+export function useVendorEarnings() {
+  return useQuery({
+    queryKey: ["vendor", "earnings"],
+    queryFn: fetchVendorEarnings,
+    retry: false,
+  });
+}
+
+export function useMyPayouts(params: { page: number; limit: number }) {
+  return useQuery({
+    queryKey: ["vendor", "payouts", params],
+    queryFn: () => fetchMyPayouts(params),
+    placeholderData: keepPreviousData,
+    retry: false,
   });
 }

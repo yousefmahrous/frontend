@@ -25,7 +25,9 @@
     "contact": "Contact Us",
     "menu": "Menu",
     "tickets": "Support Tickets",
-    "vendorOrders": "Orders Received"
+    "vendorOrders": "Orders Received",
+    "vendorEarnings": "Earnings",
+    "adminPayouts": "Payouts"
   },
   "toast": {
     "logoutSuccess": "Logged out successfully"
@@ -497,6 +499,12 @@
     },
     "vendorOrdersPage": {
       "title": "Orders Received | Readers Library"
+    },
+    "vendorEarningsPage": {
+      "title": "My Earnings | Readers Library"
+    },
+    "adminPayoutsPage": {
+      "title": "Vendor Payouts | Readers Library"
     }
   },
   "stateViews": {
@@ -734,5 +742,49 @@
     "confirmShip": "Confirm shipping",
     "onHold": "This order is under return or refund and can't be updated.",
     "updated": "Order status updated"
+  },
+  "vendorEarnings": {
+    "title": "My Earnings",
+    "pending": "Pending",
+    "pendingHint": "Orders not delivered yet, or still inside the return window",
+    "available": "Available",
+    "availableHint": "Ready to be transferred to you",
+    "onHold": "On hold",
+    "onHoldHint": "Frozen until a return request is resolved",
+    "paidOut": "Paid out",
+    "paidOutHint": "Transferred to you so far",
+    "commissionNote": "Your commission rate is {{percent}}%. Amounts shown are after commission.",
+    "holdNote": "Money becomes available once an order is delivered and {{days}} days have passed since payment.",
+    "payouts": "Payout history",
+    "noPayouts": "No payouts yet",
+    "reference": "Reference",
+    "ordersCount": "{{count}} orders"
+  },
+  "adminPayouts": {
+    "title": "Vendor Payouts",
+    "balances": "Vendor balances",
+    "holdNote": "Money becomes available once an order is delivered and {{days}} days have passed since payment.",
+    "noVendors": "No vendors yet",
+    "store": "Store",
+    "available": "Available",
+    "pending": "Pending",
+    "onHold": "On hold",
+    "paidOut": "Paid out",
+    "action": "Record payout",
+    "history": "Payout history",
+    "noPayouts": "No payouts recorded yet",
+    "date": "Date",
+    "amount": "Amount",
+    "reference": "Transfer reference",
+    "orders": "Orders",
+    "ordersCount": "{{count}} orders",
+    "dialogTitle": "Record payout for {{store}}",
+    "dialogDesc": "Transfer the amount below to the vendor outside the system (e.g. bank transfer), then record it here.",
+    "amountToPay": "Amount to transfer",
+    "referencePlaceholder": "Bank transfer reference number",
+    "referenceRequired": "Transfer reference is required",
+    "note": "Note (optional)",
+    "confirm": "Confirm transfer was made",
+    "recorded": "Payout recorded"
   }
 }

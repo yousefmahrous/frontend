@@ -14,6 +14,26 @@ export interface Vendor {
   owner?: { id: number; name: string; email: string };
 }
 
+export interface VendorEarnings {
+  currency: string;
+  pending: number;
+  available: number;
+  on_hold: number;
+  paid_out: number;
+  hold_days: number;
+  commission_bps: number;
+}
+
+export interface VendorPayout {
+  id: number;
+  amount: number;
+  currency: string;
+  reference: string | null;
+  note: string | null;
+  created_at: string;
+  orders_count: number;
+}
+
 export async function applyAsVendor(storeName: string) {
   const { data } = await api.post<{ success: boolean; message: string; data: Vendor }>(
     "/vendors/apply",
@@ -133,5 +153,18 @@ export async function updateVendorOrderFulfillment(id: number, payload: Fulfillm
     `/vendors/orders/${id}/fulfillment`,
     payload,
   );
+  return data.data;
+}
+
+export async function fetchVendorEarnings() {
+  const { data } = await api.get<{ success: boolean; data: VendorEarnings }>("/vendors/earnings");
+  return data.data;
+}
+
+export async function fetchMyPayouts(params: { page: number; limit: number }) {
+  const { data } = await api.get<{
+    success: boolean;
+    data: { items: VendorPayout[]; pagination: Pagination };
+  }>("/vendors/payouts", { params });
   return data.data;
 }

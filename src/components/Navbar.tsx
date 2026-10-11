@@ -14,6 +14,7 @@ import {
   Store,
   Truck,
   User,
+  Wallet,
 } from "lucide-react";
 import { useState } from "react";
 import { toast } from "sonner";
@@ -202,6 +203,14 @@ export function Navbar() {
                     </Link>
                   </DropdownMenuItem>
                 )}
+                {isAdmin && (
+                  <DropdownMenuItem asChild>
+                    <Link to="/admin/payouts" className="gap-2">
+                      <Wallet className="size-4" />
+                      {t("nav.adminPayouts")}
+                    </Link>
+                  </DropdownMenuItem>
+                )}
                 {!isAdmin && isActiveVendor && (
                   <DropdownMenuItem asChild>
                     <Link to="/vendor/products" className="gap-2">
@@ -215,6 +224,14 @@ export function Navbar() {
                     <Link to="/vendor/orders" className="gap-2">
                       <Truck className="size-4" />
                       {t("nav.vendorOrders")}
+                    </Link>
+                  </DropdownMenuItem>
+                )}
+                {!isAdmin && isActiveVendor && (
+                  <DropdownMenuItem asChild>
+                    <Link to="/vendor/earnings" className="gap-2">
+                      <Wallet className="size-4" />
+                      {t("nav.vendorEarnings")}
                     </Link>
                   </DropdownMenuItem>
                 )}

@@ -31,9 +31,11 @@ import { Route as VendorApplyRouteImport } from './routes/vendor.apply'
 import { Route as AdminBooksIndexRouteImport } from './routes/admin.books.index'
 import { Route as AdminBooksNewRouteImport } from './routes/admin.books.new'
 import { Route as AdminOrdersIndexRouteImport } from './routes/admin.orders.index'
+import { Route as AdminPayoutsIndexRouteImport } from './routes/admin.payouts.index'
 import { Route as AdminRefundsIndexRouteImport } from './routes/admin.refunds.index'
 import { Route as AdminTicketsIndexRouteImport } from './routes/admin.tickets.index'
 import { Route as AdminVendorsIndexRouteImport } from './routes/admin.vendors.index'
+import { Route as VendorEarningsIndexRouteImport } from './routes/vendor.earnings.index'
 import { Route as VendorOrdersIndexRouteImport } from './routes/vendor.orders.index'
 import { Route as VendorProductsIndexRouteImport } from './routes/vendor.products.index'
 import { Route as VendorProductsNewRouteImport } from './routes/vendor.products.new'
@@ -150,6 +152,11 @@ const AdminOrdersIndexRoute = AdminOrdersIndexRouteImport.update({
   path: '/admin/orders/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AdminPayoutsIndexRoute = AdminPayoutsIndexRouteImport.update({
+  id: '/admin/payouts/',
+  path: '/admin/payouts/',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const AdminRefundsIndexRoute = AdminRefundsIndexRouteImport.update({
   id: '/admin/refunds/',
   path: '/admin/refunds/',
@@ -163,6 +170,11 @@ const AdminTicketsIndexRoute = AdminTicketsIndexRouteImport.update({
 const AdminVendorsIndexRoute = AdminVendorsIndexRouteImport.update({
   id: '/admin/vendors/',
   path: '/admin/vendors/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const VendorEarningsIndexRoute = VendorEarningsIndexRouteImport.update({
+  id: '/vendor/earnings/',
+  path: '/vendor/earnings/',
   getParentRoute: () => rootRouteImport,
 } as any)
 const VendorOrdersIndexRoute = VendorOrdersIndexRouteImport.update({
@@ -215,9 +227,11 @@ export interface FileRoutesByFullPath {
   '/vendor/products/new': typeof VendorProductsNewRoute
   '/admin/books/': typeof AdminBooksIndexRoute
   '/admin/orders/': typeof AdminOrdersIndexRoute
+  '/admin/payouts/': typeof AdminPayoutsIndexRoute
   '/admin/refunds/': typeof AdminRefundsIndexRoute
   '/admin/tickets/': typeof AdminTicketsIndexRoute
   '/admin/vendors/': typeof AdminVendorsIndexRoute
+  '/vendor/earnings/': typeof VendorEarningsIndexRoute
   '/vendor/orders/': typeof VendorOrdersIndexRoute
   '/vendor/products/': typeof VendorProductsIndexRoute
   '/admin/books/$id/edit': typeof AdminBooksIdEditRoute
@@ -247,9 +261,11 @@ export interface FileRoutesByTo {
   '/vendor/products/new': typeof VendorProductsNewRoute
   '/admin/books': typeof AdminBooksIndexRoute
   '/admin/orders': typeof AdminOrdersIndexRoute
+  '/admin/payouts': typeof AdminPayoutsIndexRoute
   '/admin/refunds': typeof AdminRefundsIndexRoute
   '/admin/tickets': typeof AdminTicketsIndexRoute
   '/admin/vendors': typeof AdminVendorsIndexRoute
+  '/vendor/earnings': typeof VendorEarningsIndexRoute
   '/vendor/orders': typeof VendorOrdersIndexRoute
   '/vendor/products': typeof VendorProductsIndexRoute
   '/admin/books/$id/edit': typeof AdminBooksIdEditRoute
@@ -280,9 +296,11 @@ export interface FileRoutesById {
   '/vendor/products/new': typeof VendorProductsNewRoute
   '/admin/books/': typeof AdminBooksIndexRoute
   '/admin/orders/': typeof AdminOrdersIndexRoute
+  '/admin/payouts/': typeof AdminPayoutsIndexRoute
   '/admin/refunds/': typeof AdminRefundsIndexRoute
   '/admin/tickets/': typeof AdminTicketsIndexRoute
   '/admin/vendors/': typeof AdminVendorsIndexRoute
+  '/vendor/earnings/': typeof VendorEarningsIndexRoute
   '/vendor/orders/': typeof VendorOrdersIndexRoute
   '/vendor/products/': typeof VendorProductsIndexRoute
   '/admin/books/$id/edit': typeof AdminBooksIdEditRoute
@@ -314,9 +332,11 @@ export interface FileRouteTypes {
     | '/vendor/products/new'
     | '/admin/books/'
     | '/admin/orders/'
+    | '/admin/payouts/'
     | '/admin/refunds/'
     | '/admin/tickets/'
     | '/admin/vendors/'
+    | '/vendor/earnings/'
     | '/vendor/orders/'
     | '/vendor/products/'
     | '/admin/books/$id/edit'
@@ -346,9 +366,11 @@ export interface FileRouteTypes {
     | '/vendor/products/new'
     | '/admin/books'
     | '/admin/orders'
+    | '/admin/payouts'
     | '/admin/refunds'
     | '/admin/tickets'
     | '/admin/vendors'
+    | '/vendor/earnings'
     | '/vendor/orders'
     | '/vendor/products'
     | '/admin/books/$id/edit'
@@ -378,9 +400,11 @@ export interface FileRouteTypes {
     | '/vendor/products/new'
     | '/admin/books/'
     | '/admin/orders/'
+    | '/admin/payouts/'
     | '/admin/refunds/'
     | '/admin/tickets/'
     | '/admin/vendors/'
+    | '/vendor/earnings/'
     | '/vendor/orders/'
     | '/vendor/products/'
     | '/admin/books/$id/edit'
@@ -411,9 +435,11 @@ export interface RootRouteChildren {
   VendorProductsNewRoute: typeof VendorProductsNewRoute
   AdminBooksIndexRoute: typeof AdminBooksIndexRoute
   AdminOrdersIndexRoute: typeof AdminOrdersIndexRoute
+  AdminPayoutsIndexRoute: typeof AdminPayoutsIndexRoute
   AdminRefundsIndexRoute: typeof AdminRefundsIndexRoute
   AdminTicketsIndexRoute: typeof AdminTicketsIndexRoute
   AdminVendorsIndexRoute: typeof AdminVendorsIndexRoute
+  VendorEarningsIndexRoute: typeof VendorEarningsIndexRoute
   VendorOrdersIndexRoute: typeof VendorOrdersIndexRoute
   VendorProductsIndexRoute: typeof VendorProductsIndexRoute
   AdminBooksIdEditRoute: typeof AdminBooksIdEditRoute
@@ -576,6 +602,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminOrdersIndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/admin/payouts/': {
+      id: '/admin/payouts/'
+      path: '/admin/payouts'
+      fullPath: '/admin/payouts/'
+      preLoaderRoute: typeof AdminPayoutsIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/admin/refunds/': {
       id: '/admin/refunds/'
       path: '/admin/refunds'
@@ -595,6 +628,13 @@ declare module '@tanstack/react-router' {
       path: '/admin/vendors'
       fullPath: '/admin/vendors/'
       preLoaderRoute: typeof AdminVendorsIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/vendor/earnings/': {
+      id: '/vendor/earnings/'
+      path: '/vendor/earnings'
+      fullPath: '/vendor/earnings/'
+      preLoaderRoute: typeof VendorEarningsIndexRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/vendor/orders/': {
@@ -659,9 +699,11 @@ const rootRouteChildren: RootRouteChildren = {
   VendorProductsNewRoute: VendorProductsNewRoute,
   AdminBooksIndexRoute: AdminBooksIndexRoute,
   AdminOrdersIndexRoute: AdminOrdersIndexRoute,
+  AdminPayoutsIndexRoute: AdminPayoutsIndexRoute,
   AdminRefundsIndexRoute: AdminRefundsIndexRoute,
   AdminTicketsIndexRoute: AdminTicketsIndexRoute,
   AdminVendorsIndexRoute: AdminVendorsIndexRoute,
+  VendorEarningsIndexRoute: VendorEarningsIndexRoute,
   VendorOrdersIndexRoute: VendorOrdersIndexRoute,
   VendorProductsIndexRoute: VendorProductsIndexRoute,
   AdminBooksIdEditRoute: AdminBooksIdEditRoute,
