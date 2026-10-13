@@ -27,7 +27,8 @@
     "tickets": "تذاكر الدعم",
     "vendorOrders": "الأوردرات الواردة",
     "vendorEarnings": "أرباحي",
-    "adminPayouts": "تحويلات البائعين"
+    "adminPayouts": "تحويلات البائعين",
+    "adminCommission": "العمولة"
   },
   "toast": {
     "logoutSuccess": "تم تسجيل الخروج"
@@ -505,6 +506,9 @@
     },
     "adminPayoutsPage": {
       "title": "تحويلات البائعين | مكتبة القراء"
+    },
+    "adminCommissionPage": {
+      "title": "إعدادات العمولة | مكتبة القراء"
     }
   },
   "stateViews": {
@@ -786,5 +790,19 @@
     "note": "ملاحظة (اختياري)",
     "confirm": "تأكيد إن التحويل تم",
     "recorded": "تم تسجيل التحويل"
+  },
+  "adminCommission": {
+    "title": "إعدادات العمولة",
+    "defaultRate": "نسبة العمولة الافتراضية (%)",
+    "holdDays": "عدد الأيام بعد الدفع قبل ما الفلوس تبقى متاحة",
+    "futureOnly": "التغييرات بتسري على الأوردرات الجاية بس. الأوردرات اللي اتدفعت بتفضل بالنسبة اللي اتدفعت بيها.",
+    "save": "حفظ",
+    "saved": "تم الحفظ",
+    "invalidPercent": "اكتب نسبة بين 0 و100",
+    "invalidDays": "اكتب عدد أيام صحيح بين 0 و90",
+    "perVendor": "نسب البائعين",
+    "usingDefault": "بتطبّق النسبة الافتراضية ({{percent}}%)",
+    "customRate": "نسبة خاصة: {{percent}}%",
+    "useDefault": "استخدم الافتراضية"
   }
 }

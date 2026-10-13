@@ -9,6 +9,7 @@ import {
   Menu,
   MessagesSquare,
   PackageSearch,
+  Percent,
   RotateCcw,
   ShoppingCart,
   Store,
@@ -208,6 +209,14 @@ export function Navbar() {
                     <Link to="/admin/payouts" className="gap-2">
                       <Wallet className="size-4" />
                       {t("nav.adminPayouts")}
+                    </Link>
+                  </DropdownMenuItem>
+                )}
+                {isAdmin && (
+                  <DropdownMenuItem asChild>
+                    <Link to="/admin/commission" className="gap-2">
+                      <Percent className="size-4" />
+                      {t("nav.adminCommission")}
                     </Link>
                   </DropdownMenuItem>
                 )}

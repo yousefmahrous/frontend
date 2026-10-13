@@ -27,7 +27,8 @@ const formatPrice = (amountInPiastres: number) => (amountInPiastres / 100).toFix
 function AdminPayoutsPage() {
   const { t, i18n } = useTranslation();
   const balances = useVendorBalances();
-  const history = useAdminPayouts({ page: 1, limit: 20 });
+  const [page, setPage] = useState(1);
+  const history = useAdminPayouts({ page, limit: 10 });
   const [selected, setSelected] = useState<VendorBalance | null>(null);
   const currency = t("bookDetails.currency");
   const locale = i18n.language === "ar" ? "ar-EG" : "en-US";
@@ -129,6 +130,33 @@ function AdminPayoutsPage() {
               ))}
             </TableBody>
           </Table>
+        </div>
+      )}
+
+      {history.data && history.data.pagination.totalPages > 1 && (
+        <div className="mt-6 flex items-center justify-center gap-3">
+          <Button
+            variant="secondary"
+            size="sm"
+            disabled={!history.data.pagination.hasPreviousPage}
+            onClick={() => setPage((p) => Math.max(1, p - 1))}
+          >
+            {t("adminBooksIndex.prev")}
+          </Button>
+          <span className="text-sm text-muted-foreground">
+            {t("adminBooksIndex.pageOf", {
+              current: history.data.pagination.currentPage,
+              total: history.data.pagination.totalPages,
+            })}
+          </span>
+          <Button
+            variant="secondary"
+            size="sm"
+            disabled={!history.data.pagination.hasNextPage}
+            onClick={() => setPage((p) => p + 1)}
+          >
+            {t("adminBooksIndex.next")}
+          </Button>
         </div>
       )}
 

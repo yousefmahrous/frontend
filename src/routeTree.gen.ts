@@ -30,6 +30,7 @@ import { Route as TicketsIdRouteImport } from './routes/tickets.$id'
 import { Route as VendorApplyRouteImport } from './routes/vendor.apply'
 import { Route as AdminBooksIndexRouteImport } from './routes/admin.books.index'
 import { Route as AdminBooksNewRouteImport } from './routes/admin.books.new'
+import { Route as AdminCommissionIndexRouteImport } from './routes/admin.commission.index'
 import { Route as AdminOrdersIndexRouteImport } from './routes/admin.orders.index'
 import { Route as AdminPayoutsIndexRouteImport } from './routes/admin.payouts.index'
 import { Route as AdminRefundsIndexRouteImport } from './routes/admin.refunds.index'
@@ -147,6 +148,11 @@ const AdminBooksNewRoute = AdminBooksNewRouteImport.update({
   path: '/admin/books/new',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AdminCommissionIndexRoute = AdminCommissionIndexRouteImport.update({
+  id: '/admin/commission/',
+  path: '/admin/commission/',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const AdminOrdersIndexRoute = AdminOrdersIndexRouteImport.update({
   id: '/admin/orders/',
   path: '/admin/orders/',
@@ -226,6 +232,7 @@ export interface FileRoutesByFullPath {
   '/admin/books/new': typeof AdminBooksNewRoute
   '/vendor/products/new': typeof VendorProductsNewRoute
   '/admin/books/': typeof AdminBooksIndexRoute
+  '/admin/commission/': typeof AdminCommissionIndexRoute
   '/admin/orders/': typeof AdminOrdersIndexRoute
   '/admin/payouts/': typeof AdminPayoutsIndexRoute
   '/admin/refunds/': typeof AdminRefundsIndexRoute
@@ -260,6 +267,7 @@ export interface FileRoutesByTo {
   '/admin/books/new': typeof AdminBooksNewRoute
   '/vendor/products/new': typeof VendorProductsNewRoute
   '/admin/books': typeof AdminBooksIndexRoute
+  '/admin/commission': typeof AdminCommissionIndexRoute
   '/admin/orders': typeof AdminOrdersIndexRoute
   '/admin/payouts': typeof AdminPayoutsIndexRoute
   '/admin/refunds': typeof AdminRefundsIndexRoute
@@ -295,6 +303,7 @@ export interface FileRoutesById {
   '/admin/books/new': typeof AdminBooksNewRoute
   '/vendor/products/new': typeof VendorProductsNewRoute
   '/admin/books/': typeof AdminBooksIndexRoute
+  '/admin/commission/': typeof AdminCommissionIndexRoute
   '/admin/orders/': typeof AdminOrdersIndexRoute
   '/admin/payouts/': typeof AdminPayoutsIndexRoute
   '/admin/refunds/': typeof AdminRefundsIndexRoute
@@ -331,6 +340,7 @@ export interface FileRouteTypes {
     | '/admin/books/new'
     | '/vendor/products/new'
     | '/admin/books/'
+    | '/admin/commission/'
     | '/admin/orders/'
     | '/admin/payouts/'
     | '/admin/refunds/'
@@ -365,6 +375,7 @@ export interface FileRouteTypes {
     | '/admin/books/new'
     | '/vendor/products/new'
     | '/admin/books'
+    | '/admin/commission'
     | '/admin/orders'
     | '/admin/payouts'
     | '/admin/refunds'
@@ -399,6 +410,7 @@ export interface FileRouteTypes {
     | '/admin/books/new'
     | '/vendor/products/new'
     | '/admin/books/'
+    | '/admin/commission/'
     | '/admin/orders/'
     | '/admin/payouts/'
     | '/admin/refunds/'
@@ -434,6 +446,7 @@ export interface RootRouteChildren {
   AdminBooksNewRoute: typeof AdminBooksNewRoute
   VendorProductsNewRoute: typeof VendorProductsNewRoute
   AdminBooksIndexRoute: typeof AdminBooksIndexRoute
+  AdminCommissionIndexRoute: typeof AdminCommissionIndexRoute
   AdminOrdersIndexRoute: typeof AdminOrdersIndexRoute
   AdminPayoutsIndexRoute: typeof AdminPayoutsIndexRoute
   AdminRefundsIndexRoute: typeof AdminRefundsIndexRoute
@@ -595,6 +608,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminBooksNewRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/admin/commission/': {
+      id: '/admin/commission/'
+      path: '/admin/commission'
+      fullPath: '/admin/commission/'
+      preLoaderRoute: typeof AdminCommissionIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/admin/orders/': {
       id: '/admin/orders/'
       path: '/admin/orders'
@@ -698,6 +718,7 @@ const rootRouteChildren: RootRouteChildren = {
   AdminBooksNewRoute: AdminBooksNewRoute,
   VendorProductsNewRoute: VendorProductsNewRoute,
   AdminBooksIndexRoute: AdminBooksIndexRoute,
+  AdminCommissionIndexRoute: AdminCommissionIndexRoute,
   AdminOrdersIndexRoute: AdminOrdersIndexRoute,
   AdminPayoutsIndexRoute: AdminPayoutsIndexRoute,
   AdminRefundsIndexRoute: AdminRefundsIndexRoute,

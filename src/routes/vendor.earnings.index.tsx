@@ -1,10 +1,12 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { Wallet } from "lucide-react";
+import { useState } from "react";
 import { useTranslation } from "react-i18next";
 
 import { errorMessage } from "@/api/client";
 import { VendorOnly } from "@/components/Guards";
 import { EmptyState, ErrorState } from "@/components/StateViews";
+import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
 import { useMyPayouts, useVendorEarnings } from "@/hooks/useVendor";
 
@@ -22,7 +24,8 @@ const formatPrice = (amountInPiastres: number) => (amountInPiastres / 100).toFix
 function VendorEarningsPage() {
   const { t, i18n } = useTranslation();
   const earnings = useVendorEarnings();
-  const payouts = useMyPayouts({ page: 1, limit: 20 });
+  const [page, setPage] = useState(1);
+  const payouts = useMyPayouts({ page, limit: 10 });
   const currency = t("bookDetails.currency");
   const locale = i18n.language === "ar" ? "ar-EG" : "en-US";
 
@@ -117,6 +120,32 @@ function VendorEarningsPage() {
               )}
             </div>
           ))}
+        </div>
+      )}
+      {payouts.data && payouts.data.pagination.totalPages > 1 && (
+        <div className="mt-6 flex items-center justify-center gap-3">
+          <Button
+            variant="secondary"
+            size="sm"
+            disabled={!payouts.data.pagination.hasPreviousPage}
+            onClick={() => setPage((p) => Math.max(1, p - 1))}
+          >
+            {t("adminBooksIndex.prev")}
+          </Button>
+          <span className="text-sm text-muted-foreground">
+            {t("adminBooksIndex.pageOf", {
+              current: payouts.data.pagination.currentPage,
+              total: payouts.data.pagination.totalPages,
+            })}
+          </span>
+          <Button
+            variant="secondary"
+            size="sm"
+            disabled={!payouts.data.pagination.hasNextPage}
+            onClick={() => setPage((p) => p + 1)}
+          >
+            {t("adminBooksIndex.next")}
+          </Button>
         </div>
       )}
     </div>

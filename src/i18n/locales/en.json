@@ -27,7 +27,8 @@
     "tickets": "Support Tickets",
     "vendorOrders": "Orders Received",
     "vendorEarnings": "Earnings",
-    "adminPayouts": "Payouts"
+    "adminPayouts": "Payouts",
+    "adminCommission": "Commission"
   },
   "toast": {
     "logoutSuccess": "Logged out successfully"
@@ -505,6 +506,9 @@
     },
     "adminPayoutsPage": {
       "title": "Vendor Payouts | Readers Library"
+    },
+    "adminCommissionPage": {
+      "title": "Commission Settings | Readers Library"
     }
   },
   "stateViews": {
@@ -786,5 +790,19 @@
     "note": "Note (optional)",
     "confirm": "Confirm transfer was made",
     "recorded": "Payout recorded"
+  },
+  "adminCommission": {
+    "title": "Commission Settings",
+    "defaultRate": "Default commission rate (%)",
+    "holdDays": "Days after payment before money is available",
+    "futureOnly": "Changes apply to future orders only. Orders already paid keep the rate they were paid with.",
+    "save": "Save",
+    "saved": "Saved",
+    "invalidPercent": "Enter a rate between 0 and 100",
+    "invalidDays": "Enter a whole number of days between 0 and 90",
+    "perVendor": "Per-vendor rates",
+    "usingDefault": "Using the default ({{percent}}%)",
+    "customRate": "Own rate: {{percent}}%",
+    "useDefault": "Use default"
   }
 }
