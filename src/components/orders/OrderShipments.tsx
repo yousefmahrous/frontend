@@ -1,16 +1,24 @@
-import { MapPin, Truck } from "lucide-react";
+import { MapPin, RotateCcw, Truck } from "lucide-react";
+import { useState } from "react";
 import { useTranslation } from "react-i18next";
 
 import type { Order } from "@/api/order.api";
+import { RefundRequestDialog } from "@/components/orders/RefundRequestDialog";
 import { Badge } from "@/components/ui/badge";
-import { getFulfillmentStatusMeta } from "@/lib/status";
+import { Button } from "@/components/ui/button";
+import { isWithinReturnWindow } from "@/lib/returns";
+import { getFulfillmentStatusMeta, getReturnStatusMeta } from "@/lib/status";
 
 export function OrderShipments({ order }: { order: Order }) {
   const { t } = useTranslation();
+  const [returningId, setReturningId] = useState<number | null>(null);
 
+  // Orders that were never paid (or legacy orders) have nothing to track yet.
   if (!order.paid_at || order.shipments.length === 0) return null;
 
   const statusMeta = getFulfillmentStatusMeta(t);
+  const returnMeta = getReturnStatusMeta(t);
+  const canReturn = order.status === "paid" && isWithinReturnWindow(order.paid_at);
 
   return (
     <div className="mt-3 space-y-3 border-t border-border pt-3">
@@ -48,9 +56,29 @@ export function OrderShipments({ order }: { order: Order }) {
                 )}
               </p>
             )}
+
+            {shipment.return_status ? (
+              <Badge className={returnMeta[shipment.return_status].className}>
+                {returnMeta[shipment.return_status].label}
+              </Badge>
+            ) : (
+              canReturn && (
+                <Button variant="outline" size="sm" onClick={() => setReturningId(shipment.id)}>
+                  <RotateCcw className="ms-1 size-3.5" />
+                  {t("orders.requestRefund")}
+                </Button>
+              )
+            )}
           </div>
         );
       })}
+
+      <RefundRequestDialog
+        orderId={order.id}
+        vendorOrderId={returningId}
+        open={returningId !== null}
+        onOpenChange={(open) => !open && setReturningId(null)}
+      />
 
       {order.shipping && (
         <div className="flex items-start gap-2 text-sm text-muted-foreground">

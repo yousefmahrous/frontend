@@ -28,7 +28,9 @@
     "vendorOrders": "الأوردرات الواردة",
     "vendorEarnings": "أرباحي",
     "adminPayouts": "تحويلات البائعين",
-    "adminCommission": "العمولة"
+    "adminCommission": "العمولة",
+    "vendorReturns": "المرتجعات",
+    "adminPlatformOrders": "شحنات المتجر"
   },
   "toast": {
     "logoutSuccess": "تم تسجيل الخروج"
@@ -509,6 +511,12 @@
     },
     "adminCommissionPage": {
       "title": "إعدادات العمولة | مكتبة القراء"
+    },
+    "vendorReturnsPage": {
+      "title": "طلبات الاسترجاع | مكتبة القراء"
+    },
+    "adminPlatformOrdersPage": {
+      "title": "شحنات المتجر | مكتبة القراء"
     }
   },
   "stateViews": {
@@ -804,5 +812,22 @@
     "usingDefault": "بتطبّق النسبة الافتراضية ({{percent}}%)",
     "customRate": "نسبة خاصة: {{percent}}%",
     "useDefault": "استخدم الافتراضية"
+  },
+  "vendorReturns": {
+    "title": "طلبات الاسترجاع",
+    "frozenNote": "طول ما طلب الاسترجاع مفتوح، فلوس الشحنة دي بتفضل مجمّدة. والأدمن هو اللي بيراجع كل طلب.",
+    "empty": "مفيش طلبات استرجاع",
+    "emptyDesc": "طلبات الاسترجاع على شحناتك هتظهر هنا.",
+    "order": "أوردر #{{id}}",
+    "reason": "السبب",
+    "amount": "مبلغ الاسترداد"
+  },
+  "returnStatus": {
+    "requested": "طلب استرجاع",
+    "approved": "تمت الموافقة على الاسترجاع",
+    "refunded": "تم الاسترداد"
+  },
+  "adminPlatformOrders": {
+    "title": "شحنات المتجر"
   }
 }

@@ -7,12 +7,15 @@ import {
   fetchMyProduct,
   fetchMyProducts,
   fetchMyVendorOrders,
+  fetchMyVendorReturns,
   fetchMyPayouts,
+  fetchPlatformOrders,
   fetchVendorEarnings,
   fetchMyVendor,
   fetchVendorsAdmin,
   updateMyProduct,
   updateVendorOrderFulfillment,
+  updatePlatformFulfillment,
   updateVendorStatus,
   type FulfillmentPayload,
   type VendorStatus,
@@ -111,25 +114,46 @@ export function useUpdateVendorStatus() {
   });
 }
 
-export function useMyVendorOrders(params: {
-  page: number;
-  limit: number;
-  status?: FulfillmentStatus | undefined;
-}) {
+export function useMyVendorOrders(
+  params: {
+    page: number;
+    limit: number;
+    status?: FulfillmentStatus | undefined;
+  },
+  enabled = true,
+) {
   return useQuery({
     queryKey: vendorKeys.myOrders(params),
     queryFn: () => fetchMyVendorOrders(params),
     placeholderData: keepPreviousData,
     retry: false,
+    enabled,
   });
 }
 
-export function useUpdateFulfillment() {
+export function useUpdateFulfillment(platform = false) {
   const queryClient = useQueryClient();
   return useMutation({
     mutationFn: ({ id, ...payload }: FulfillmentPayload & { id: number }) =>
-      updateVendorOrderFulfillment(id, payload),
+      platform ? updatePlatformFulfillment(id, payload) : updateVendorOrderFulfillment(id, payload),
     onSuccess: () => void queryClient.invalidateQueries({ queryKey: ["vendor", "orders"] }),
+  });
+}
+
+export function usePlatformOrders(
+  params: {
+    page: number;
+    limit: number;
+    status?: FulfillmentStatus | undefined;
+  },
+  enabled = true,
+) {
+  return useQuery({
+    queryKey: ["vendor", "orders", "platform", params],
+    queryFn: () => fetchPlatformOrders(params),
+    placeholderData: keepPreviousData,
+    retry: false,
+    enabled,
   });
 }
 
@@ -145,6 +169,15 @@ export function useMyPayouts(params: { page: number; limit: number }) {
   return useQuery({
     queryKey: ["vendor", "payouts", params],
     queryFn: () => fetchMyPayouts(params),
+    placeholderData: keepPreviousData,
+    retry: false,
+  });
+}
+
+export function useMyVendorReturns(params: { page: number; limit: number }) {
+  return useQuery({
+    queryKey: ["vendor", "returns", params],
+    queryFn: () => fetchMyVendorReturns(params),
     placeholderData: keepPreviousData,
     retry: false,
   });

@@ -33,6 +33,7 @@ import { Route as AdminBooksNewRouteImport } from './routes/admin.books.new'
 import { Route as AdminCommissionIndexRouteImport } from './routes/admin.commission.index'
 import { Route as AdminOrdersIndexRouteImport } from './routes/admin.orders.index'
 import { Route as AdminPayoutsIndexRouteImport } from './routes/admin.payouts.index'
+import { Route as AdminPlatformOrdersIndexRouteImport } from './routes/admin.platform-orders.index'
 import { Route as AdminRefundsIndexRouteImport } from './routes/admin.refunds.index'
 import { Route as AdminTicketsIndexRouteImport } from './routes/admin.tickets.index'
 import { Route as AdminVendorsIndexRouteImport } from './routes/admin.vendors.index'
@@ -40,6 +41,7 @@ import { Route as VendorEarningsIndexRouteImport } from './routes/vendor.earning
 import { Route as VendorOrdersIndexRouteImport } from './routes/vendor.orders.index'
 import { Route as VendorProductsIndexRouteImport } from './routes/vendor.products.index'
 import { Route as VendorProductsNewRouteImport } from './routes/vendor.products.new'
+import { Route as VendorReturnsIndexRouteImport } from './routes/vendor.returns.index'
 import { Route as AdminBooksIdEditRouteImport } from './routes/admin.books.$id.edit'
 import { Route as VendorProductsIdEditRouteImport } from './routes/vendor.products.$id.edit'
 
@@ -163,6 +165,12 @@ const AdminPayoutsIndexRoute = AdminPayoutsIndexRouteImport.update({
   path: '/admin/payouts/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AdminPlatformOrdersIndexRoute =
+  AdminPlatformOrdersIndexRouteImport.update({
+    id: '/admin/platform-orders/',
+    path: '/admin/platform-orders/',
+    getParentRoute: () => rootRouteImport,
+  } as any)
 const AdminRefundsIndexRoute = AdminRefundsIndexRouteImport.update({
   id: '/admin/refunds/',
   path: '/admin/refunds/',
@@ -196,6 +204,11 @@ const VendorProductsIndexRoute = VendorProductsIndexRouteImport.update({
 const VendorProductsNewRoute = VendorProductsNewRouteImport.update({
   id: '/vendor/products/new',
   path: '/vendor/products/new',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const VendorReturnsIndexRoute = VendorReturnsIndexRouteImport.update({
+  id: '/vendor/returns/',
+  path: '/vendor/returns/',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AdminBooksIdEditRoute = AdminBooksIdEditRouteImport.update({
@@ -235,12 +248,14 @@ export interface FileRoutesByFullPath {
   '/admin/commission/': typeof AdminCommissionIndexRoute
   '/admin/orders/': typeof AdminOrdersIndexRoute
   '/admin/payouts/': typeof AdminPayoutsIndexRoute
+  '/admin/platform-orders/': typeof AdminPlatformOrdersIndexRoute
   '/admin/refunds/': typeof AdminRefundsIndexRoute
   '/admin/tickets/': typeof AdminTicketsIndexRoute
   '/admin/vendors/': typeof AdminVendorsIndexRoute
   '/vendor/earnings/': typeof VendorEarningsIndexRoute
   '/vendor/orders/': typeof VendorOrdersIndexRoute
   '/vendor/products/': typeof VendorProductsIndexRoute
+  '/vendor/returns/': typeof VendorReturnsIndexRoute
   '/admin/books/$id/edit': typeof AdminBooksIdEditRoute
   '/vendor/products/$id/edit': typeof VendorProductsIdEditRoute
 }
@@ -270,12 +285,14 @@ export interface FileRoutesByTo {
   '/admin/commission': typeof AdminCommissionIndexRoute
   '/admin/orders': typeof AdminOrdersIndexRoute
   '/admin/payouts': typeof AdminPayoutsIndexRoute
+  '/admin/platform-orders': typeof AdminPlatformOrdersIndexRoute
   '/admin/refunds': typeof AdminRefundsIndexRoute
   '/admin/tickets': typeof AdminTicketsIndexRoute
   '/admin/vendors': typeof AdminVendorsIndexRoute
   '/vendor/earnings': typeof VendorEarningsIndexRoute
   '/vendor/orders': typeof VendorOrdersIndexRoute
   '/vendor/products': typeof VendorProductsIndexRoute
+  '/vendor/returns': typeof VendorReturnsIndexRoute
   '/admin/books/$id/edit': typeof AdminBooksIdEditRoute
   '/vendor/products/$id/edit': typeof VendorProductsIdEditRoute
 }
@@ -306,12 +323,14 @@ export interface FileRoutesById {
   '/admin/commission/': typeof AdminCommissionIndexRoute
   '/admin/orders/': typeof AdminOrdersIndexRoute
   '/admin/payouts/': typeof AdminPayoutsIndexRoute
+  '/admin/platform-orders/': typeof AdminPlatformOrdersIndexRoute
   '/admin/refunds/': typeof AdminRefundsIndexRoute
   '/admin/tickets/': typeof AdminTicketsIndexRoute
   '/admin/vendors/': typeof AdminVendorsIndexRoute
   '/vendor/earnings/': typeof VendorEarningsIndexRoute
   '/vendor/orders/': typeof VendorOrdersIndexRoute
   '/vendor/products/': typeof VendorProductsIndexRoute
+  '/vendor/returns/': typeof VendorReturnsIndexRoute
   '/admin/books/$id/edit': typeof AdminBooksIdEditRoute
   '/vendor/products/$id/edit': typeof VendorProductsIdEditRoute
 }
@@ -343,12 +362,14 @@ export interface FileRouteTypes {
     | '/admin/commission/'
     | '/admin/orders/'
     | '/admin/payouts/'
+    | '/admin/platform-orders/'
     | '/admin/refunds/'
     | '/admin/tickets/'
     | '/admin/vendors/'
     | '/vendor/earnings/'
     | '/vendor/orders/'
     | '/vendor/products/'
+    | '/vendor/returns/'
     | '/admin/books/$id/edit'
     | '/vendor/products/$id/edit'
   fileRoutesByTo: FileRoutesByTo
@@ -378,12 +399,14 @@ export interface FileRouteTypes {
     | '/admin/commission'
     | '/admin/orders'
     | '/admin/payouts'
+    | '/admin/platform-orders'
     | '/admin/refunds'
     | '/admin/tickets'
     | '/admin/vendors'
     | '/vendor/earnings'
     | '/vendor/orders'
     | '/vendor/products'
+    | '/vendor/returns'
     | '/admin/books/$id/edit'
     | '/vendor/products/$id/edit'
   id:
@@ -413,12 +436,14 @@ export interface FileRouteTypes {
     | '/admin/commission/'
     | '/admin/orders/'
     | '/admin/payouts/'
+    | '/admin/platform-orders/'
     | '/admin/refunds/'
     | '/admin/tickets/'
     | '/admin/vendors/'
     | '/vendor/earnings/'
     | '/vendor/orders/'
     | '/vendor/products/'
+    | '/vendor/returns/'
     | '/admin/books/$id/edit'
     | '/vendor/products/$id/edit'
   fileRoutesById: FileRoutesById
@@ -449,12 +474,14 @@ export interface RootRouteChildren {
   AdminCommissionIndexRoute: typeof AdminCommissionIndexRoute
   AdminOrdersIndexRoute: typeof AdminOrdersIndexRoute
   AdminPayoutsIndexRoute: typeof AdminPayoutsIndexRoute
+  AdminPlatformOrdersIndexRoute: typeof AdminPlatformOrdersIndexRoute
   AdminRefundsIndexRoute: typeof AdminRefundsIndexRoute
   AdminTicketsIndexRoute: typeof AdminTicketsIndexRoute
   AdminVendorsIndexRoute: typeof AdminVendorsIndexRoute
   VendorEarningsIndexRoute: typeof VendorEarningsIndexRoute
   VendorOrdersIndexRoute: typeof VendorOrdersIndexRoute
   VendorProductsIndexRoute: typeof VendorProductsIndexRoute
+  VendorReturnsIndexRoute: typeof VendorReturnsIndexRoute
   AdminBooksIdEditRoute: typeof AdminBooksIdEditRoute
   VendorProductsIdEditRoute: typeof VendorProductsIdEditRoute
 }
@@ -629,6 +656,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminPayoutsIndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/admin/platform-orders/': {
+      id: '/admin/platform-orders/'
+      path: '/admin/platform-orders'
+      fullPath: '/admin/platform-orders/'
+      preLoaderRoute: typeof AdminPlatformOrdersIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/admin/refunds/': {
       id: '/admin/refunds/'
       path: '/admin/refunds'
@@ -678,6 +712,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof VendorProductsNewRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/vendor/returns/': {
+      id: '/vendor/returns/'
+      path: '/vendor/returns'
+      fullPath: '/vendor/returns/'
+      preLoaderRoute: typeof VendorReturnsIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/admin/books/$id/edit': {
       id: '/admin/books/$id/edit'
       path: '/admin/books/$id/edit'
@@ -721,12 +762,14 @@ const rootRouteChildren: RootRouteChildren = {
   AdminCommissionIndexRoute: AdminCommissionIndexRoute,
   AdminOrdersIndexRoute: AdminOrdersIndexRoute,
   AdminPayoutsIndexRoute: AdminPayoutsIndexRoute,
+  AdminPlatformOrdersIndexRoute: AdminPlatformOrdersIndexRoute,
   AdminRefundsIndexRoute: AdminRefundsIndexRoute,
   AdminTicketsIndexRoute: AdminTicketsIndexRoute,
   AdminVendorsIndexRoute: AdminVendorsIndexRoute,
   VendorEarningsIndexRoute: VendorEarningsIndexRoute,
   VendorOrdersIndexRoute: VendorOrdersIndexRoute,
   VendorProductsIndexRoute: VendorProductsIndexRoute,
+  VendorReturnsIndexRoute: VendorReturnsIndexRoute,
   AdminBooksIdEditRoute: AdminBooksIdEditRoute,
   VendorProductsIdEditRoute: VendorProductsIdEditRoute,
 }

@@ -214,6 +214,14 @@ export function Navbar() {
                 )}
                 {isAdmin && (
                   <DropdownMenuItem asChild>
+                    <Link to="/admin/platform-orders" className="gap-2">
+                      <Truck className="size-4" />
+                      {t("nav.adminPlatformOrders")}
+                    </Link>
+                  </DropdownMenuItem>
+                )}
+                {isAdmin && (
+                  <DropdownMenuItem asChild>
                     <Link to="/admin/commission" className="gap-2">
                       <Percent className="size-4" />
                       {t("nav.adminCommission")}
@@ -241,6 +249,14 @@ export function Navbar() {
                     <Link to="/vendor/earnings" className="gap-2">
                       <Wallet className="size-4" />
                       {t("nav.vendorEarnings")}
+                    </Link>
+                  </DropdownMenuItem>
+                )}
+                {!isAdmin && isActiveVendor && (
+                  <DropdownMenuItem asChild>
+                    <Link to="/vendor/returns" className="gap-2">
+                      <RotateCcw className="size-4" />
+                      {t("nav.vendorReturns")}
                     </Link>
                   </DropdownMenuItem>
                 )}

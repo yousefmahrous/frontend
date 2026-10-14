@@ -18,6 +18,8 @@ export interface OrderItem {
   unit_price: number;
 }
 
+export type ReturnStatus = "requested" | "approved" | "refunded";
+
 export type FulfillmentStatus = "pending" | "processing" | "shipped" | "delivered";
 
 export interface OrderShipping {
@@ -32,6 +34,7 @@ export interface OrderShipment {
   id: number;
   vendor: { id: number; store_name: string } | null;
   fulfillment_status: FulfillmentStatus;
+  return_status: ReturnStatus | null;
   carrier: string | null;
   tracking_number: string | null;
   shipped_at: string | null;

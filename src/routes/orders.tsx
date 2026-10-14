@@ -21,7 +21,6 @@ import {
 import { Skeleton } from "@/components/ui/skeleton";
 import { Textarea } from "@/components/ui/textarea";
 import { useMyOrders } from "@/hooks/useOrder";
-import { useMyRefundRequests, useRequestRefund } from "@/hooks/useRefund";
 import { getOrderStatusMeta } from "@/lib/status";
 
 import en from "@/i18n/locales/en.json";
@@ -46,8 +45,6 @@ export const Route = createFileRoute("/orders")({
   ),
 });
 
-const RETURN_WINDOW_DAYS = 14;
-
 const ORDER_STATUS_ICONS: Record<OrderStatus, typeof CheckCircle2> = {
   paid: CheckCircle2,
   pending: Clock,
@@ -70,17 +67,9 @@ function formatDate(iso: string) {
   });
 }
 
-function isWithinReturnWindow(paidAt: string | null) {
-  if (!paidAt) return false;
-  const deadline = new Date(paidAt);
-  deadline.setDate(deadline.getDate() + RETURN_WINDOW_DAYS);
-  return new Date() <= deadline;
-}
-
 function OrdersPage() {
   const { t } = useTranslation();
   const { data: orders, isLoading, isError, error, refetch } = useMyOrders();
-  const { data: refundRequests } = useMyRefundRequests();
 
   if (isLoading) {
     return (
@@ -117,10 +106,7 @@ function OrdersPage() {
       ) : (
         <div className="space-y-4">
           {items.map((order) => {
-            const activeRequest = refundRequests?.find(
-              (r) => r.order_id === order.id && ["pending", "awaiting_return"].includes(r.status),
-            );
-            return <OrderCard key={order.id} order={order} hasActiveRefundRequest={Boolean(activeRequest)} />;
+            return <OrderCard key={order.id} order={order} />;
           })}
         </div>
       )}
@@ -134,20 +120,10 @@ function OrdersPage() {
   );
 }
 
-function OrderCard({
-  order,
-  hasActiveRefundRequest,
-}: {
-  order: Order;
-  hasActiveRefundRequest: boolean;
-}) {
+function OrderCard({ order }: { order: Order }) {
   const { t } = useTranslation();
   const meta = getOrderStatusMeta(t)[order.status];
   const StatusIcon = ORDER_STATUS_ICONS[order.status];
-  const [dialogOpen, setDialogOpen] = useState(false);
-
-  const canRequestRefund =
-    order.status === "paid" && !hasActiveRefundRequest && isWithinReturnWindow(order.paid_at);
 
   return (
     <div className="rounded-xl border border-border bg-card p-4 shadow-sm">
@@ -182,78 +158,6 @@ function OrderCard({
 
       <OrderShipments order={order} />
 
-      {canRequestRefund && (
-        <div className="mt-3 border-t border-border pt-3">
-          <Button variant="outline" size="sm" onClick={() => setDialogOpen(true)}>
-            <RotateCcw className="ms-1 size-3.5" />
-            {t("orders.requestRefund")}
-          </Button>
-        </div>
-      )}
-
-      <RefundRequestDialog orderId={order.id} open={dialogOpen} onOpenChange={setDialogOpen} />
     </div>
-  );
-}
-
-function RefundRequestDialog({
-  orderId,
-  open,
-  onOpenChange,
-}: {
-  orderId: number;
-  open: boolean;
-  onOpenChange: (open: boolean) => void;
-}) {
-  const { t } = useTranslation();
-  const [reason, setReason] = useState("");
-  const requestRefundMutation = useRequestRefund();
-
-  function handleSubmit() {
-    if (!reason.trim()) {
-      toast.error(t("orders.reasonRequired"));
-      return;
-    }
-
-    requestRefundMutation.mutate(
-      { orderId, reason: reason.trim() },
-      {
-        onSuccess: () => {
-          toast.success(t("orders.refundRequestSent"));
-          setReason("");
-          onOpenChange(false);
-        },
-        onError: (err) => toast.error(errorMessage(err)),
-      },
-    );
-  }
-
-  return (
-    <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent>
-        <DialogHeader>
-          <DialogTitle>{t("orders.refundDialogTitle", { id: orderId })}</DialogTitle>
-          <DialogDescription>
-            {t("orders.refundDialogDesc")}
-          </DialogDescription>
-        </DialogHeader>
-
-        <Textarea
-          value={reason}
-          onChange={(e) => setReason(e.target.value)}
-          placeholder={t("orders.reasonPlaceholder")}
-          rows={4}
-        />
-
-        <DialogFooter>
-          <Button variant="secondary" onClick={() => onOpenChange(false)}>
-            {t("common.cancel")}
-          </Button>
-          <Button onClick={handleSubmit} disabled={requestRefundMutation.isPending}>
-            {requestRefundMutation.isPending ? t("orders.sending") : t("orders.sendRequest")}
-          </Button>
-        </DialogFooter>
-      </DialogContent>
-    </Dialog>
   );
 }

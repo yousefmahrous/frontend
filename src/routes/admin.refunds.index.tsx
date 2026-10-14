@@ -205,9 +205,17 @@ function AdminRefundsPage() {
               <TableBody>
                 {requests.map((request) => {
                   const meta = getRefundStatusMeta(t)[request.status];
+                  const amount = request.refund_amount ?? request.order?.total_amount;
                   return (
                     <TableRow key={request.id}>
-                      <TableCell className="font-medium">#{request.order_id}</TableCell>
+                      <TableCell className="font-medium">
+                        #{request.order_id}
+                        {request.shipment?.vendor && (
+                          <span className="block text-xs font-normal text-muted-foreground">
+                            {request.shipment.vendor.store_name}
+                          </span>
+                        )}
+                      </TableCell>
                       <TableCell>
                         {request.user ? (
                           <div>
@@ -222,7 +230,7 @@ function AdminRefundsPage() {
                         {request.reason}
                       </TableCell>
                       <TableCell dir="ltr" className="text-muted-foreground">
-                        {request.order ? `${formatPrice(request.order.total_amount)} ${t("bookDetails.currency")}` : "—"}
+                        {amount === undefined ? "—" : `${formatPrice(amount)} ${t("bookDetails.currency")}`}
                       </TableCell>
                       <TableCell>
                         <Badge className={meta.className}>{meta.label}</Badge>

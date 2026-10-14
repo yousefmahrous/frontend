@@ -28,7 +28,9 @@
     "vendorOrders": "Orders Received",
     "vendorEarnings": "Earnings",
     "adminPayouts": "Payouts",
-    "adminCommission": "Commission"
+    "adminCommission": "Commission",
+    "vendorReturns": "Returns",
+    "adminPlatformOrders": "Store Shipments"
   },
   "toast": {
     "logoutSuccess": "Logged out successfully"
@@ -509,6 +511,12 @@
     },
     "adminCommissionPage": {
       "title": "Commission Settings | Readers Library"
+    },
+    "vendorReturnsPage": {
+      "title": "Return Requests | Readers Library"
+    },
+    "adminPlatformOrdersPage": {
+      "title": "Store Shipments | Readers Library"
     }
   },
   "stateViews": {
@@ -804,5 +812,22 @@
     "usingDefault": "Using the default ({{percent}}%)",
     "customRate": "Own rate: {{percent}}%",
     "useDefault": "Use default"
+  },
+  "vendorReturns": {
+    "title": "Return Requests",
+    "frozenNote": "While a return request is open, the money of that shipment is frozen. An admin reviews each request.",
+    "empty": "No return requests",
+    "emptyDesc": "Return requests on your shipments will appear here.",
+    "order": "Order #{{id}}",
+    "reason": "Reason",
+    "amount": "Refund amount"
+  },
+  "returnStatus": {
+    "requested": "Return requested",
+    "approved": "Return approved",
+    "refunded": "Refunded"
+  },
+  "adminPlatformOrders": {
+    "title": "Store Shipments"
   }
 }

@@ -42,8 +42,15 @@ export function useAdminRefundRequests(params: {
 export function useRequestRefund() {
   const queryClient = useQueryClient();
   return useMutation({
-    mutationFn: ({ orderId, reason }: { orderId: number; reason: string }) =>
-      requestRefund(orderId, reason),
+    mutationFn: ({
+      orderId,
+      reason,
+      vendorOrderId,
+    }: {
+      orderId: number;
+      reason: string;
+      vendorOrderId?: number | undefined;
+    }) => requestRefund(orderId, reason, vendorOrderId),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: refundKeys.mine });
       queryClient.invalidateQueries({ queryKey: orderKeys.mine });

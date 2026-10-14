@@ -34,14 +34,20 @@ export interface RefundRequest {
   admin_note: string | null;
   created_at: string;
   reviewed_at: string | null;
+  refund_amount?: number | null;
+  shipment?: {
+    id: number;
+    vendor: { id: number; store_name: string } | null;
+    items: RefundOrderItem[];
+  } | null;
   order?: RefundOrder;
   user?: OrderCustomer;
 }
 
-export async function requestRefund(orderId: number, reason: string) {
+export async function requestRefund(orderId: number, reason: string, vendorOrderId?: number) {
   const { data } = await api.post<{ success: boolean; message: string; data: RefundRequest }>(
     REFUNDS_PATH,
-    { order_id: orderId, reason },
+    { order_id: orderId, reason, vendor_order_id: vendorOrderId },
   );
   return data.data;
 }

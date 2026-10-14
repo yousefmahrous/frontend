@@ -1,6 +1,7 @@
 import { api } from "./client";
 import type { Book, BookPayload, BooksListResult, Pagination } from "./books.api";
-import type { FulfillmentStatus, OrderShipping } from "./order.api";
+import type { FulfillmentStatus, OrderShipping, ReturnStatus } from "./order.api";
+import type { RefundRequestStatus } from "./refund.api";
 
 export type VendorStatus = "pending" | "active" | "suspended" | "rejected";
 
@@ -12,26 +13,6 @@ export interface Vendor {
   commission_bps: number | null;
   created_at: string;
   owner?: { id: number; name: string; email: string };
-}
-
-export interface VendorEarnings {
-  currency: string;
-  pending: number;
-  available: number;
-  on_hold: number;
-  paid_out: number;
-  hold_days: number;
-  commission_bps: number;
-}
-
-export interface VendorPayout {
-  id: number;
-  amount: number;
-  currency: string;
-  reference: string | null;
-  note: string | null;
-  created_at: string;
-  orders_count: number;
 }
 
 export async function applyAsVendor(storeName: string) {
@@ -118,6 +99,7 @@ export interface VendorOrder {
   id: number;
   order_id: number;
   order_status: string;
+  return_status: ReturnStatus | null;
   paid_at: string | null;
   created_at: string;
   fulfillment_status: FulfillmentStatus;
@@ -156,6 +138,26 @@ export async function updateVendorOrderFulfillment(id: number, payload: Fulfillm
   return data.data;
 }
 
+export interface VendorEarnings {
+  currency: string;
+  pending: number;
+  available: number;
+  on_hold: number;
+  paid_out: number;
+  hold_days: number;
+  commission_bps: number;
+}
+
+export interface VendorPayout {
+  id: number;
+  amount: number;
+  currency: string;
+  reference: string | null;
+  note: string | null;
+  created_at: string;
+  orders_count: number;
+}
+
 export async function fetchVendorEarnings() {
   const { data } = await api.get<{ success: boolean; data: VendorEarnings }>("/vendors/earnings");
   return data.data;
@@ -166,5 +168,44 @@ export async function fetchMyPayouts(params: { page: number; limit: number }) {
     success: boolean;
     data: { items: VendorPayout[]; pagination: Pagination };
   }>("/vendors/payouts", { params });
+  return data.data;
+}
+
+export interface VendorReturn {
+  id: number;
+  order_id: number;
+  status: RefundRequestStatus;
+  reason: string;
+  refund_amount: number | null;
+  created_at: string;
+  reviewed_at: string | null;
+  items: VendorOrderItem[];
+}
+
+export async function fetchMyVendorReturns(params: { page: number; limit: number }) {
+  const { data } = await api.get<{
+    success: boolean;
+    data: { items: VendorReturn[]; pagination: Pagination };
+  }>("/vendors/returns", { params });
+  return data.data;
+}
+
+export async function fetchPlatformOrders(params: {
+  page: number;
+  limit: number;
+  status?: FulfillmentStatus | undefined;
+}) {
+  const { data } = await api.get<{
+    success: boolean;
+    data: { items: VendorOrder[]; pagination: Pagination };
+  }>("/vendors/admin/platform-orders", { params });
+  return data.data;
+}
+
+export async function updatePlatformFulfillment(id: number, payload: FulfillmentPayload) {
+  const { data } = await api.patch<{ success: boolean; message: string; data: VendorOrder }>(
+    `/vendors/admin/platform-orders/${id}/fulfillment`,
+    payload,
+  );
   return data.data;
 }

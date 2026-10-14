@@ -22,16 +22,16 @@ import { getFulfillmentStatusMeta } from "@/lib/status";
 
 const formatPrice = (amountInPiastres: number) => (amountInPiastres / 100).toFixed(2);
 
-export function VendorOrderCard({ order }: { order: VendorOrder }) {
+export function VendorOrderCard({ order, platform = false }: { order: VendorOrder; platform?: boolean }) {
   const { t, i18n } = useTranslation();
-  const update = useUpdateFulfillment();
+  const update = useUpdateFulfillment(platform);
   const [shipOpen, setShipOpen] = useState(false);
   const [carrier, setCarrier] = useState("");
   const [tracking, setTracking] = useState("");
   const [carrierError, setCarrierError] = useState("");
 
   const meta = getFulfillmentStatusMeta(t)[order.fulfillment_status];
-  const onHold = order.order_status !== "paid";
+  const onHold = Boolean(order.return_status) || order.order_status !== "paid";
   const date = new Date(order.paid_at ?? order.created_at).toLocaleDateString(
     i18n.language === "ar" ? "ar-EG" : "en-US",
     { year: "numeric", month: "long", day: "numeric" },
