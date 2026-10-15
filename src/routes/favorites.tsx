@@ -1,5 +1,5 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { BookOpen, Heart, Loader2, ShoppingCart, Trash2 } from "lucide-react";
+import { PackageOpen, Heart, Loader2, ShoppingCart, Trash2 } from "lucide-react";
 import { toast } from "sonner";
 
 import { errorMessage } from "@/api/client";
@@ -65,7 +65,7 @@ function FavoritesPage() {
       <div className="mb-6 flex items-center gap-3">
         <Heart className="size-6 text-accent" />
         <h1 className="text-2xl font-extrabold">{t("favorites.title")}</h1>
-        {items.length > 0 && <Badge variant="secondary">{t("favorites.bookCount", { count: favorites?.itemsCount })}</Badge>}
+        {items.length > 0 && <Badge variant="secondary">{t("favorites.productCount", { count: favorites?.itemsCount })}</Badge>}
       </div>
 
       {items.length === 0 ? (
@@ -86,19 +86,19 @@ function FavoritesPage() {
 
 function FavoriteItemCard({ item }: { item: FavoriteItem }) {
   const { t, i18n } = useTranslation();
-  const bookName = pickLocalized(item.book.name, i18n.language as Lang);
+  const productName = pickLocalized(item.product.name, i18n.language as Lang);
   const removeFavorite = useRemoveFavorite();
   const addToCart = useAddToCart();
 
   function handleRemove() {
-    removeFavorite.mutate(item.book.id, {
+    removeFavorite.mutate(item.product.id, {
       onSuccess: (res) => toast.success(res.message),
       onError: (err) => toast.error(errorMessage(err)),
     });
   }
 
   function handleAddToCart() {
-    addToCart.mutate(item.book.id, {
+    addToCart.mutate(item.product.id, {
       onSuccess: (res) => toast.success(res.message),
       onError: (err) => toast.error(errorMessage(err)),
     });
@@ -107,19 +107,19 @@ function FavoriteItemCard({ item }: { item: FavoriteItem }) {
   return (
     <div className="flex gap-4 rounded-xl border border-border bg-card p-4 shadow-sm">
       <Link
-        to="/books/$id"
-        params={{ id: item.book.id }}
+        to="/products/$id"
+        params={{ id: item.product.id }}
         className="shrink-0 overflow-hidden rounded-lg border border-border bg-secondary"
       >
-        {item.book.avatar_url ? (
+        {item.product.avatar_url ? (
           <img
-            src={item.book.avatar_url}
-            alt={t("common.bookCoverAlt", { name: bookName })}
+            src={item.product.avatar_url}
+            alt={t("common.productCoverAlt", { name: productName })}
             className="aspect-2/3 w-20 object-cover"
           />
         ) : (
           <div className="flex aspect-2/3 w-20 items-center justify-center text-muted-foreground">
-            <BookOpen className="size-6" />
+            <PackageOpen className="size-6" />
           </div>
         )}
       </Link>
@@ -127,16 +127,18 @@ function FavoriteItemCard({ item }: { item: FavoriteItem }) {
       <div className="flex flex-1 flex-col justify-between gap-3">
         <div>
           <Badge variant="secondary" className="mb-1">
-            {t(`categories.${item.book.category}`, item.book.category)}
+            {t(`categories.${item.product.category}`, item.product.category)}
           </Badge>
           <Link
-            to="/books/$id"
-            params={{ id: item.book.id }}
+            to="/products/$id"
+            params={{ id: item.product.id }}
             className="block font-bold hover:text-accent"
           >
-            {bookName}
+            {productName}
           </Link>
-          <p className="text-xs text-muted-foreground">ISBN: {item.book.number}</p>
+          {item.product.number && (
+            <p className="text-xs text-muted-foreground">ISBN: {item.product.number}</p>
+          )}
         </div>
 
         <div className="flex items-center justify-between">
@@ -144,7 +146,7 @@ function FavoriteItemCard({ item }: { item: FavoriteItem }) {
             variant="secondary"
             size="sm"
             className="gap-2"
-            disabled={addToCart.isPending || item.book.stock <= 0}
+            disabled={addToCart.isPending || item.product.stock <= 0}
             onClick={handleAddToCart}
           >
             {addToCart.isPending ? (
@@ -152,7 +154,7 @@ function FavoriteItemCard({ item }: { item: FavoriteItem }) {
             ) : (
               <ShoppingCart className="size-3.5" />
             )}
-            {item.book.stock <= 0 ? t("common.outOfStock") : t("common.addToCart")}
+            {item.product.stock <= 0 ? t("common.outOfStock") : t("common.addToCart")}
           </Button>
 
           <Button

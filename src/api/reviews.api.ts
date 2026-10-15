@@ -25,7 +25,7 @@ export interface ReviewsPagination {
   hasPreviousPage: boolean;
 }
 
-export interface BookReviewsResult {
+export interface ProductReviewsResult {
   reviews: Review[];
   rating_average: number;
   reviews_count: number;
@@ -43,17 +43,17 @@ export interface ReviewDeleteResult {
   reviews_count: number;
 }
 
-export async function fetchBookReviews(bookId: string, params: { page?: number; limit?: number } = {}) {
-  const { data } = await api.get<{ success: boolean; data: BookReviewsResult }>(
-    `${REVIEWS_PATH}/books/${bookId}`,
+export async function fetchProductReviews(productId: string, params: { page?: number; limit?: number } = {}) {
+  const { data } = await api.get<{ success: boolean; data: ProductReviewsResult }>(
+    `${REVIEWS_PATH}/products/${productId}`,
     { params: { page: params.page ?? 1, limit: params.limit ?? 10 } },
   );
   return data.data;
 }
 
-export async function submitReview(bookId: string, payload: { rating: number; comment: string }) {
+export async function submitReview(productId: string, payload: { rating: number; comment: string }) {
   const { data } = await api.post<{ success: boolean; message: string; data: ReviewMutationResult }>(
-    `${REVIEWS_PATH}/books/${bookId}`,
+    `${REVIEWS_PATH}/products/${productId}`,
     payload,
   );
   return data;

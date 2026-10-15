@@ -74,7 +74,7 @@ export function CoverUpload({ value, onChange, previewUrl }: CoverUploadProps) {
           <img
             src={preview}
             alt={t("coverUpload.previewAlt")}
-            className="h-40 w-28 rounded-md object-cover shadow-book"
+            className="h-40 w-28 rounded-md object-cover shadow-product"
           />
         ) : (
           <>

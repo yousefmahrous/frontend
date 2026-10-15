@@ -1,5 +1,5 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { BookOpen, Loader2, Minus, Plus, ShoppingCart, Trash2 } from "lucide-react";
+import { PackageOpen, Loader2, Minus, Plus, ShoppingCart, Trash2 } from "lucide-react";
 import { useState } from "react";
 import { toast } from "sonner";
 
@@ -64,7 +64,7 @@ function CartPage() {
 
   // السعر مخزن بالقرش، فبنقسمه على 100 عشان نعرضه للمستخدم بالجنيه
   const totalPrice = items.reduce(
-    (sum, item) => sum + (item.book.price * item.quantity) / 100,
+    (sum, item) => sum + (item.product.price * item.quantity) / 100,
     0,
   );
 
@@ -73,7 +73,7 @@ function CartPage() {
       <div className="mb-6 flex items-center gap-3">
         <ShoppingCart className="size-6 text-accent" />
         <h1 className="text-2xl font-extrabold">{t("cart.title")}</h1>
-        {items.length > 0 && <Badge variant="secondary">{t("cart.bookCount", { count: cart?.itemsCount })}</Badge>}
+        {items.length > 0 && <Badge variant="secondary">{t("cart.productCount", { count: cart?.itemsCount })}</Badge>}
       </div>
 
       {items.length === 0 ? (
@@ -92,7 +92,7 @@ function CartPage() {
           <div className="mt-6 flex items-center justify-between rounded-xl border border-border bg-card p-4 shadow-sm">
             <div>
               <p className="text-sm text-muted-foreground">{t("common.total")}</p>
-              <p className="text-xl font-extrabold">{totalPrice.toFixed(2)} {t("bookDetails.currency")}</p>
+              <p className="text-xl font-extrabold">{totalPrice.toFixed(2)} {t("productDetails.currency")}</p>
             </div>
             <Button onClick={() => setShippingOpen(true)}>{t("cart.proceedToCheckout")}</Button>
           </div>
@@ -107,7 +107,7 @@ function CartPage() {
 
 function CartItemCard({ item }: { item: CartItem }) {
   const { t, i18n } = useTranslation();
-  const bookName = pickLocalized(item.book.name, i18n.language as Lang);
+  const productName = pickLocalized(item.product.name, i18n.language as Lang);
   const updateQuantity = useUpdateCartItem();
   const removeItem = useRemoveCartItem();
 
@@ -131,19 +131,19 @@ function CartItemCard({ item }: { item: CartItem }) {
   return (
     <div className="flex gap-4 rounded-xl border border-border bg-card p-4 shadow-sm">
       <Link
-        to="/books/$id"
-        params={{ id: item.book.id }}
+        to="/products/$id"
+        params={{ id: item.product.id }}
         className="shrink-0 overflow-hidden rounded-lg border border-border bg-secondary"
       >
-        {item.book.avatar_url ? (
+        {item.product.avatar_url ? (
           <img
-            src={item.book.avatar_url}
-            alt={t("common.bookCoverAlt", { name: bookName })}
+            src={item.product.avatar_url}
+            alt={t("common.productCoverAlt", { name: productName })}
             className="aspect-2/3 w-20 object-cover"
           />
         ) : (
           <div className="flex aspect-2/3 w-20 items-center justify-center text-muted-foreground">
-            <BookOpen className="size-6" />
+            <PackageOpen className="size-6" />
           </div>
         )}
       </Link>
@@ -151,16 +151,23 @@ function CartItemCard({ item }: { item: CartItem }) {
       <div className="flex flex-1 flex-col justify-between gap-3">
         <div>
           <Badge variant="secondary" className="mb-1">
-            {t(`categories.${item.book.category}`, item.book.category)}
+            {t(`categories.${item.product.category}`, item.product.category)}
           </Badge>
           <Link
-            to="/books/$id"
-            params={{ id: item.book.id }}
+            to="/products/$id"
+            params={{ id: item.product.id }}
             className="block font-bold hover:text-accent"
           >
-            {bookName}
+            {productName}
           </Link>
-          <p className="text-xs text-muted-foreground">ISBN: {item.book.number}</p>
+          {item.variant && Object.keys(item.variant.options).length > 0 && (
+            <p className="text-sm text-muted-foreground">
+              {Object.values(item.variant.options).join(" / ")}
+            </p>
+          )}
+          {item.product.number && (
+            <p className="text-xs text-muted-foreground">ISBN: {item.product.number}</p>
+          )}
         </div>
 
         <div className="flex items-center justify-between">
@@ -186,7 +193,7 @@ function CartItemCard({ item }: { item: CartItem }) {
               variant="ghost"
               size="icon"
               className="size-8"
-              disabled={isBusy || item.book.stock <= 0}
+              disabled={isBusy || item.product.stock <= 0}
               onClick={() => handleQuantityChange(item.quantity + 1)}
               aria-label={t("cart.increaseQty")}
             >

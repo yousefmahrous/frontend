@@ -21,19 +21,20 @@ import { Route as SignupRouteImport } from './routes/signup'
 import { Route as VerifyEmailRouteImport } from './routes/verify-email'
 import { Route as AccountIndexRouteImport } from './routes/account.index'
 import { Route as AccountChangePasswordRouteImport } from './routes/account.change-password'
-import { Route as BooksIndexRouteImport } from './routes/books.index'
-import { Route as BooksIdRouteImport } from './routes/books.$id'
 import { Route as CheckoutCancelRouteImport } from './routes/checkout.cancel'
 import { Route as CheckoutSuccessRouteImport } from './routes/checkout.success'
+import { Route as ProductsIndexRouteImport } from './routes/products.index'
+import { Route as ProductsIdRouteImport } from './routes/products.$id'
 import { Route as TicketsIndexRouteImport } from './routes/tickets.index'
 import { Route as TicketsIdRouteImport } from './routes/tickets.$id'
 import { Route as VendorApplyRouteImport } from './routes/vendor.apply'
-import { Route as AdminBooksIndexRouteImport } from './routes/admin.books.index'
-import { Route as AdminBooksNewRouteImport } from './routes/admin.books.new'
+import { Route as AdminCategoriesIndexRouteImport } from './routes/admin.categories.index'
 import { Route as AdminCommissionIndexRouteImport } from './routes/admin.commission.index'
 import { Route as AdminOrdersIndexRouteImport } from './routes/admin.orders.index'
 import { Route as AdminPayoutsIndexRouteImport } from './routes/admin.payouts.index'
 import { Route as AdminPlatformOrdersIndexRouteImport } from './routes/admin.platform-orders.index'
+import { Route as AdminProductsIndexRouteImport } from './routes/admin.products.index'
+import { Route as AdminProductsNewRouteImport } from './routes/admin.products.new'
 import { Route as AdminRefundsIndexRouteImport } from './routes/admin.refunds.index'
 import { Route as AdminTicketsIndexRouteImport } from './routes/admin.tickets.index'
 import { Route as AdminVendorsIndexRouteImport } from './routes/admin.vendors.index'
@@ -42,7 +43,7 @@ import { Route as VendorOrdersIndexRouteImport } from './routes/vendor.orders.in
 import { Route as VendorProductsIndexRouteImport } from './routes/vendor.products.index'
 import { Route as VendorProductsNewRouteImport } from './routes/vendor.products.new'
 import { Route as VendorReturnsIndexRouteImport } from './routes/vendor.returns.index'
-import { Route as AdminBooksIdEditRouteImport } from './routes/admin.books.$id.edit'
+import { Route as AdminProductsIdEditRouteImport } from './routes/admin.products.$id.edit'
 import { Route as VendorProductsIdEditRouteImport } from './routes/vendor.products.$id.edit'
 
 const IndexRoute = IndexRouteImport.update({
@@ -105,16 +106,6 @@ const AccountChangePasswordRoute = AccountChangePasswordRouteImport.update({
   path: '/account/change-password',
   getParentRoute: () => rootRouteImport,
 } as any)
-const BooksIndexRoute = BooksIndexRouteImport.update({
-  id: '/books/',
-  path: '/books/',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const BooksIdRoute = BooksIdRouteImport.update({
-  id: '/books/$id',
-  path: '/books/$id',
-  getParentRoute: () => rootRouteImport,
-} as any)
 const CheckoutCancelRoute = CheckoutCancelRouteImport.update({
   id: '/checkout/cancel',
   path: '/checkout/cancel',
@@ -123,6 +114,16 @@ const CheckoutCancelRoute = CheckoutCancelRouteImport.update({
 const CheckoutSuccessRoute = CheckoutSuccessRouteImport.update({
   id: '/checkout/success',
   path: '/checkout/success',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ProductsIndexRoute = ProductsIndexRouteImport.update({
+  id: '/products/',
+  path: '/products/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ProductsIdRoute = ProductsIdRouteImport.update({
+  id: '/products/$id',
+  path: '/products/$id',
   getParentRoute: () => rootRouteImport,
 } as any)
 const TicketsIndexRoute = TicketsIndexRouteImport.update({
@@ -140,14 +141,9 @@ const VendorApplyRoute = VendorApplyRouteImport.update({
   path: '/vendor/apply',
   getParentRoute: () => rootRouteImport,
 } as any)
-const AdminBooksIndexRoute = AdminBooksIndexRouteImport.update({
-  id: '/admin/books/',
-  path: '/admin/books/',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const AdminBooksNewRoute = AdminBooksNewRouteImport.update({
-  id: '/admin/books/new',
-  path: '/admin/books/new',
+const AdminCategoriesIndexRoute = AdminCategoriesIndexRouteImport.update({
+  id: '/admin/categories/',
+  path: '/admin/categories/',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AdminCommissionIndexRoute = AdminCommissionIndexRouteImport.update({
@@ -171,6 +167,16 @@ const AdminPlatformOrdersIndexRoute =
     path: '/admin/platform-orders/',
     getParentRoute: () => rootRouteImport,
   } as any)
+const AdminProductsIndexRoute = AdminProductsIndexRouteImport.update({
+  id: '/admin/products/',
+  path: '/admin/products/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AdminProductsNewRoute = AdminProductsNewRouteImport.update({
+  id: '/admin/products/new',
+  path: '/admin/products/new',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const AdminRefundsIndexRoute = AdminRefundsIndexRouteImport.update({
   id: '/admin/refunds/',
   path: '/admin/refunds/',
@@ -211,9 +217,9 @@ const VendorReturnsIndexRoute = VendorReturnsIndexRouteImport.update({
   path: '/vendor/returns/',
   getParentRoute: () => rootRouteImport,
 } as any)
-const AdminBooksIdEditRoute = AdminBooksIdEditRouteImport.update({
-  id: '/admin/books/$id/edit',
-  path: '/admin/books/$id/edit',
+const AdminProductsIdEditRoute = AdminProductsIdEditRouteImport.update({
+  id: '/admin/products/$id/edit',
+  path: '/admin/products/$id/edit',
   getParentRoute: () => rootRouteImport,
 } as any)
 const VendorProductsIdEditRoute = VendorProductsIdEditRouteImport.update({
@@ -234,21 +240,22 @@ export interface FileRoutesByFullPath {
   '/signup': typeof SignupRoute
   '/verify-email': typeof VerifyEmailRoute
   '/account/change-password': typeof AccountChangePasswordRoute
-  '/books/$id': typeof BooksIdRoute
   '/checkout/cancel': typeof CheckoutCancelRoute
   '/checkout/success': typeof CheckoutSuccessRoute
+  '/products/$id': typeof ProductsIdRoute
   '/tickets/$id': typeof TicketsIdRoute
   '/vendor/apply': typeof VendorApplyRoute
   '/account/': typeof AccountIndexRoute
-  '/books/': typeof BooksIndexRoute
+  '/products/': typeof ProductsIndexRoute
   '/tickets/': typeof TicketsIndexRoute
-  '/admin/books/new': typeof AdminBooksNewRoute
+  '/admin/products/new': typeof AdminProductsNewRoute
   '/vendor/products/new': typeof VendorProductsNewRoute
-  '/admin/books/': typeof AdminBooksIndexRoute
+  '/admin/categories/': typeof AdminCategoriesIndexRoute
   '/admin/commission/': typeof AdminCommissionIndexRoute
   '/admin/orders/': typeof AdminOrdersIndexRoute
   '/admin/payouts/': typeof AdminPayoutsIndexRoute
   '/admin/platform-orders/': typeof AdminPlatformOrdersIndexRoute
+  '/admin/products/': typeof AdminProductsIndexRoute
   '/admin/refunds/': typeof AdminRefundsIndexRoute
   '/admin/tickets/': typeof AdminTicketsIndexRoute
   '/admin/vendors/': typeof AdminVendorsIndexRoute
@@ -256,7 +263,7 @@ export interface FileRoutesByFullPath {
   '/vendor/orders/': typeof VendorOrdersIndexRoute
   '/vendor/products/': typeof VendorProductsIndexRoute
   '/vendor/returns/': typeof VendorReturnsIndexRoute
-  '/admin/books/$id/edit': typeof AdminBooksIdEditRoute
+  '/admin/products/$id/edit': typeof AdminProductsIdEditRoute
   '/vendor/products/$id/edit': typeof VendorProductsIdEditRoute
 }
 export interface FileRoutesByTo {
@@ -271,21 +278,22 @@ export interface FileRoutesByTo {
   '/signup': typeof SignupRoute
   '/verify-email': typeof VerifyEmailRoute
   '/account/change-password': typeof AccountChangePasswordRoute
-  '/books/$id': typeof BooksIdRoute
   '/checkout/cancel': typeof CheckoutCancelRoute
   '/checkout/success': typeof CheckoutSuccessRoute
+  '/products/$id': typeof ProductsIdRoute
   '/tickets/$id': typeof TicketsIdRoute
   '/vendor/apply': typeof VendorApplyRoute
   '/account': typeof AccountIndexRoute
-  '/books': typeof BooksIndexRoute
+  '/products': typeof ProductsIndexRoute
   '/tickets': typeof TicketsIndexRoute
-  '/admin/books/new': typeof AdminBooksNewRoute
+  '/admin/products/new': typeof AdminProductsNewRoute
   '/vendor/products/new': typeof VendorProductsNewRoute
-  '/admin/books': typeof AdminBooksIndexRoute
+  '/admin/categories': typeof AdminCategoriesIndexRoute
   '/admin/commission': typeof AdminCommissionIndexRoute
   '/admin/orders': typeof AdminOrdersIndexRoute
   '/admin/payouts': typeof AdminPayoutsIndexRoute
   '/admin/platform-orders': typeof AdminPlatformOrdersIndexRoute
+  '/admin/products': typeof AdminProductsIndexRoute
   '/admin/refunds': typeof AdminRefundsIndexRoute
   '/admin/tickets': typeof AdminTicketsIndexRoute
   '/admin/vendors': typeof AdminVendorsIndexRoute
@@ -293,7 +301,7 @@ export interface FileRoutesByTo {
   '/vendor/orders': typeof VendorOrdersIndexRoute
   '/vendor/products': typeof VendorProductsIndexRoute
   '/vendor/returns': typeof VendorReturnsIndexRoute
-  '/admin/books/$id/edit': typeof AdminBooksIdEditRoute
+  '/admin/products/$id/edit': typeof AdminProductsIdEditRoute
   '/vendor/products/$id/edit': typeof VendorProductsIdEditRoute
 }
 export interface FileRoutesById {
@@ -309,21 +317,22 @@ export interface FileRoutesById {
   '/signup': typeof SignupRoute
   '/verify-email': typeof VerifyEmailRoute
   '/account/change-password': typeof AccountChangePasswordRoute
-  '/books/$id': typeof BooksIdRoute
   '/checkout/cancel': typeof CheckoutCancelRoute
   '/checkout/success': typeof CheckoutSuccessRoute
+  '/products/$id': typeof ProductsIdRoute
   '/tickets/$id': typeof TicketsIdRoute
   '/vendor/apply': typeof VendorApplyRoute
   '/account/': typeof AccountIndexRoute
-  '/books/': typeof BooksIndexRoute
+  '/products/': typeof ProductsIndexRoute
   '/tickets/': typeof TicketsIndexRoute
-  '/admin/books/new': typeof AdminBooksNewRoute
+  '/admin/products/new': typeof AdminProductsNewRoute
   '/vendor/products/new': typeof VendorProductsNewRoute
-  '/admin/books/': typeof AdminBooksIndexRoute
+  '/admin/categories/': typeof AdminCategoriesIndexRoute
   '/admin/commission/': typeof AdminCommissionIndexRoute
   '/admin/orders/': typeof AdminOrdersIndexRoute
   '/admin/payouts/': typeof AdminPayoutsIndexRoute
   '/admin/platform-orders/': typeof AdminPlatformOrdersIndexRoute
+  '/admin/products/': typeof AdminProductsIndexRoute
   '/admin/refunds/': typeof AdminRefundsIndexRoute
   '/admin/tickets/': typeof AdminTicketsIndexRoute
   '/admin/vendors/': typeof AdminVendorsIndexRoute
@@ -331,7 +340,7 @@ export interface FileRoutesById {
   '/vendor/orders/': typeof VendorOrdersIndexRoute
   '/vendor/products/': typeof VendorProductsIndexRoute
   '/vendor/returns/': typeof VendorReturnsIndexRoute
-  '/admin/books/$id/edit': typeof AdminBooksIdEditRoute
+  '/admin/products/$id/edit': typeof AdminProductsIdEditRoute
   '/vendor/products/$id/edit': typeof VendorProductsIdEditRoute
 }
 export interface FileRouteTypes {
@@ -348,21 +357,22 @@ export interface FileRouteTypes {
     | '/signup'
     | '/verify-email'
     | '/account/change-password'
-    | '/books/$id'
     | '/checkout/cancel'
     | '/checkout/success'
+    | '/products/$id'
     | '/tickets/$id'
     | '/vendor/apply'
     | '/account/'
-    | '/books/'
+    | '/products/'
     | '/tickets/'
-    | '/admin/books/new'
+    | '/admin/products/new'
     | '/vendor/products/new'
-    | '/admin/books/'
+    | '/admin/categories/'
     | '/admin/commission/'
     | '/admin/orders/'
     | '/admin/payouts/'
     | '/admin/platform-orders/'
+    | '/admin/products/'
     | '/admin/refunds/'
     | '/admin/tickets/'
     | '/admin/vendors/'
@@ -370,7 +380,7 @@ export interface FileRouteTypes {
     | '/vendor/orders/'
     | '/vendor/products/'
     | '/vendor/returns/'
-    | '/admin/books/$id/edit'
+    | '/admin/products/$id/edit'
     | '/vendor/products/$id/edit'
   fileRoutesByTo: FileRoutesByTo
   to:
@@ -385,21 +395,22 @@ export interface FileRouteTypes {
     | '/signup'
     | '/verify-email'
     | '/account/change-password'
-    | '/books/$id'
     | '/checkout/cancel'
     | '/checkout/success'
+    | '/products/$id'
     | '/tickets/$id'
     | '/vendor/apply'
     | '/account'
-    | '/books'
+    | '/products'
     | '/tickets'
-    | '/admin/books/new'
+    | '/admin/products/new'
     | '/vendor/products/new'
-    | '/admin/books'
+    | '/admin/categories'
     | '/admin/commission'
     | '/admin/orders'
     | '/admin/payouts'
     | '/admin/platform-orders'
+    | '/admin/products'
     | '/admin/refunds'
     | '/admin/tickets'
     | '/admin/vendors'
@@ -407,7 +418,7 @@ export interface FileRouteTypes {
     | '/vendor/orders'
     | '/vendor/products'
     | '/vendor/returns'
-    | '/admin/books/$id/edit'
+    | '/admin/products/$id/edit'
     | '/vendor/products/$id/edit'
   id:
     | '__root__'
@@ -422,21 +433,22 @@ export interface FileRouteTypes {
     | '/signup'
     | '/verify-email'
     | '/account/change-password'
-    | '/books/$id'
     | '/checkout/cancel'
     | '/checkout/success'
+    | '/products/$id'
     | '/tickets/$id'
     | '/vendor/apply'
     | '/account/'
-    | '/books/'
+    | '/products/'
     | '/tickets/'
-    | '/admin/books/new'
+    | '/admin/products/new'
     | '/vendor/products/new'
-    | '/admin/books/'
+    | '/admin/categories/'
     | '/admin/commission/'
     | '/admin/orders/'
     | '/admin/payouts/'
     | '/admin/platform-orders/'
+    | '/admin/products/'
     | '/admin/refunds/'
     | '/admin/tickets/'
     | '/admin/vendors/'
@@ -444,7 +456,7 @@ export interface FileRouteTypes {
     | '/vendor/orders/'
     | '/vendor/products/'
     | '/vendor/returns/'
-    | '/admin/books/$id/edit'
+    | '/admin/products/$id/edit'
     | '/vendor/products/$id/edit'
   fileRoutesById: FileRoutesById
 }
@@ -460,21 +472,22 @@ export interface RootRouteChildren {
   SignupRoute: typeof SignupRoute
   VerifyEmailRoute: typeof VerifyEmailRoute
   AccountChangePasswordRoute: typeof AccountChangePasswordRoute
-  BooksIdRoute: typeof BooksIdRoute
   CheckoutCancelRoute: typeof CheckoutCancelRoute
   CheckoutSuccessRoute: typeof CheckoutSuccessRoute
+  ProductsIdRoute: typeof ProductsIdRoute
   TicketsIdRoute: typeof TicketsIdRoute
   VendorApplyRoute: typeof VendorApplyRoute
   AccountIndexRoute: typeof AccountIndexRoute
-  BooksIndexRoute: typeof BooksIndexRoute
+  ProductsIndexRoute: typeof ProductsIndexRoute
   TicketsIndexRoute: typeof TicketsIndexRoute
-  AdminBooksNewRoute: typeof AdminBooksNewRoute
+  AdminProductsNewRoute: typeof AdminProductsNewRoute
   VendorProductsNewRoute: typeof VendorProductsNewRoute
-  AdminBooksIndexRoute: typeof AdminBooksIndexRoute
+  AdminCategoriesIndexRoute: typeof AdminCategoriesIndexRoute
   AdminCommissionIndexRoute: typeof AdminCommissionIndexRoute
   AdminOrdersIndexRoute: typeof AdminOrdersIndexRoute
   AdminPayoutsIndexRoute: typeof AdminPayoutsIndexRoute
   AdminPlatformOrdersIndexRoute: typeof AdminPlatformOrdersIndexRoute
+  AdminProductsIndexRoute: typeof AdminProductsIndexRoute
   AdminRefundsIndexRoute: typeof AdminRefundsIndexRoute
   AdminTicketsIndexRoute: typeof AdminTicketsIndexRoute
   AdminVendorsIndexRoute: typeof AdminVendorsIndexRoute
@@ -482,7 +495,7 @@ export interface RootRouteChildren {
   VendorOrdersIndexRoute: typeof VendorOrdersIndexRoute
   VendorProductsIndexRoute: typeof VendorProductsIndexRoute
   VendorReturnsIndexRoute: typeof VendorReturnsIndexRoute
-  AdminBooksIdEditRoute: typeof AdminBooksIdEditRoute
+  AdminProductsIdEditRoute: typeof AdminProductsIdEditRoute
   VendorProductsIdEditRoute: typeof VendorProductsIdEditRoute
 }
 
@@ -572,20 +585,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AccountChangePasswordRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/books/': {
-      id: '/books/'
-      path: '/books'
-      fullPath: '/books/'
-      preLoaderRoute: typeof BooksIndexRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/books/$id': {
-      id: '/books/$id'
-      path: '/books/$id'
-      fullPath: '/books/$id'
-      preLoaderRoute: typeof BooksIdRouteImport
-      parentRoute: typeof rootRouteImport
-    }
     '/checkout/cancel': {
       id: '/checkout/cancel'
       path: '/checkout/cancel'
@@ -598,6 +597,20 @@ declare module '@tanstack/react-router' {
       path: '/checkout/success'
       fullPath: '/checkout/success'
       preLoaderRoute: typeof CheckoutSuccessRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/products/': {
+      id: '/products/'
+      path: '/products'
+      fullPath: '/products/'
+      preLoaderRoute: typeof ProductsIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/products/$id': {
+      id: '/products/$id'
+      path: '/products/$id'
+      fullPath: '/products/$id'
+      preLoaderRoute: typeof ProductsIdRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/tickets/': {
@@ -621,18 +634,11 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof VendorApplyRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/admin/books/': {
-      id: '/admin/books/'
-      path: '/admin/books'
-      fullPath: '/admin/books/'
-      preLoaderRoute: typeof AdminBooksIndexRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/admin/books/new': {
-      id: '/admin/books/new'
-      path: '/admin/books/new'
-      fullPath: '/admin/books/new'
-      preLoaderRoute: typeof AdminBooksNewRouteImport
+    '/admin/categories/': {
+      id: '/admin/categories/'
+      path: '/admin/categories'
+      fullPath: '/admin/categories/'
+      preLoaderRoute: typeof AdminCategoriesIndexRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/admin/commission/': {
@@ -661,6 +667,20 @@ declare module '@tanstack/react-router' {
       path: '/admin/platform-orders'
       fullPath: '/admin/platform-orders/'
       preLoaderRoute: typeof AdminPlatformOrdersIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/admin/products/': {
+      id: '/admin/products/'
+      path: '/admin/products'
+      fullPath: '/admin/products/'
+      preLoaderRoute: typeof AdminProductsIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/admin/products/new': {
+      id: '/admin/products/new'
+      path: '/admin/products/new'
+      fullPath: '/admin/products/new'
+      preLoaderRoute: typeof AdminProductsNewRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/admin/refunds/': {
@@ -719,11 +739,11 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof VendorReturnsIndexRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/admin/books/$id/edit': {
-      id: '/admin/books/$id/edit'
-      path: '/admin/books/$id/edit'
-      fullPath: '/admin/books/$id/edit'
-      preLoaderRoute: typeof AdminBooksIdEditRouteImport
+    '/admin/products/$id/edit': {
+      id: '/admin/products/$id/edit'
+      path: '/admin/products/$id/edit'
+      fullPath: '/admin/products/$id/edit'
+      preLoaderRoute: typeof AdminProductsIdEditRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/vendor/products/$id/edit': {
@@ -748,21 +768,22 @@ const rootRouteChildren: RootRouteChildren = {
   SignupRoute: SignupRoute,
   VerifyEmailRoute: VerifyEmailRoute,
   AccountChangePasswordRoute: AccountChangePasswordRoute,
-  BooksIdRoute: BooksIdRoute,
   CheckoutCancelRoute: CheckoutCancelRoute,
   CheckoutSuccessRoute: CheckoutSuccessRoute,
+  ProductsIdRoute: ProductsIdRoute,
   TicketsIdRoute: TicketsIdRoute,
   VendorApplyRoute: VendorApplyRoute,
   AccountIndexRoute: AccountIndexRoute,
-  BooksIndexRoute: BooksIndexRoute,
+  ProductsIndexRoute: ProductsIndexRoute,
   TicketsIndexRoute: TicketsIndexRoute,
-  AdminBooksNewRoute: AdminBooksNewRoute,
+  AdminProductsNewRoute: AdminProductsNewRoute,
   VendorProductsNewRoute: VendorProductsNewRoute,
-  AdminBooksIndexRoute: AdminBooksIndexRoute,
+  AdminCategoriesIndexRoute: AdminCategoriesIndexRoute,
   AdminCommissionIndexRoute: AdminCommissionIndexRoute,
   AdminOrdersIndexRoute: AdminOrdersIndexRoute,
   AdminPayoutsIndexRoute: AdminPayoutsIndexRoute,
   AdminPlatformOrdersIndexRoute: AdminPlatformOrdersIndexRoute,
+  AdminProductsIndexRoute: AdminProductsIndexRoute,
   AdminRefundsIndexRoute: AdminRefundsIndexRoute,
   AdminTicketsIndexRoute: AdminTicketsIndexRoute,
   AdminVendorsIndexRoute: AdminVendorsIndexRoute,
@@ -770,7 +791,7 @@ const rootRouteChildren: RootRouteChildren = {
   VendorOrdersIndexRoute: VendorOrdersIndexRoute,
   VendorProductsIndexRoute: VendorProductsIndexRoute,
   VendorReturnsIndexRoute: VendorReturnsIndexRoute,
-  AdminBooksIdEditRoute: AdminBooksIdEditRoute,
+  AdminProductsIdEditRoute: AdminProductsIdEditRoute,
   VendorProductsIdEditRoute: VendorProductsIdEditRoute,
 }
 export const routeTree = rootRouteImport

@@ -8,7 +8,7 @@ test('يوزر مش عامل login بيشوف رسالة "محتاج تسجيل 
   await expect(page).toHaveURL('/account'); 
 });
 
-test('يوزر مش عامل login بيشوف رسالة "محتاج تسجيل دخول" في /admin/books', async ({ page }) => {
-  await page.goto('/admin/books');
+test('يوزر مش عامل login بيشوف رسالة "محتاج تسجيل دخول" في /admin/products', async ({ page }) => {
+  await page.goto('/admin/products');
   await expect(page.getByRole('heading', { name: 'محتاج تسجيل دخول' })).toBeVisible();
 });

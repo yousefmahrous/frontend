@@ -1,17 +1,17 @@
 import { test, expect, type Page } from '@playwright/test';
 
-async function openFirstBook(page: Page) {
-  await page.goto('/books');
-  const firstBookLink = page.locator('a[href^="/books/"]').first();
-  await expect(firstBookLink).toBeVisible();
+async function openFirstProduct(page: Page) {
+  await page.goto('/products');
+  const firstProductLink = page.locator('a[href^="/products/"]').first();
+  await expect(firstProductLink).toBeVisible();
 
-  const bookTitle = await firstBookLink.locator('h3, h2').first().innerText();
-  await firstBookLink.click();
+  const productTitle = await firstProductLink.locator('h3, h2').first().innerText();
+  await firstProductLink.click();
 
-  await expect(page).toHaveURL(/\/books\/\d+/);
-  await expect(page.getByRole('heading', { level: 1, name: bookTitle })).toBeVisible();
+  await expect(page).toHaveURL(/\/products\/\d+/);
+  await expect(page.getByRole('heading', { level: 1, name: productTitle })).toBeVisible();
 
-  return { bookTitle };
+  return { productTitle };
 }
 
 function reviewCard(page: Page) {
@@ -19,12 +19,12 @@ function reviewCard(page: Page) {
 }
 
 test('عميل يشوف قسم التقييمات في صفحة تفاصيل الكتاب', async ({ page }) => {
-  await openFirstBook(page);
+  await openFirstProduct(page);
   await expect(page.getByRole('heading', { name: 'التقييمات والمراجعات' })).toBeVisible();
 });
 
 test('عميل مايقدرش يبعت تقييم بدون اختيار نجوم أو بتعليق قصير', async ({ page }) => {
-  await openFirstBook(page);
+  await openFirstProduct(page);
 
   const form = reviewCard(page);
   await form.getByRole('button', { name: /إرسال التقييم|حفظ التعديل/ }).click();
@@ -37,7 +37,7 @@ test('عميل مايقدرش يبعت تقييم بدون اختيار نجوم
 });
 
 test('عميل يقدر يضيف تقييم للكتاب ويعدّله ويحذفه', async ({ page }) => {
-  const { bookTitle: _bookTitle } = await openFirstBook(page);
+  const { productTitle: _productTitle } = await openFirstProduct(page);
   const comment = `تجربة رائعة للكتاب - ${Date.now()}`;
 
   const form = reviewCard(page);

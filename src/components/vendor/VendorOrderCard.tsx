@@ -88,12 +88,12 @@ export function VendorOrderCard({ order, platform = false }: { order: VendorOrde
 
       <ul className="my-3 space-y-1">
         {order.items.map((item) => (
-          <li key={item.book_id} className="flex items-center justify-between text-sm">
+          <li key={item.product_id} className="flex items-center justify-between text-sm">
             <span>
               {item.title} <span className="text-muted-foreground">× {item.quantity}</span>
             </span>
             <span className="text-muted-foreground">
-              {formatPrice(item.unit_price * item.quantity)} {t("bookDetails.currency")}
+              {formatPrice(item.unit_price * item.quantity)} {t("productDetails.currency")}
             </span>
           </li>
         ))}
@@ -102,7 +102,7 @@ export function VendorOrderCard({ order, platform = false }: { order: VendorOrde
       <div className="flex items-center justify-between border-t border-border pt-3">
         <span className="text-sm text-muted-foreground">{t("vendorOrders.subtotal")}</span>
         <span className="font-extrabold">
-          {formatPrice(order.subtotal)} {t("bookDetails.currency")}
+          {formatPrice(order.subtotal)} {t("productDetails.currency")}
         </span>
       </div>
 

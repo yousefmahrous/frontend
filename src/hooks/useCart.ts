@@ -2,7 +2,7 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 
 import { addToCart, fetchCart, removeCartItem, updateCartItemQuantity } from "@/api/cart.api";
 import { useAuth } from "@/context/auth-context";
-import { booksKeys } from "./useBooks";
+import { productsKeys } from "./useProducts";
 
 export const cartKeys = {
   all: ["cart"] as const,
@@ -21,12 +21,14 @@ export function useCart() {
 export function useAddToCart() {
   const queryClient = useQueryClient();
   return useMutation({
-    mutationFn: (bookId: string) => addToCart(bookId),
+    // A plain product id keeps working (favorites etc.); pass { productId, variantId } to pick a variant.
+    mutationFn: (arg: string | { productId: string; variantId?: number }) =>
+      typeof arg === "string" ? addToCart(arg) : addToCart(arg.productId, arg.variantId),
     onSuccess: (res) => {
       queryClient.setQueryData(cartKeys.all, res.data);
-      // Adding to cart reserves stock in the DB, so the book's list/detail
+      // Adding to cart reserves stock in the DB, so the product's list/detail
       // queries (which include stock) need to be refreshed too.
-      void queryClient.invalidateQueries({ queryKey: booksKeys.all });
+      void queryClient.invalidateQueries({ queryKey: productsKeys.all });
     },
   });
 }
@@ -38,7 +40,7 @@ export function useUpdateCartItem() {
       updateCartItemQuantity(itemId, quantity),
     onSuccess: (res) => {
       queryClient.setQueryData(cartKeys.all, res.data);
-      void queryClient.invalidateQueries({ queryKey: booksKeys.all });
+      void queryClient.invalidateQueries({ queryKey: productsKeys.all });
     },
   });
 }
@@ -49,8 +51,8 @@ export function useRemoveCartItem() {
     mutationFn: (itemId: string) => removeCartItem(itemId),
     onSuccess: (res) => {
       queryClient.setQueryData(cartKeys.all, res.data);
-      // Removing an item releases stock back to the book, refresh it too.
-      void queryClient.invalidateQueries({ queryKey: booksKeys.all });
+      // Removing an item releases stock back to the product, refresh it too.
+      void queryClient.invalidateQueries({ queryKey: productsKeys.all });
     },
   });
 }

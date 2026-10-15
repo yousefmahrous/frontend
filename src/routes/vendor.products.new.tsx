@@ -4,7 +4,7 @@ import { toast } from "sonner";
 import { useTranslation } from "react-i18next";
 
 import { errorMessage } from "@/api/client";
-import { BookForm } from "@/components/books/BookForm";
+import { ProductForm } from "@/components/products/ProductForm";
 import { VendorOnly } from "@/components/Guards";
 import { Button } from "@/components/ui/button";
 import { useCreateMyProduct } from "@/hooks/useVendor";
@@ -33,12 +33,12 @@ function NewProductPage() {
       </Button>
       <h1 className="mb-6 text-2xl font-bold md:text-3xl">{t("vendorProducts.newTitle")}</h1>
 
-      <BookForm
-        submitLabel={t("adminBooksNew.saveLabel")}
+      <ProductForm
+        submitLabel={t("adminProductsNew.saveLabel")}
         onSubmit={async (payload) => {
           try {
             await createProduct.mutateAsync(payload);
-            toast.success(t("adminBooksNew.addedSuccess"));
+            toast.success(t("adminProductsNew.addedSuccess"));
             void navigate({ to: "/vendor/products" });
           } catch (error) {
             toast.error(errorMessage(error));

@@ -11,7 +11,7 @@ export type RefundRequestStatus =
   | "cancelled";
 
 export interface RefundOrderItem {
-  book_id: number;
+  product_id: number;
   title: string;
   quantity: number;
   unit_price: number;

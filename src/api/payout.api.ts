@@ -1,5 +1,5 @@
 import { api } from "./client";
-import type { Pagination } from "./books.api";
+import type { Pagination } from "./products.api";
 
 export interface VendorBalance {
   vendor: { id: number; store_name: string; status: string };

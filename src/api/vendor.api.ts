@@ -1,5 +1,5 @@
 import { api } from "./client";
-import type { Book, BookPayload, BooksListResult, Pagination } from "./books.api";
+import type { Product, ProductPayload, ProductsListResult, Pagination } from "./products.api";
 import type { FulfillmentStatus, OrderShipping, ReturnStatus } from "./order.api";
 import type { RefundRequestStatus } from "./refund.api";
 
@@ -53,29 +53,29 @@ export async function updateVendorStatus(id: number, status: VendorStatus) {
 export async function fetchMyProducts(params: { page: number; limit: number }) {
   const { data } = await api.get<{
     success: boolean;
-    data: { users: Book[]; pagination: Pagination };
-  }>("/vendors/books", { params });
-  return { items: data.data.users, pagination: data.data.pagination } satisfies BooksListResult;
+    data: { users: Product[]; pagination: Pagination };
+  }>("/vendors/products", { params });
+  return { items: data.data.users, pagination: data.data.pagination } satisfies ProductsListResult;
 }
 
 export async function fetchMyProduct(id: string) {
-  const { data } = await api.get<{ success: boolean; data: { user: Book } }>(
-    `/vendors/books/${id}`,
+  const { data } = await api.get<{ success: boolean; data: { user: Product } }>(
+    `/vendors/products/${id}`,
   );
   return data.data.user;
 }
 
-export async function createMyProduct(payload: BookPayload) {
+export async function createMyProduct(payload: ProductPayload) {
   const { data } = await api.post<{ success: boolean; message: string }>(
-    "/vendors/books",
+    "/vendors/products",
     payload,
   );
   return data;
 }
 
-export async function updateMyProduct(id: string, payload: BookPayload) {
+export async function updateMyProduct(id: string, payload: ProductPayload) {
   const { data } = await api.put<{ success: boolean; message: string }>(
-    `/vendors/books/${id}`,
+    `/vendors/products/${id}`,
     payload,
   );
   return data;
@@ -83,13 +83,13 @@ export async function updateMyProduct(id: string, payload: BookPayload) {
 
 export async function deleteMyProduct(id: string) {
   const { data } = await api.delete<{ success: boolean; message: string }>(
-    `/vendors/books/${id}`,
+    `/vendors/products/${id}`,
   );
   return data;
 }
 
 export interface VendorOrderItem {
-  book_id: number;
+  product_id: number;
   title: string;
   quantity: number;
   unit_price: number;

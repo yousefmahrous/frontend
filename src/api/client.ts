@@ -14,9 +14,9 @@ export const API_URL =
 
 export const SOCKET_URL = API_URL.replace(/\/api\/v1\/?$/, "");
 
-export const BOOKS_PATH = "/books";
+export const PRODUCTS_PATH = "/products";
 
-export const BOOKS_UPDATED_EVENT = "books_updated";
+export const PRODUCTS_UPDATED_EVENT = "products_updated";
 
 export const api = axios.create({
   baseURL: API_URL,

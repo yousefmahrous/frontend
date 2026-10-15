@@ -3,7 +3,7 @@ import { test, expect } from '@playwright/test';
 test('أدمن يقدر يضيف كتاب جديد ويشوفه في قايمة الكتب', async ({ page }) => {
   const uniqueTitle = `كتاب اختبار ${Date.now()}`;
 
-  await page.goto('/admin/books/new');
+  await page.goto('/admin/products/new');
 
   await page.locator('#name').fill(uniqueTitle);
   await page.locator('#number').fill('9789770000123');
@@ -16,10 +16,10 @@ test('أدمن يقدر يضيف كتاب جديد ويشوفه في قايمة 
   await page.locator('#category').click();
   await page.getByRole('option').first().click();
 
-  await page.getByRole('button', { name: 'حفظ الكتاب' }).click();
+  await page.getByRole('button', { name: 'حفظ المنتج' }).click();
 
-  await expect(page.getByText('تمت إضافة الكتاب')).toBeVisible({ timeout: 5000 });
-  await expect(page).toHaveURL('/admin/books');
+  await expect(page.getByText('تمت إضافة المنتج')).toBeVisible({ timeout: 5000 });
+  await expect(page).toHaveURL('/admin/products');
   await expect(page.getByText(uniqueTitle)).toBeVisible();
 });
 
@@ -33,7 +33,7 @@ test('أدمن يقدر يعدّل كتاب موجود ويشوف التغيير
   const originalTitle = `كتاب للتعديل ${Date.now()}`;
   const updatedTitle = `${originalTitle} - معدّل`;
 
-  await page.goto('/admin/books/new');
+  await page.goto('/admin/products/new');
   await page.locator('#name').fill(originalTitle);
   await page.locator('#number').fill('9789770000124');
   await page.locator('#email').fill('publisher@test.local');
@@ -43,25 +43,25 @@ test('أدمن يقدر يعدّل كتاب موجود ويشوف التغيير
   await page.locator('#adress').fill('وصف تجريبي');
   await page.locator('#category').click();
   await page.getByRole('option').first().click();
-  await page.getByRole('button', { name: 'حفظ الكتاب' }).click();
-  await expect(page).toHaveURL('/admin/books');
+  await page.getByRole('button', { name: 'حفظ المنتج' }).click();
+  await expect(page).toHaveURL('/admin/products');
 
-  const bookRow = page.locator('tr').filter({ hasText: originalTitle });
-  await bookRow.getByRole('link', { name: 'تعديل' }).click();
+  const productRow = page.locator('tr').filter({ hasText: originalTitle });
+  await productRow.getByRole('link', { name: 'تعديل' }).click();
 
-  await expect(page).toHaveURL(/\/admin\/books\/\d+\/edit/);
+  await expect(page).toHaveURL(/\/admin\/products\/\d+\/edit/);
 
   await page.locator('#name').fill(updatedTitle);
   await page.getByRole('button', { name: /حفظ/ }).click();
 
-  await expect(page).toHaveURL('/admin/books');
+  await expect(page).toHaveURL('/admin/products');
   await expect(page.getByText(updatedTitle)).toBeVisible();
 });
 
 test('أدمن يقدر يحذف كتاب من غير أوردرات مرتبطة بيه', async ({ page }) => {
   const title = `كتاب للحذف ${Date.now()}`;
 
-  await page.goto('/admin/books/new');
+  await page.goto('/admin/products/new');
   await page.locator('#name').fill(title);
   await page.locator('#number').fill('9789770000125');
   await page.locator('#email').fill('publisher@test.local');
@@ -71,11 +71,11 @@ test('أدمن يقدر يحذف كتاب من غير أوردرات مرتبط�
   await page.locator('#adress').fill('وصف تجريبي');
   await page.locator('#category').click();
   await page.getByRole('option').first().click();
-  await page.getByRole('button', { name: 'حفظ الكتاب' }).click();
-  await expect(page).toHaveURL('/admin/books');
+  await page.getByRole('button', { name: 'حفظ المنتج' }).click();
+  await expect(page).toHaveURL('/admin/products');
 
-  const bookRow = page.locator('tr').filter({ hasText: title });
-  await bookRow.getByRole('button', { name: 'حذف' }).click();
+  const productRow = page.locator('tr').filter({ hasText: title });
+  await productRow.getByRole('button', { name: 'حذف' }).click();
 
   await page.getByRole('alertdialog').getByRole('button', { name: 'حذف' }).click();
 
@@ -84,13 +84,13 @@ test('أدمن يقدر يحذف كتاب من غير أوردرات مرتبط�
 });
 
 test('حذف كتاب مرتبط بأوردر سابق بيرجّع رسالة واضحة بدل الكراش', async ({ page }) => {
-  await page.goto('/admin/books');
+  await page.goto('/admin/products');
   const firstDeleteButton = page.getByRole('button', { name: 'حذف' }).first();
   await firstDeleteButton.click();
   await page.getByRole('alertdialog').getByRole('button', { name: 'حذف' }).click();
 
   const successToast = page.getByText(/تم حذف/);
-  const conflictToast = page.getByText(/مينفعش تحذف الكتاب ده لأنه مرتبط بأوردرات/);
+  const conflictToast = page.getByText(/مينفعش تحذف المنتج ده لأنه مرتبط بأوردرات/);
 
   await expect(successToast.or(conflictToast)).toBeVisible({ timeout: 5000 });
 });
@@ -102,7 +102,7 @@ test('أدمن يقدر يوافق على طلب استرجاع', async ({ page 
   await expect(approveButton).toBeVisible({ timeout: 5000 });
   await approveButton.click();
 
-  await expect(page.getByText('تمت الموافقة على الطلب، في انتظار استلام الكتاب')).toBeVisible({
+  await expect(page.getByText('تمت الموافقة على الطلب، في انتظار استلام المنتج')).toBeVisible({
     timeout: 5000,
   });
 });

@@ -105,7 +105,7 @@ function AdminOrdersPage() {
             <SelectItem value="failed">{t("adminOrders.paymentFailed")}</SelectItem>
             <SelectItem value="cancelled">{t("common.cancelled")}</SelectItem>
             <SelectItem value="return_requested">{t("adminOrders.refundRequested")}</SelectItem>
-            <SelectItem value="return_approved">{t("common.pendingBookReceipt")}</SelectItem>
+            <SelectItem value="return_approved">{t("common.pendingProductReceipt")}</SelectItem>
             <SelectItem value="refunded">{t("common.refunded")}</SelectItem>
           </SelectContent>
         </Select>
@@ -134,7 +134,7 @@ function AdminOrdersPage() {
                   <TableHead className="text-right">{t("common.order")}</TableHead>
                   <TableHead className="text-right">{t("common.customer")}</TableHead>
                   <TableHead className="text-right">{t("adminOrders.sellers")}</TableHead>
-                  <TableHead className="text-right">{t("adminOrders.books")}</TableHead>
+                  <TableHead className="text-right">{t("adminOrders.products")}</TableHead>
                   <TableHead className="text-right">{t("common.total")}</TableHead>
                   <TableHead className="text-right">{t("common.status")}</TableHead>
                   <TableHead className="text-right">{t("common.date")}</TableHead>
@@ -180,7 +180,7 @@ function AdminOrdersPage() {
                         {order.items.map((item) => `${item.title} ×${item.quantity}`).join(t("common.listSeparator"))}
                       </TableCell>
                       <TableCell dir="ltr" className="text-muted-foreground">
-                        {formatPrice(order.total_amount)} {t("bookDetails.currency")}
+                        {formatPrice(order.total_amount)} {t("productDetails.currency")}
                       </TableCell>
                       <TableCell>
                         <Badge className={meta.className}>{meta.label}</Badge>

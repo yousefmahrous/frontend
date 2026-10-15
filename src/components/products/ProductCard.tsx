@@ -1,8 +1,8 @@
 import { Link, useNavigate } from "@tanstack/react-router";
-import { BookOpen, Heart } from "lucide-react";
+import { PackageOpen, Heart } from "lucide-react";
 import type { MouseEvent } from "react";
 import { toast } from "sonner";
-import type { Book } from "@/api/books.api";
+import type { Product } from "@/api/products.api";
 import { errorMessage } from "@/api/client";
 import { Badge } from "@/components/ui/badge";
 import { useAuth } from "@/context/auth-context";
@@ -12,20 +12,20 @@ import { cn } from "@/lib/utils";
 
 import { useTranslation } from "react-i18next";
 import type { Lang } from "@/i18n/i18n";
-export function BookCard({ book }: { book: Book }) {
+export function ProductCard({ product }: { product: Product }) {
   const { t, i18n } = useTranslation();
-  const name = pickLocalized(book.name, i18n.language as Lang);
-  const cover = book.avatar_url ?? null;
+  const name = pickLocalized(product.name, i18n.language as Lang);
+  const cover = product.avatar_url ?? null;
   const { user, isAdmin } = useAuth();
   const navigate = useNavigate();
-  const favorite = useToggleFavorite(String(book.id));
+  const favorite = useToggleFavorite(String(product.id));
 
   function handleToggleFavorite(e: MouseEvent) {
     e.preventDefault();
     e.stopPropagation();
 
     if (!user) {
-      toast.info(t("bookCard.loginToFavorite"));
+      toast.info(t("productCard.loginToFavorite"));
       void navigate({ to: "/login" });
       return;
     }
@@ -38,22 +38,22 @@ export function BookCard({ book }: { book: Book }) {
 
   return (
     <Link
-      to="/books/$id"
-      params={{ id: String(book.id) }}
-      className="card-book group relative flex flex-col overflow-hidden rounded-xl border border-border bg-card"
+      to="/products/$id"
+      params={{ id: String(product.id) }}
+      className="card-product group relative flex flex-col overflow-hidden rounded-xl border border-border bg-card"
     >
       <div className="relative aspect-2/3 w-full overflow-hidden bg-secondary">
         {cover ? (
           <img
             src={cover}
-            alt={t("common.bookCoverAlt", { name })}
+            alt={t("common.productCoverAlt", { name })}
             loading="lazy"
             className="size-full object-cover transition-transform duration-300 group-hover:scale-105"
           />
         ) : (
           <div className="flex size-full flex-col items-center justify-center gap-2 text-muted-foreground">
-            <BookOpen className="size-10" />
-            <span className="text-xs">{t("bookCard.noCover")}</span>
+            <PackageOpen className="size-10" />
+            <span className="text-xs">{t("productCard.noCover")}</span>
           </div>
         )}
 
@@ -64,7 +64,7 @@ export function BookCard({ book }: { book: Book }) {
             disabled={favorite.isPending}
             aria-pressed={favorite.isFavorite}
             aria-label={
-              favorite.isFavorite ? t("bookCard.removeFavoriteAria") : t("bookCard.addFavoriteAria")
+              favorite.isFavorite ? t("productCard.removeFavoriteAria") : t("productCard.addFavoriteAria")
             }
             className="absolute left-2 top-2 flex size-8 items-center justify-center rounded-full bg-background/80 backdrop-blur transition-colors hover:bg-background"
           >
@@ -79,16 +79,16 @@ export function BookCard({ book }: { book: Book }) {
       </div>
       <div className="flex flex-1 flex-col gap-2 p-4">
         <h3 className="line-clamp-2 font-bold leading-snug text-foreground">{name}</h3>
-        <p className="text-xs text-muted-foreground">{book.centre}</p>
+        {product.centre && <p className="text-xs text-muted-foreground">{product.centre}</p>}
         <div className="mt-auto pt-2">
-          <Badge variant="secondary">{t(`categories.${book.category}`, book.category)}</Badge>
+          <Badge variant="secondary">{t(`categories.${product.category}`, product.category)}</Badge>
         </div>
       </div>
     </Link>
   );
 }
 
-export function BookCardSkeleton() {
+export function ProductCardSkeleton() {
   return (
     <div className="overflow-hidden rounded-xl border border-border bg-card">
       <div className="aspect-2/3 w-full animate-pulse bg-muted" />
@@ -100,11 +100,11 @@ export function BookCardSkeleton() {
   );
 }
 
-export function BookGridSkeleton({ count = 8 }: { count?: number }) {
+export function ProductGridSkeleton({ count = 8 }: { count?: number }) {
   return (
     <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-4">
       {Array.from({ length: count }).map((_, index) => (
-        <BookCardSkeleton key={index} />
+        <ProductCardSkeleton key={index} />
       ))}
     </div>
   );

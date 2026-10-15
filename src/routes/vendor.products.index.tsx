@@ -97,11 +97,11 @@ function VendorProductsPage() {
             <Table>
               <TableHeader>
                 <TableRow>
-                  <TableHead className="text-right">{t("adminBooksIndex.titleCol")}</TableHead>
-                  <TableHead className="text-right">{t("adminBooksIndex.category")}</TableHead>
-                  <TableHead className="text-right">{t("bookForm.price")}</TableHead>
-                  <TableHead className="text-right">{t("bookForm.quantity")}</TableHead>
-                  <TableHead className="text-right">{t("adminBooksIndex.actions")}</TableHead>
+                  <TableHead className="text-right">{t("adminProductsIndex.titleCol")}</TableHead>
+                  <TableHead className="text-right">{t("adminProductsIndex.category")}</TableHead>
+                  <TableHead className="text-right">{t("productForm.price")}</TableHead>
+                  <TableHead className="text-right">{t("productForm.quantity")}</TableHead>
+                  <TableHead className="text-right">{t("adminProductsIndex.actions")}</TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>
@@ -151,10 +151,10 @@ function VendorProductsPage() {
             disabled={!pagination.hasPreviousPage}
             onClick={() => setPage((prev) => Math.max(1, prev - 1))}
           >
-            {t("adminBooksIndex.prev")}
+            {t("adminProductsIndex.prev")}
           </Button>
           <span className="text-sm text-muted-foreground">
-            {t("adminBooksIndex.pageOf", { current: pagination.currentPage, total: pagination.totalPages })}
+            {t("adminProductsIndex.pageOf", { current: pagination.currentPage, total: pagination.totalPages })}
           </span>
           <Button
             variant="secondary"
@@ -162,7 +162,7 @@ function VendorProductsPage() {
             disabled={!pagination.hasNextPage}
             onClick={() => setPage((prev) => prev + 1)}
           >
-            {t("adminBooksIndex.next")}
+            {t("adminProductsIndex.next")}
           </Button>
         </div>
       )}
@@ -170,9 +170,9 @@ function VendorProductsPage() {
       <AlertDialog open={Boolean(pendingDelete)} onOpenChange={(open) => !open && setPendingDelete(null)}>
         <AlertDialogContent dir="rtl">
           <AlertDialogHeader>
-            <AlertDialogTitle>{t("adminBooksIndex.confirmDelete")}</AlertDialogTitle>
+            <AlertDialogTitle>{t("adminProductsIndex.confirmDelete")}</AlertDialogTitle>
             <AlertDialogDescription>
-              {t("adminBooksIndex.deleteConfirmDesc", { name: pendingDelete?.name })}
+              {t("adminProductsIndex.deleteConfirmDesc", { name: pendingDelete?.name })}
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>

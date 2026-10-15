@@ -21,7 +21,7 @@ import {
   type VendorStatus,
 } from "@/api/vendor.api";
 import type { FulfillmentStatus } from "@/api/order.api";
-import type { BookPayload } from "@/api/books.api";
+import type { ProductPayload } from "@/api/products.api";
 
 export const vendorKeys = {
   me: ["vendor", "me"] as const,
@@ -72,7 +72,7 @@ export function useMyProduct(id: string) {
 export function useCreateMyProduct() {
   const queryClient = useQueryClient();
   return useMutation({
-    mutationFn: (payload: BookPayload) => createMyProduct(payload),
+    mutationFn: (payload: ProductPayload) => createMyProduct(payload),
     onSuccess: () => void queryClient.invalidateQueries({ queryKey: ["vendor", "products"] }),
   });
 }
@@ -80,7 +80,7 @@ export function useCreateMyProduct() {
 export function useUpdateMyProduct(id: string) {
   const queryClient = useQueryClient();
   return useMutation({
-    mutationFn: (payload: BookPayload) => updateMyProduct(id, payload),
+    mutationFn: (payload: ProductPayload) => updateMyProduct(id, payload),
     onSuccess: () => {
       void queryClient.invalidateQueries({ queryKey: ["vendor", "products"] });
       void queryClient.invalidateQueries({ queryKey: vendorKeys.myProduct(id) });

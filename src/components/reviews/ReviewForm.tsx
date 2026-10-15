@@ -9,15 +9,15 @@ import { StarRating } from "./StarRating";
 
 import { useTranslation } from "react-i18next";
 interface ReviewFormProps {
-  bookId: string;
+  productId: string;
   existingReview?: Review | undefined;
 }
 
-export function ReviewForm({ bookId, existingReview }: ReviewFormProps) {
+export function ReviewForm({ productId, existingReview }: ReviewFormProps) {
   const { t } = useTranslation();
   const [rating, setRating] = useState(existingReview?.rating ?? 0);
   const [comment, setComment] = useState(existingReview?.comment ?? "");
-  const submitReview = useSubmitReview(bookId);
+  const submitReview = useSubmitReview(productId);
 
   const isEditing = Boolean(existingReview);
 

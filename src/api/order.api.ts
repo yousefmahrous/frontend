@@ -12,7 +12,7 @@ export type OrderStatus =
   | "refunded";
 
 export interface OrderItem {
-  book_id: number;
+  product_id: number;
   title: string;
   quantity: number;
   unit_price: number;

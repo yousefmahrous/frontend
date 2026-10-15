@@ -140,12 +140,12 @@ function OrderCard({ order }: { order: Order }) {
 
       <ul className="my-3 space-y-1">
         {order.items.map((item) => (
-          <li key={item.book_id} className="flex items-center justify-between text-sm">
+          <li key={item.product_id} className="flex items-center justify-between text-sm">
             <span className="text-foreground">
               {item.title} <span className="text-muted-foreground">× {item.quantity}</span>
             </span>
             <span className="text-muted-foreground">
-              {formatPrice(item.unit_price * item.quantity)} {t("bookDetails.currency")}
+              {formatPrice(item.unit_price * item.quantity)} {t("productDetails.currency")}
             </span>
           </li>
         ))}
@@ -153,7 +153,7 @@ function OrderCard({ order }: { order: Order }) {
 
       <div className="flex items-center justify-between border-t border-border pt-3">
         <span className="text-sm text-muted-foreground">{t("common.total")}</span>
-        <span className="text-lg font-extrabold">{formatPrice(order.total_amount)} {t("bookDetails.currency")}</span>
+        <span className="text-lg font-extrabold">{formatPrice(order.total_amount)} {t("productDetails.currency")}</span>
       </div>
 
       <OrderShipments order={order} />

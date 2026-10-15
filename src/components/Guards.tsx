@@ -51,7 +51,7 @@ export function AdminOnly({ children }: { children: ReactNode }) {
         <h1 className="text-xl font-bold">{t("guards.unauthorized")}</h1>
         <p className="text-sm text-muted-foreground">{t("guards.adminOnly")}</p>
         <Button asChild variant="secondary">
-          <Link to="/books">{t("guards.browseBooks")}</Link>
+          <Link to="/products">{t("guards.browseProducts")}</Link>
         </Button>
       </div>
     );

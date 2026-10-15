@@ -2,10 +2,10 @@ import { api } from "./client"
 
 export const FAVORITES_PATH = "/favorites";
 
-export interface FavoriteBook {
+export interface FavoriteProduct {
   id: string;
   name: string;
-  number: string;
+  number: string | null;
   category: string;
   stock: number;
   avatar_url?: string | null;
@@ -13,7 +13,7 @@ export interface FavoriteBook {
 
 export interface FavoriteItem {
   id: string;
-  book: FavoriteBook;
+  product: FavoriteProduct;
 }
 
 export interface Favorites {
@@ -26,17 +26,17 @@ export async function fetchFavorites() {
   return data.data;
 }
 
-export async function addFavorite(bookId: string) {
+export async function addFavorite(productId: string) {
   const { data } = await api.post<{ success: boolean; data: Favorites; message: string }>(
     `${FAVORITES_PATH}/items`,
-    { book_id: bookId },
+    { product_id: productId },
   );
   return data;
 }
 
-export async function removeFavorite(bookId: string) {
+export async function removeFavorite(productId: string) {
   const { data } = await api.delete<{ success: boolean; data: Favorites; message: string }>(
-    `${FAVORITES_PATH}/items/${bookId}`,
+    `${FAVORITES_PATH}/items/${productId}`,
   );
   return data;
 }

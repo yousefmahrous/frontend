@@ -6,7 +6,7 @@ import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
 import { useAuth } from "@/context/auth-context";
-import { useBookReviews, useDeleteReview } from "@/hooks/useReviews";
+import { useProductReviews, useDeleteReview } from "@/hooks/useReviews";
 import { StarRating } from "./StarRating";
 import { ReviewForm } from "./ReviewForm";
 
@@ -18,9 +18,9 @@ function formatDate(iso: string, lang: string) {
   return new Date(iso).toLocaleDateString(locale, { year: "numeric", month: "long", day: "numeric" });
 }
 
-export function ReviewsSummary({ bookId }: { bookId: string }) {
+export function ReviewsSummary({ productId }: { productId: string }) {
   const { t } = useTranslation();
-  const { data } = useBookReviews(bookId, 1, 1);
+  const { data } = useProductReviews(productId, 1, 1);
 
   if (!data) return null;
 
@@ -35,12 +35,12 @@ export function ReviewsSummary({ bookId }: { bookId: string }) {
   );
 }
 
-export function ReviewsSection({ bookId }: { bookId: string }) {
+export function ReviewsSection({ productId }: { productId: string }) {
   const { t } = useTranslation();
   const { lang } = useLang();
   const { user, isAdmin } = useAuth();
-  const { data, isLoading, isError, error, refetch } = useBookReviews(bookId, 1, 20);
-  const deleteReview = useDeleteReview(bookId);
+  const { data, isLoading, isError, error, refetch } = useProductReviews(productId, 1, 20);
+  const deleteReview = useDeleteReview(productId);
 
   const myReview = data?.reviews.find((r) => r.user.id === user?.id);
 
@@ -68,7 +68,7 @@ export function ReviewsSection({ bookId }: { bookId: string }) {
         </div>
       )}
 
-      {user && !isAdmin && <ReviewForm bookId={bookId} existingReview={myReview} />}
+      {user && !isAdmin && <ReviewForm productId={productId} existingReview={myReview} />}
 
       {isLoading ? (
         <div className="space-y-3">

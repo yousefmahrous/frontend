@@ -52,7 +52,7 @@ export function RecordPayoutDialog({ balance, onClose }: Props) {
       {
         onSuccess: (data) => {
           toast.success(
-            `${t("adminPayouts.recorded")}: ${formatPrice(data.amount)} ${t("bookDetails.currency")}`,
+            `${t("adminPayouts.recorded")}: ${formatPrice(data.amount)} ${t("productDetails.currency")}`,
           );
           close();
         },
@@ -81,7 +81,7 @@ export function RecordPayoutDialog({ balance, onClose }: Props) {
           <div className="rounded-lg bg-secondary/50 p-3">
             <p className="text-sm text-muted-foreground">{t("adminPayouts.amountToPay")}</p>
             <p className="text-2xl font-extrabold">
-              {formatPrice(balance?.available ?? 0)} {t("bookDetails.currency")}
+              {formatPrice(balance?.available ?? 0)} {t("productDetails.currency")}
             </p>
           </div>
 

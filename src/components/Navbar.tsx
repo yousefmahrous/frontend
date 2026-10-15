@@ -1,6 +1,6 @@
 import { Link, useNavigate } from "@tanstack/react-router";
 import {
-  BookOpen,
+  PackageOpen,
   ClipboardList,
   Heart,
   LayoutDashboard,
@@ -10,6 +10,7 @@ import {
   MessagesSquare,
   PackageSearch,
   Percent,
+  Tags,
   RotateCcw,
   ShoppingCart,
   Store,
@@ -51,7 +52,7 @@ export function Navbar() {
 
   const navLinks = [
     { to: "/", label: t("nav.home") },
-    { to: "/books", label: t("nav.books") },
+    { to: "/products", label: t("nav.products") },
     { to: "/contact", label: t("nav.contact") },
   ] as const;
 
@@ -70,7 +71,7 @@ export function Navbar() {
     <header className="sticky top-0 z-40 border-b border-border/70 bg-background/85 backdrop-blur">
       <div className="mx-auto flex h-16 max-w-6xl items-center justify-between gap-4 px-4">
         <Link to="/" className="flex items-center gap-2 font-bold text-lg text-primary">
-          <BookOpen className="size-6 text-accent" />
+          <PackageOpen className="size-6 text-accent" />
           {t("common.brand")}
         </Link>
 
@@ -166,9 +167,9 @@ export function Navbar() {
                 )}
                 {isAdmin && (
                   <DropdownMenuItem asChild>
-                    <Link to="/admin/books" className="gap-2">
+                    <Link to="/admin/products" className="gap-2">
                       <LayoutDashboard className="size-4" />
-                      {t("nav.adminBooks")}
+                      {t("nav.adminProducts")}
                     </Link>
                   </DropdownMenuItem>
                 )}
@@ -217,6 +218,14 @@ export function Navbar() {
                     <Link to="/admin/platform-orders" className="gap-2">
                       <Truck className="size-4" />
                       {t("nav.adminPlatformOrders")}
+                    </Link>
+                  </DropdownMenuItem>
+                )}
+                {isAdmin && (
+                  <DropdownMenuItem asChild>
+                    <Link to="/admin/categories" className="gap-2">
+                      <Tags className="size-4" />
+                      {t("nav.adminCategories")}
                     </Link>
                   </DropdownMenuItem>
                 )}

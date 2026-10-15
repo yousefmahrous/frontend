@@ -26,7 +26,7 @@ function VendorEarningsPage() {
   const earnings = useVendorEarnings();
   const [page, setPage] = useState(1);
   const payouts = useMyPayouts({ page, limit: 10 });
-  const currency = t("bookDetails.currency");
+  const currency = t("productDetails.currency");
   const locale = i18n.language === "ar" ? "ar-EG" : "en-US";
 
   const cards = earnings.data
@@ -130,10 +130,10 @@ function VendorEarningsPage() {
             disabled={!payouts.data.pagination.hasPreviousPage}
             onClick={() => setPage((p) => Math.max(1, p - 1))}
           >
-            {t("adminBooksIndex.prev")}
+            {t("adminProductsIndex.prev")}
           </Button>
           <span className="text-sm text-muted-foreground">
-            {t("adminBooksIndex.pageOf", {
+            {t("adminProductsIndex.pageOf", {
               current: payouts.data.pagination.currentPage,
               total: payouts.data.pagination.totalPages,
             })}
@@ -144,7 +144,7 @@ function VendorEarningsPage() {
             disabled={!payouts.data.pagination.hasNextPage}
             onClick={() => setPage((p) => p + 1)}
           >
-            {t("adminBooksIndex.next")}
+            {t("adminProductsIndex.next")}
           </Button>
         </div>
       )}

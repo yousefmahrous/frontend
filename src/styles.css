@@ -97,8 +97,8 @@
   --sidebar-ring: oklch(0.72 0.11 62);
   --font-arabic: "Cairo", "Tajawal", system-ui, sans-serif;
   --gradient-hero: linear-gradient(135deg, oklch(0.29 0.055 258), oklch(0.38 0.06 250) 55%, oklch(0.5 0.09 62));
-  --shadow-book: 0 10px 24px -14px oklch(0.29 0.055 258 / 0.35);
-  --shadow-book-hover: 0 18px 38px -16px oklch(0.29 0.055 258 / 0.45);
+  --shadow-product: 0 10px 24px -14px oklch(0.29 0.055 258 / 0.35);
+  --shadow-product-hover: 0 18px 38px -16px oklch(0.29 0.055 258 / 0.45);
 }
 
 .dark {
@@ -152,21 +152,21 @@
   --font-sans: var(--font-arabic);
 }
 
-@utility shadow-book {
-  box-shadow: var(--shadow-book);
+@utility shadow-product {
+  box-shadow: var(--shadow-product);
 }
 
 @utility bg-hero-gradient {
   background-image: var(--gradient-hero);
 }
 
-@utility card-book {
-  box-shadow: var(--shadow-book);
+@utility card-product {
+  box-shadow: var(--shadow-product);
   transition:
     box-shadow 0.25s ease,
     transform 0.25s ease;
   &:hover {
-    box-shadow: var(--shadow-book-hover);
+    box-shadow: var(--shadow-product-hover);
     transform: translateY(-4px);
   }
 }

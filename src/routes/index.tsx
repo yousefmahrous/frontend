@@ -1,11 +1,11 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { BookOpen, Sparkles, TrendingUp, Truck } from "lucide-react";
-import { BookCard, BookGridSkeleton } from "@/components/books/BookCard";
+import { PackageOpen, Sparkles, TrendingUp, Truck } from "lucide-react";
+import { ProductCard, ProductGridSkeleton } from "@/components/products/ProductCard";
 import { EmptyState, ErrorState } from "@/components/StateViews";
 import { Button } from "@/components/ui/button";
 import { useAuth } from "@/context/auth-context";
-import { useBooks, usePopularBooks } from "@/hooks/useBooks";
-import { useBooksRealtime } from "@/hooks/useBooksRealtime";
+import { useProducts, usePopularProducts } from "@/hooks/useProducts";
+import { useProductsRealtime } from "@/hooks/useProductsRealtime";
 import { errorMessage } from "@/api/client";
 
 import en from "@/i18n/locales/en.json";
@@ -32,15 +32,15 @@ export const Route = createFileRoute("/")({
 function Home() {
   const { t } = useTranslation();
   const { user } = useAuth();
-  useBooksRealtime();
-  const { data, isLoading, isError, error, refetch } = useBooks({ page: 1, limit: 8, search: "" });
+  useProductsRealtime();
+  const { data, isLoading, isError, error, refetch } = useProducts({ page: 1, limit: 8, search: "" });
   const {
-    data: popularBooks,
+    data: popularProducts,
     isLoading: isPopularLoading,
     isError: isPopularError,
     error: popularError,
     refetch: refetchPopular,
-  } = usePopularBooks(8);
+  } = usePopularProducts(8);
 
   return (
     <div>
@@ -59,7 +59,7 @@ function Home() {
             </p>
             <div className="flex flex-wrap gap-3">
               <Button asChild size="lg" variant="secondary">
-                <Link to="/books">{t("home.browseCatalog")}</Link>
+                <Link to="/products">{t("home.browseCatalog")}</Link>
               </Button>
               {!user && (
                 <Button
@@ -75,7 +75,7 @@ function Home() {
           </div>
           <div className="grid gap-4 sm:grid-cols-2">
             {[
-              { icon: BookOpen, title: t("home.feature1Title"), desc: t("home.feature1Desc") },
+              { icon: PackageOpen, title: t("home.feature1Title"), desc: t("home.feature1Desc") },
               { icon: Truck, title: t("home.feature2Title"), desc: t("home.feature2Desc") },
             ].map((item) => (
               <div key={item.title} className="rounded-xl bg-white/10 p-5 backdrop-blur">
@@ -88,7 +88,7 @@ function Home() {
         </div>
       </section>
 
-      {Boolean(popularBooks?.length) && (
+      {Boolean(popularProducts?.length) && (
         <section className="mx-auto max-w-6xl px-4 pt-14">
           <div className="mb-6 flex items-end justify-between gap-4">
             <div>
@@ -103,13 +103,13 @@ function Home() {
           </div>
 
           {isPopularLoading ? (
-            <BookGridSkeleton count={8} />
+            <ProductGridSkeleton count={8} />
           ) : isPopularError ? (
             <ErrorState message={errorMessage(popularError)} onRetry={() => void refetchPopular()} />
           ) : (
             <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-4">
-              {popularBooks?.map((book) => (
-                <BookCard key={book.id} book={book} />
+              {popularProducts?.map((product) => (
+                <ProductCard key={product.id} product={product} />
               ))}
             </div>
           )}
@@ -119,16 +119,16 @@ function Home() {
       <section className="mx-auto max-w-6xl px-4 py-14">
         <div className="mb-6 flex items-end justify-between gap-4">
           <div>
-            <h2 className="text-2xl font-bold">{t("home.latestBooks")}</h2>
-            <p className="text-sm text-muted-foreground">{t("home.latestBooksSubtitle")}</p>
+            <h2 className="text-2xl font-bold">{t("home.latestProducts")}</h2>
+            <p className="text-sm text-muted-foreground">{t("home.latestProductsSubtitle")}</p>
           </div>
           <Button asChild variant="ghost">
-            <Link to="/books">{t("home.seeAll")}</Link>
+            <Link to="/products">{t("home.seeAll")}</Link>
           </Button>
         </div>
 
         {isLoading ? (
-          <BookGridSkeleton count={8} />
+          <ProductGridSkeleton count={8} />
         ) : isError ? (
           <ErrorState message={errorMessage(error)} onRetry={() => void refetch()} />
         ) : !data?.items.length ? (
@@ -138,8 +138,8 @@ function Home() {
           />
         ) : (
           <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-4">
-            {data.items.map((book) => (
-              <BookCard key={book.id} book={book} />
+            {data.items.map((product) => (
+              <ProductCard key={product.id} product={product} />
             ))}
           </div>
         )}

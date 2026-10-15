@@ -2,42 +2,42 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 
 import {
   deleteReview as deleteReviewApi,
-  fetchBookReviews,
+  fetchProductReviews,
   submitReview,
 } from "@/api/reviews.api";
-import { booksKeys } from "@/hooks/useBooks";
+import { productsKeys } from "@/hooks/useProducts";
 
 export const reviewsKeys = {
   all: ["reviews"] as const,
-  book: (bookId: string, page: number) => ["reviews", "book", bookId, page] as const,
+  product: (productId: string, page: number) => ["reviews", "product", productId, page] as const,
 };
 
-export function useBookReviews(bookId: string, page = 1, limit = 10) {
+export function useProductReviews(productId: string, page = 1, limit = 10) {
   return useQuery({
-    queryKey: reviewsKeys.book(bookId, page),
-    queryFn: () => fetchBookReviews(bookId, { page, limit }),
-    enabled: Boolean(bookId),
+    queryKey: reviewsKeys.product(productId, page),
+    queryFn: () => fetchProductReviews(productId, { page, limit }),
+    enabled: Boolean(productId),
   });
 }
 
-export function useSubmitReview(bookId: string) {
+export function useSubmitReview(productId: string) {
   const queryClient = useQueryClient();
   return useMutation({
-    mutationFn: (payload: { rating: number; comment: string }) => submitReview(bookId, payload),
+    mutationFn: (payload: { rating: number; comment: string }) => submitReview(productId, payload),
     onSuccess: () => {
-      void queryClient.invalidateQueries({ queryKey: ["reviews", "book", bookId] });
-      void queryClient.invalidateQueries({ queryKey: booksKeys.detail(bookId) });
+      void queryClient.invalidateQueries({ queryKey: ["reviews", "product", productId] });
+      void queryClient.invalidateQueries({ queryKey: productsKeys.detail(productId) });
     },
   });
 }
 
-export function useDeleteReview(bookId: string) {
+export function useDeleteReview(productId: string) {
   const queryClient = useQueryClient();
   return useMutation({
     mutationFn: (reviewId: string) => deleteReviewApi(reviewId),
     onSuccess: () => {
-      void queryClient.invalidateQueries({ queryKey: ["reviews", "book", bookId] });
-      void queryClient.invalidateQueries({ queryKey: booksKeys.detail(bookId) });
+      void queryClient.invalidateQueries({ queryKey: ["reviews", "product", productId] });
+      void queryClient.invalidateQueries({ queryKey: productsKeys.detail(productId) });
     },
   });
 }

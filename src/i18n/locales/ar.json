@@ -1,11 +1,11 @@
 {
   "meta": {
-    "title": "مكتبة القراء | متجر كتب إلكتروني",
-    "description": "متجر كتب عربي: تصفح روايات وكتب علمية وتاريخية وكتب أطفال واشترِ بسهولة."
+    "title": "Online Store | متجر إلكتروني",
+    "description": "متجر إلكتروني: تصفح منتجات متنوعة في تصنيفات واضحة واشترِ بسهولة."
   },
   "nav": {
     "home": "الرئيسية",
-    "books": "تصفح الكتب",
+    "products": "تصفح المنتجات",
     "cart": "العربية",
     "favorites": "المفضلة",
     "orders": "أوردراتي",
@@ -14,7 +14,7 @@
     "login": "تسجيل الدخول",
     "signup": "إنشاء حساب",
     "logout": "تسجيل خروج",
-    "adminBooks": "لوحة التحكم",
+    "adminProducts": "لوحة التحكم",
     "adminOrders": "الأوردرات",
     "adminRefunds": "طلبات الاسترجاع",
     "adminTickets": "تذاكر الدعم",
@@ -29,6 +29,7 @@
     "vendorEarnings": "أرباحي",
     "adminPayouts": "تحويلات البائعين",
     "adminCommission": "العمولة",
+    "adminCategories": "الأقسام",
     "vendorReturns": "المرتجعات",
     "adminPlatformOrders": "شحنات المتجر"
   },
@@ -36,14 +37,14 @@
     "logoutSuccess": "تم تسجيل الخروج"
   },
   "footer": {
-    "rights": "مكتبة القراء — كل الحقوق محفوظة"
+    "rights": "Online Store — كل الحقوق محفوظة"
   },
   "language": {
     "switchTo": "English",
     "current": "العربية"
   },
   "common": {
-    "brand": "مكتبة القراء",
+    "brand": "Online Store",
     "favoritesAria": "المفضلة",
     "cartAria": "العربية",
     "menuAria": "القائمة",
@@ -66,11 +67,11 @@
     "paid": "تم الدفع",
     "refunded": "تم الاسترجاع",
     "cancelled": "ملغي",
-    "pendingBookReceipt": "بانتظار استلام الكتاب",
+    "pendingProductReceipt": "بانتظار استلام المنتج",
     "login": "تسجيل الدخول",
     "outOfStock": "غير متوفر",
     "addToCart": "أضف للعربية",
-    "bookCoverAlt": "غلاف كتاب {{name}}",
+    "productCoverAlt": "صورة {{name}}",
     "listSeparator": "، "
   },
   "pages": {
@@ -99,7 +100,7 @@
     "reasonRequired": "من فضلك اكتب سبب الاسترجاع",
     "refundRequestSent": "تم إرسال طلب الاسترجاع بنجاح، هيتم مراجعته قريبًا",
     "refundDialogTitle": "طلب استرجاع الأوردر #{{id}}",
-    "refundDialogDesc": "اكتب سبب رغبتك في استرجاع الأوردر ده. طلبك هيتراجع من فريقنا وهنتواصل معاك بخصوص خطوات إرجاع الكتاب.",
+    "refundDialogDesc": "اكتب سبب رغبتك في استرجاع الأوردر ده. طلبك هيتراجع من فريقنا وهنتواصل معاك بخصوص خطوات إرجاع المنتج.",
     "sending": "جاري الإرسال...",
     "sendRequest": "إرسال الطلب",
     "statusPaid": "تم الدفع",
@@ -107,9 +108,9 @@
     "statusFailed": "فشل الدفع",
     "statusCancelled": "ملغي",
     "statusReturnRequested": "طلب الاسترجاع قيد المراجعة",
-    "statusReturnApproved": "بانتظار استلام الكتاب",
+    "statusReturnApproved": "بانتظار استلام المنتج",
     "statusRefunded": "تم الاسترجاع",
-    "emptyDesc": "لما تشتري كتاب هيظهر أوردرك هنا."
+    "emptyDesc": "لما تشتري منتج هيظهر أوردرك هنا."
   },
   "contact": {
     "title": "تواصل معنا",
@@ -131,7 +132,7 @@
     "confirmingTitleDesc": "عملية الدفع وصلتنا وبنستنى تأكيد نهائي من بوابة الدفع، ده بياخد كام ثانية عادةً.",
     "incompleteDesc": "يبدو إن العملية اتلغت أو مكتملتش. ممكن ترجع للعربية وتحاول تاني.",
     "backToCart": "الرجوع للعربية",
-    "browseMoreBooks": "تصفح المزيد من الكتب"
+    "browseMoreProducts": "تصفح المزيد من المنتجات"
   },
   "cart": {
     "empty": "العربية فاضية",
@@ -139,18 +140,18 @@
     "removeItem": "حذف من العربية",
     "increaseQty": "زيادة الكمية",
     "title": "عربيتي",
-    "bookCount": "{{count}} كتاب",
-    "emptyDesc": "لسه ما ضفتش أي كتاب. روح تصفح الكتالوج وضيف اللي يعجبك.",
+    "productCount": "{{count}} منتج",
+    "emptyDesc": "لسه ما ضفتش أي منتج. روح تصفح الكتالوج وضيف اللي يعجبك.",
     "proceedToCheckout": "المتابعة للدفع"
   },
-  "adminBooksNew": {
-    "title": "إضافة كتاب جديد",
+  "adminProductsNew": {
+    "title": "إضافة منتج جديد",
     "backToAdmin": "رجوع للإدارة",
-    "saveLabel": "حفظ الكتاب",
-    "addedSuccess": "تمت إضافة الكتاب"
+    "saveLabel": "حفظ المنتج",
+    "addedSuccess": "تمت إضافة المنتج"
   },
   "adminOrders": {
-    "books": "الكتب",
+    "products": "المنتجات",
     "refundRequested": "طلب استرجاع قيد المراجعة",
     "paymentFailed": "فشل الدفع",
     "empty": "مفيش أوردرات",
@@ -180,20 +181,20 @@
   },
   "signup": {
     "title": "إنشاء حساب",
-    "subtitle": "خطوة واحدة وتبدأ رحلتك مع الكتب",
+    "subtitle": "خطوة واحدة وتبدأ رحلة التسوق",
     "submit": "إنشاء الحساب",
     "haveAccount": "عندك حساب؟"
   },
-  "books": {
-    "searchPlaceholder": "ابحث بعنوان الكتاب أو دار النشر…",
-    "title": "كتالوج الكتب",
-    "countAvailable": "{{count}} كتاب متاح",
-    "loadingBooks": "جاري تحميل الكتب…",
+  "products": {
+    "searchPlaceholder": "ابحث باسم المنتج أو الناشر…",
+    "title": "كتالوج المنتجات",
+    "countAvailable": "{{count}} منتج متاح",
+    "loadingProducts": "جاري تحميل المنتجات…",
     "allCategories": "كل التصنيفات",
     "noResults": "مفيش نتائج مطابقة",
-    "noBooksYet": "مفيش كتب لسه",
+    "noProductsYet": "مفيش منتجات لسه",
     "tryOtherSearch": "جرّب كلمات بحث تانية أو شيل الفلتر.",
-    "firstBooksAppearHere": "أول ما تتضاف كتب هتظهر هنا لحظيًا.",
+    "firstProductsAppearHere": "أول ما تتضاف منتجات هتظهر هنا لحظيًا.",
     "prev": "السابق",
     "next": "التالي"
   },
@@ -211,7 +212,7 @@
     "action": "الإجراء",
     "reason": "السبب",
     "pendingReview": "بانتظار المراجعة",
-    "confirmReceiptAction": "تأكيد استلام الكتاب وتنفيذ الاسترجاع",
+    "confirmReceiptAction": "تأكيد استلام المنتج وتنفيذ الاسترجاع",
     "rejected": "مرفوض",
     "noActionAvailable": "مفيش إجراء متاح",
     "empty": "مفيش طلبات",
@@ -219,11 +220,11 @@
     "countLabel": "{{count}} طلب",
     "loading": "جاري التحميل…",
     "statusPending": "بانتظار المراجعة",
-    "statusAwaitingReturn": "بانتظار استلام الكتاب",
+    "statusAwaitingReturn": "بانتظار استلام المنتج",
     "statusCompleted": "تم الاسترجاع",
     "statusRejected": "مرفوض",
     "statusCancelled": "ملغي",
-    "approvedToast": "تمت الموافقة على الطلب، في انتظار استلام الكتاب",
+    "approvedToast": "تمت الموافقة على الطلب، في انتظار استلام المنتج",
     "rejectedToast": "تم رفض طلب الاسترجاع",
     "cancelledToast": "تم إلغاء الطلب، الأوردر رجع لحالته الطبيعية",
     "completedToast": "تم تنفيذ الاسترجاع بنجاح عن طريق Stripe",
@@ -232,17 +233,17 @@
     "prev": "السابق",
     "next": "التالي",
     "pageOf": "صفحة {{current}} من {{total}}",
-    "completeConfirmDesc": "متأكد إنك استلمت الكتاب فعليًا من العميل؟ الخطوة دي هتنفّذ استرجاع فلوس حقيقي عن طريق Stripe للأوردر #{{id}}، ومينفعش يتراجع فيها بعد كده.",
-    "confirmCompleteAction": "أيوه، استلمت الكتاب ونفّذ الاسترجاع",
+    "completeConfirmDesc": "متأكد إنك استلمت المنتج فعليًا من العميل؟ الخطوة دي هتنفّذ استرجاع فلوس حقيقي عن طريق Stripe للأوردر #{{id}}، ومينفعش يتراجع فيها بعد كده.",
+    "confirmCompleteAction": "أيوه، استلمت المنتج ونفّذ الاسترجاع",
     "approve": "موافقة",
     "reject": "رفض",
     "confirmReceiptShort": "تأكيد الاستلام وتنفيذ الاسترجاع",
     "cancel": "إلغاء"
   },
-  "adminBooksEdit": {
-    "title": "تعديل الكتاب",
+  "adminProductsEdit": {
+    "title": "تعديل المنتج",
     "saveLabel": "حفظ التعديلات",
-    "updatedSuccess": "تم تحديث الكتاب"
+    "updatedSuccess": "تم تحديث المنتج"
   },
   "accountChangePassword": {
     "reLoginNote": "بعد التغيير هتحتاج تسجّل دخول من جديد",
@@ -270,30 +271,30 @@
     "title": "المفضلة",
     "empty": "المفضلة فاضية",
     "removeItem": "حذف من المفضلة",
-    "bookCount": "{{count}} كتاب",
-    "emptyDesc": "لسه ما ضفتش أي كتاب للمفضلة. روح تصفح الكتالوج وضيف اللي يعجبك."
+    "productCount": "{{count}} منتج",
+    "emptyDesc": "لسه ما ضفتش أي منتج للمفضلة. روح تصفح الكتالوج وضيف اللي يعجبك."
   },
   "account": {
     "title": "حسابي",
     "accountType": "نوع الحساب"
   },
-  "adminBooksIndex": {
+  "adminProductsIndex": {
     "actions": "إجراءات",
-    "manageBooks": "إدارة الكتب",
-    "searchPlaceholder": "ابحث عن كتاب…",
+    "manageProducts": "إدارة المنتجات",
+    "searchPlaceholder": "ابحث عن منتج…",
     "category": "التصنيف",
     "titleCol": "العنوان",
-    "cover": "الغلاف",
+    "cover": "الصورة",
     "confirmDelete": "تأكيد الحذف",
-    "publisher": "دار النشر",
-    "countLabel": "{{count}} كتاب",
+    "publisher": "الناشر",
+    "countLabel": "{{count}} منتج",
     "loading": "جاري التحميل…",
-    "addBook": "إضافة كتاب",
+    "addProduct": "إضافة منتج",
     "noResults": "مفيش نتائج",
-    "noBooks": "مفيش كتب",
+    "noProducts": "مفيش منتجات",
     "tryOtherSearch": "جرّب كلمة بحث تانية.",
-    "startAdding": "ابدأ بإضافة أول كتاب للمتجر.",
-    "coverAlt": "غلاف {{name}}",
+    "startAdding": "ابدأ بإضافة أول منتج للمتجر.",
+    "coverAlt": "صورة {{name}}",
     "prev": "السابق",
     "next": "التالي",
     "pageOf": "صفحة {{current}} من {{total}}",
@@ -301,36 +302,36 @@
     "deletedSuccess": "تم حذف \"{{name}}\""
   },
   "home": {
-    "latestBooks": "أحدث الكتب",
-    "latestBooksSubtitle": "أول ما يوصل المتجر يظهر هنا فورًا",
+    "latestProducts": "أحدث المنتجات",
+    "latestProductsSubtitle": "أول ما يوصل المتجر يظهر هنا فورًا",
     "createAccount": "إنشاء حساب",
     "browseCatalog": "تصفح الكتالوج",
     "seeAll": "شاهد الكل",
-    "empty": "مفيش كتب لسه",
+    "empty": "مفيش منتجات لسه",
     "heroBadge": "إصدارات جديدة كل أسبوع",
-    "heroTitle": "مكتبتك العربية، على بعد نقرة واحدة",
-    "heroSubtitle": "آلاف العناوين في الروايات والعلوم والتاريخ وكتب الأطفال، مع تصنيفات واضحة وبحث سريع يوصلك لكتابك في ثواني.",
+    "heroTitle": "متجرك المفضل، على بعد نقرة واحدة",
+    "heroSubtitle": "آلاف المنتجات في تصنيفات واضحة، مع بحث سريع يوصلك للي بتدور عليه في ثواني.",
     "feature1Title": "تصنيفات متنوعة",
-    "feature1Desc": "روايات، علمي، تاريخي، أطفال",
+    "feature1Desc": "تصنيفات متنوعة بتسهّل عليك الوصول للي تحتاجه",
     "feature2Title": "توصيل سريع",
     "feature2Desc": "لكل المحافظات خلال أيام",
     "popularTitle": "الأكثر شعبية",
-    "popularSubtitle": "أكتر الكتب اللي جذبت اهتمام القراء",
-    "emptyDesc": "سجّل دخولك لتصفح الكتالوج، أو انتظر إضافة أول كتاب من إدارة المتجر."
+    "popularSubtitle": "أكتر المنتجات اللي جذبت اهتمام العملاء",
+    "emptyDesc": "سجّل دخولك لتصفح الكتالوج، أو انتظر إضافة أول منتج من إدارة المتجر."
   },
   "guards": {
-    "browseBooks": "تصفح الكتب",
+    "browseProducts": "تصفح المنتجات",
     "loginPrompt": "سجّل دخولك للوصول لهذه الصفحة.",
     "unauthorized": "غير مصرح لك",
     "loginRequired": "محتاج تسجيل دخول",
     "adminOnly": "هذه الصفحة متاحة لمديري المتجر فقط."
   },
   "reviewForm": {
-    "placeholder": "شاركنا رأيك في الكتاب...",
+    "placeholder": "شاركنا رأيك في المنتج...",
     "ratingError": "اختار تقييم من 1 لـ5 نجوم",
     "commentError": "التعليق لازم يكون 3 حروف على الأقل",
     "editTitle": "عدّل تقييمك",
-    "newTitle": "قيّم الكتاب",
+    "newTitle": "قيّم المنتج",
     "saving": "جاري الحفظ...",
     "saveEdit": "حفظ التعديل",
     "submit": "إرسال التقييم"
@@ -339,37 +340,51 @@
     "deleteReview": "احذف التقييم",
     "title": "التقييمات والمراجعات",
     "empty": "مفيش تقييمات لسه",
-    "emptyDesc": "كن أول من يقيّم الكتاب ده.",
+    "emptyDesc": "كن أول من يقيّم المنتج ده.",
     "reviewCount_one": "{{count}} تقييم",
     "reviewCount_other": "{{count}} تقييمات",
     "outOfReviewCount_one": "من {{count}} تقييم",
     "outOfReviewCount_other": "من {{count}} تقييمات"
   },
-  "bookForm": {
+  "productForm": {
+    "variants": {
+      "enable": "المنتج ده له خيارات (مقاس، لون…)",
+      "optionNames": "أسماء الخيارات (مفصولة بفاصلة)",
+      "optionNamesPlaceholder": "المقاس، اللون",
+      "add": "إضافة نسخة",
+      "remove": "حذف",
+      "sku": "SKU (اختياري)",
+      "price": "السعر (جنيه)",
+      "stock": "المخزون",
+      "errorOptions": "املأ قيمة كل خيار لكل نسخة (وأضف أسماء الخيارات لو عندك أكتر من نسخة)",
+      "errorNumbers": "كل نسخة محتاجة سعر ومخزون صحيحين",
+      "errorDuplicate": "في نسختين ليهم نفس الخيارات"
+    },
+    "optional": "اختياري",
     "publisherEmail": "إيميل الناشر",
     "chooseCategory": "اختر التصنيف",
     "category": "التصنيف",
-    "isbn": "الرقم الدولي المعياري (ISBN)",
+    "isbn": "الرقم الدولي المعياري (ISBN) — للكتب فقط",
     "price": "السعر (بالجنيه)",
     "quantity": "الكمية المتاحة",
-    "publisher": "دار النشر",
-    "coverImage": "صورة الغلاف",
-    "titlePlaceholder": "مثال: ثلاثية غرناطة",
-    "publisherPlaceholder": "مثال: دار الشروق",
-    "shortDescription": "نبذة قصيرة عن الكتاب",
-    "description": "وصف الكتاب",
-    "titleLabel": "عنوان الكتاب",
-    "titleLabelAr": "عنوان الكتاب (عربي)",
-    "titleLabelEn": "عنوان الكتاب (إنجليزي)",
-    "titlePlaceholderAr": "مثال: ثلاثية غرناطة",
-    "titlePlaceholderEn": "e.g. Granada Trilogy",
-    "descriptionLabelAr": "وصف الكتاب (عربي)",
-    "descriptionLabelEn": "وصف الكتاب (إنجليزي)",
-    "shortDescriptionAr": "نبذة قصيرة عن الكتاب بالعربي",
-    "shortDescriptionEn": "نبذة قصيرة عن الكتاب بالإنجليزي"
+    "publisher": "الناشر / المصنّع",
+    "coverImage": "صورة المنتج",
+    "titlePlaceholder": "مثال: سماعات لاسلكية",
+    "publisherPlaceholder": "مثال: اسم الناشر أو الشركة المصنّعة",
+    "shortDescription": "نبذة قصيرة عن المنتج",
+    "description": "وصف المنتج",
+    "titleLabel": "اسم المنتج",
+    "titleLabelAr": "اسم المنتج (عربي)",
+    "titleLabelEn": "اسم المنتج (إنجليزي)",
+    "titlePlaceholderAr": "مثال: سماعات لاسلكية",
+    "titlePlaceholderEn": "e.g. Wireless Headphones",
+    "descriptionLabelAr": "وصف المنتج (عربي)",
+    "descriptionLabelEn": "وصف المنتج (إنجليزي)",
+    "shortDescriptionAr": "نبذة قصيرة عن المنتج بالعربي",
+    "shortDescriptionEn": "نبذة قصيرة عن المنتج بالإنجليزي"
   },
-  "bookCard": {
-    "noCover": "لا يوجد غلاف",
+  "productCard": {
+    "noCover": "لا توجد صورة",
     "loginToFavorite": "سجّل دخولك الأول عشان تقدر تضيف للمفضلة",
     "addFavoriteAria": "ضيف للمفضلة",
     "removeFavoriteAria": "احذف من المفضلة"
@@ -377,20 +392,21 @@
   "coverUpload": {
     "hint": "JPG أو PNG حتى 5 ميجابايت",
     "removeImage": "إزالة الصورة",
-    "dragDrop": "اسحب صورة الغلاف هنا أو اضغط للاختيار",
-    "previewAlt": "معاينة غلاف الكتاب",
+    "dragDrop": "اسحب صورة المنتج هنا أو اضغط للاختيار",
+    "previewAlt": "معاينة صورة المنتج",
     "invalidFile": "اختر ملف صورة صالح",
     "tooLarge": "حجم الصورة أكبر من 5 ميجابايت",
     "uploading": "جاري رفع الصورة… {{progress}}%",
     "uploaded": "تم الرفع: {{value}}"
   },
-  "bookDetails": {
+  "productDetails": {
+    "pickOptions": "اختار كل الخيارات الأول",
     "backToCatalog": "رجوع للكتالوج",
-    "publisher": "دار النشر",
+    "publisher": "الناشر / المصنّع",
     "publisherEmail": "إيميل الناشر",
     "currency": "جنيه",
     "outOfStockNow": "الكمية غير متوفرة حاليًا",
-    "copiesLeft": "متبقي {{count}} نسخة فقط",
+    "copiesLeft": "متبقي {{count}} قطعة فقط",
     "adding": "جاري الإضافة...",
     "removeFromFavorites": "احذف من المفضلة",
     "addToFavorites": "ضيف للمفضلة",
@@ -399,124 +415,124 @@
   },
   "pageMeta": {
     "accountChangePassword": {
-      "title": "تغيير كلمة المرور | مكتبة القراء",
-      "description": "غيّر كلمة مرور حسابك في مكتبة القراء بشكل آمن.",
+      "title": "تغيير كلمة المرور | Online Store",
+      "description": "غيّر كلمة مرور حسابك في Online Store بشكل آمن.",
       "ogDescription": "غيّر كلمة مرور حسابك بشكل آمن."
     },
     "accountIndex": {
-      "title": "حسابي | مكتبة القراء",
-      "description": "بيانات حسابك في مكتبة القراء : الاسم، الإيميل ونوع الحساب.",
-      "ogDescription": "بيانات حسابك في مكتبة القراء."
+      "title": "حسابي | Online Store",
+      "description": "بيانات حسابك في Online Store : الاسم، الإيميل ونوع الحساب.",
+      "ogDescription": "بيانات حسابك في Online Store."
     },
-    "adminBooksEdit": {
-      "title": "تعديل كتاب | مكتبة القراء",
-      "description": "عدّل بيانات الكتاب وصورة الغلاف في متجر مكتبة القراء.",
-      "ogDescription": "عدّل بيانات الكتاب في المتجر."
+    "adminProductsEdit": {
+      "title": "تعديل منتج | Online Store",
+      "description": "عدّل بيانات المنتج وصورته في متجر Online Store.",
+      "ogDescription": "عدّل بيانات المنتج في المتجر."
     },
-    "adminBooksIndex": {
-      "title": "إدارة الكتب | مكتبة القراء",
-      "description": "لوحة إدارة الكتب: إضافة وتعديل وحذف كتب المتجر.",
-      "ogDescription": "لوحة إدارة كتب المتجر."
+    "adminProductsIndex": {
+      "title": "إدارة المنتجات | Online Store",
+      "description": "لوحة إدارة المنتجات: إضافة وتعديل وحذف منتجات المتجر.",
+      "ogDescription": "لوحة إدارة منتجات المتجر."
     },
-    "adminBooksNew": {
-      "title": "إضافة كتاب | مكتبة القراء",
-      "description": "أضف كتابًا جديدًا لمتجر مكتبة القراء مع صورة غلاف.",
-      "ogDescription": "أضف كتابًا جديدًا للمتجر."
+    "adminProductsNew": {
+      "title": "إضافة منتج | Online Store",
+      "description": "أضف منتجًا جديدًا لمتجر Online Store مع صورته.",
+      "ogDescription": "أضف منتجًا جديدًا للمتجر."
     },
     "adminOrdersIndex": {
-      "title": "الأوردرات | مكتبة القراء",
-      "description": "لوحة إدارة أوردرات المكتبة."
+      "title": "الأوردرات | Online Store",
+      "description": "لوحة إدارة أوردرات المتجر."
     },
     "adminRefundsIndex": {
-      "title": "طلبات الاسترجاع | مكتبة القراء",
+      "title": "طلبات الاسترجاع | Online Store",
       "description": "لوحة إدارة طلبات استرجاع الأوردرات."
     },
     "adminTicketsIndex": {
-      "title": "تذاكر الدعم | مكتبة القراء",
+      "title": "تذاكر الدعم | Online Store",
       "description": "لوحة إدارة تذاكر دعم العملاء."
     },
-    "bookDetailsPage": {
-      "title": "تفاصيل الكتاب | مكتبة القراء",
-      "description": "كل تفاصيل الكتاب: الوصف، دار النشر، التصنيف ورقم ISBN.",
-      "ogDescription": "كل تفاصيل الكتاب في مكتبة القراء."
+    "productDetailsPage": {
+      "title": "تفاصيل المنتج | Online Store",
+      "description": "كل تفاصيل المنتج: الوصف، الناشر، التصنيف والسعر.",
+      "ogDescription": "كل تفاصيل المنتج في Online Store."
     },
-    "booksIndexPage": {
-      "title": "كتالوج الكتب | مكتبة القراء",
-      "description": "تصفح كل كتب المتجر مع بحث فوري وفلترة حسب التصنيف: روايات، علمي، تاريخي، أطفال.",
-      "ogDescription": "تصفح كل كتب المتجر مع بحث وفلترة حسب التصنيف."
+    "productsIndexPage": {
+      "title": "كتالوج المنتجات | Online Store",
+      "description": "تصفح كل منتجات المتجر مع بحث فوري وفلترة حسب التصنيف.",
+      "ogDescription": "تصفح كل منتجات المتجر مع بحث وفلترة حسب التصنيف."
     },
     "cartPage": {
-      "title": "عربيتي | مكتبة القراء"
+      "title": "عربيتي | Online Store"
     },
     "checkoutCancelPage": {
-      "title": "تم إلغاء الدفع | مكتبة القراء"
+      "title": "تم إلغاء الدفع | Online Store"
     },
     "checkoutSuccessPage": {
-      "title": "حالة الدفع | مكتبة القراء"
+      "title": "حالة الدفع | Online Store"
     },
     "contactPage": {
-      "title": "تواصل معنا | مكتبة القراء",
+      "title": "تواصل معنا | Online Store",
       "description": "ابعتلنا رسالتك وهنرد عليك في أقرب وقت.",
-      "ogDescription": "تواصل مع فريق مكتبة القراء."
+      "ogDescription": "تواصل مع فريق Online Store."
     },
     "favoritesPage": {
-      "title": "المفضلة | مكتبة القراء"
+      "title": "المفضلة | Online Store"
     },
     "forgotPasswordPage": {
-      "title": "نسيت كلمة المرور | مكتبة القراء",
+      "title": "نسيت كلمة المرور | Online Store",
       "description": "أرسل رابط استعادة كلمة المرور لبريدك الإلكتروني.",
-      "ogDescription": "استعد كلمة مرور حسابك في مكتبة القراء."
+      "ogDescription": "استعد كلمة مرور حسابك في Online Store."
     },
     "homePage": {
-      "title": "مكتبة القراء | أحدث الكتب العربية",
-      "description": "اكتشف أحدث الإصدارات في مكتبة القراء: روايات، كتب علمية، تاريخية وكتب أطفال.",
-      "ogDescription": "اكتشف أحدث الإصدارات في مكتبة القراء واشترِ كتبك المفضلة."
+      "title": "Online Store | أحدث المنتجات",
+      "description": "اكتشف أحدث المنتجات في Online Store وتسوّق بسهولة.",
+      "ogDescription": "اكتشف أحدث المنتجات في Online Store واشترِ اللي يعجبك."
     },
     "loginPage": {
-      "title": "تسجيل الدخول | مكتبة القراء",
-      "description": "سجّل دخولك لمتابعة التصفح وإدارة حسابك في مكتبة القراء.",
-      "ogDescription": "سجّل دخولك لمكتبة القراء."
+      "title": "تسجيل الدخول | Online Store",
+      "description": "سجّل دخولك لمتابعة التصفح وإدارة حسابك في Online Store.",
+      "ogDescription": "سجّل دخولك لOnline Store."
     },
     "ordersPage": {
-      "title": "أوردراتي | مكتبة القراء"
+      "title": "أوردراتي | Online Store"
     },
     "resetPasswordPage": {
-      "title": "إعادة تعيين كلمة المرور | مكتبة القراء",
-      "description": "اختر كلمة مرور جديدة لحسابك في مكتبة القراء.",
+      "title": "إعادة تعيين كلمة المرور | Online Store",
+      "description": "اختر كلمة مرور جديدة لحسابك في Online Store.",
       "ogDescription": "اختر كلمة مرور جديدة لحسابك."
     },
     "signupPage": {
-      "title": "إنشاء حساب | مكتبة القراء",
-      "description": "أنشئ حسابك في مكتبة القراء وابدأ تصفح الكتب فورًا.",
-      "ogDescription": "أنشئ حسابك في مكتبة القراء."
+      "title": "إنشاء حساب | Online Store",
+      "description": "أنشئ حسابك في Online Store وابدأ تصفح المنتجات فورًا.",
+      "ogDescription": "أنشئ حسابك في Online Store."
     },
     "verifyEmailPage": {
-      "title": "تأكيد البريد الإلكتروني | مكتبة القراء",
-      "description": "تأكيد بريدك الإلكتروني لتفعيل حسابك في مكتبة القراء."
+      "title": "تأكيد البريد الإلكتروني | Online Store",
+      "description": "تأكيد بريدك الإلكتروني لتفعيل حسابك في Online Store."
     },
     "ticketsPage": {
-      "title": "تذاكري | مكتبة القراء"
+      "title": "تذاكري | Online Store"
     },
     "ticketDetailPage": {
-      "title": "تفاصيل التذكرة | مكتبة القراء"
+      "title": "تفاصيل التذكرة | Online Store"
     },
     "vendorOrdersPage": {
-      "title": "الأوردرات الواردة | مكتبة القراء"
+      "title": "الأوردرات الواردة | Online Store"
     },
     "vendorEarningsPage": {
-      "title": "أرباحي | مكتبة القراء"
+      "title": "أرباحي | Online Store"
     },
     "adminPayoutsPage": {
-      "title": "تحويلات البائعين | مكتبة القراء"
+      "title": "تحويلات البائعين | Online Store"
     },
     "adminCommissionPage": {
-      "title": "إعدادات العمولة | مكتبة القراء"
+      "title": "إعدادات العمولة | Online Store"
     },
     "vendorReturnsPage": {
-      "title": "طلبات الاسترجاع | مكتبة القراء"
+      "title": "طلبات الاسترجاع | Online Store"
     },
     "adminPlatformOrdersPage": {
-      "title": "شحنات المتجر | مكتبة القراء"
+      "title": "شحنات المتجر | Online Store"
     }
   },
   "stateViews": {
@@ -563,12 +579,12 @@
       "min": "الرسالة لازم تكون {{count}} أحرف على الأقل",
       "max": "الرسالة طويلة جدًا"
     },
-    "book": {
+    "product": {
       "titleAr": {
-        "min": "عنوان الكتاب (عربي) لازم يكون {{count}} أحرف على الأقل"
+        "min": "اسم المنتج (عربي) لازم يكون {{count}} أحرف على الأقل"
       },
       "titleEn": {
-        "min": "عنوان الكتاب (إنجليزي) لازم يكون {{count}} أحرف على الأقل"
+        "min": "اسم المنتج (إنجليزي) لازم يكون {{count}} أحرف على الأقل"
       },
       "isbn": {
         "min": "أدخل رقم ISBN صحيح (10 أو 13 رقم)",
@@ -578,16 +594,16 @@
         "invalid": "إيميل الناشر غير صحيح"
       },
       "descriptionAr": {
-        "min": "وصف الكتاب (عربي) لازم يكون {{count}} أحرف على الأقل"
+        "min": "وصف المنتج (عربي) لازم يكون {{count}} أحرف على الأقل"
       },
       "descriptionEn": {
-        "min": "وصف الكتاب (إنجليزي) لازم يكون {{count}} أحرف على الأقل"
+        "min": "وصف المنتج (إنجليزي) لازم يكون {{count}} أحرف على الأقل"
       },
       "publisher": {
-        "min": "دار النشر لازم تكون {{count}} أحرف على الأقل"
+        "min": "الناشر لازم يكون {{count}} أحرف على الأقل"
       },
       "category": {
-        "required": "اختر تصنيف الكتاب"
+        "required": "اختر تصنيف المنتج"
       },
       "price": {
         "type": "السعر لازم يكون رقم",
@@ -661,7 +677,7 @@
     "title": "سجّل كبائع",
     "intro": "قدّم طلب لفتح متجرك الخاص على المنصة وابدأ تبيع منتجاتك.",
     "storeNameLabel": "اسم المتجر",
-    "storeNamePlaceholder": "مثال: مكتبة الشروق",
+    "storeNamePlaceholder": "مثال: متجر الشروق",
     "submit": "إرسال الطلب",
     "appliedSuccess": "تم إرسال طلبك بنجاح",
     "alreadyHaveStatus": "حالة الطلب",
@@ -733,7 +749,7 @@
   "vendorOrders": {
     "title": "الأوردرات الواردة",
     "empty": "مفيش أوردرات لسه",
-    "emptyDesc": "الأوردرات المدفوعة اللي فيها كتبك هتظهر هنا.",
+    "emptyDesc": "الأوردرات المدفوعة اللي فيها منتجاتك هتظهر هنا.",
     "orderNumber": "أوردر #{{id}}",
     "customer": "العميل",
     "phone": "الموبايل",
@@ -798,6 +814,36 @@
     "note": "ملاحظة (اختياري)",
     "confirm": "تأكيد إن التحويل تم",
     "recorded": "تم تسجيل التحويل"
+  },
+  "variantManager": {
+    "title": "النسخ",
+    "add": "إضافة نسخة",
+    "edit": "تعديل",
+    "save": "حفظ",
+    "cancel": "إلغاء",
+    "optionName": "اسم الخيار",
+    "optionValue": "القيمة",
+    "addOption": "إضافة خيار",
+    "confirmDelete": "تحذف النسخة دي؟",
+    "saved": "تم حفظ النسخة",
+    "deleted": "تم حذف النسخة",
+    "noOptions": "النسخة الافتراضية"
+  },
+  "adminCategories": {
+    "title": "الأقسام",
+    "nameAr": "الاسم بالعربي",
+    "nameEn": "الاسم بالإنجليزي",
+    "slug": "الـ slug (حروف لاتينية صغيرة وشرطات)",
+    "parent": "القسم الأب",
+    "noParent": "بدون (قسم رئيسي)",
+    "save": "حفظ",
+    "cancel": "إلغاء",
+    "edit": "تعديل",
+    "delete": "حذف",
+    "saved": "تم حفظ القسم",
+    "deleted": "تم حذف القسم",
+    "confirmDelete": "تحذف القسم ده؟",
+    "empty": "لا توجد أقسام بعد"
   },
   "adminCommission": {
     "title": "إعدادات العمولة",

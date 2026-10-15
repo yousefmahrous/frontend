@@ -111,8 +111,8 @@ function StatusView({
       <h1 className="text-2xl font-extrabold">{title}</h1>
       <p className="text-muted-foreground">{description}</p>
       <Button asChild>
-        <Link to={showCartLink ? "/cart" : "/books"}>
-          {showCartLink ? t("checkoutSuccess.backToCart") : t("checkoutSuccess.browseMoreBooks")}
+        <Link to={showCartLink ? "/cart" : "/products"}>
+          {showCartLink ? t("checkoutSuccess.backToCart") : t("checkoutSuccess.browseMoreProducts")}
         </Link>
       </Button>
     </div>

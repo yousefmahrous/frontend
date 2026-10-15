@@ -1,4 +1,4 @@
-import { AlertCircle, BookX, RefreshCw, SearchX } from "lucide-react";
+import { AlertCircle, PackageX, RefreshCw, SearchX } from "lucide-react";
 import { useTranslation } from "react-i18next";
 
 import { Button } from "@/components/ui/button";
@@ -12,7 +12,7 @@ export function EmptyState({
   description?: string;
   variant?: "empty" | "search";
 }) {
-  const Icon = variant === "search" ? SearchX : BookX;
+  const Icon = variant === "search" ? SearchX : PackageX;
   return (
     <div className="flex flex-col items-center justify-center gap-3 rounded-xl border border-dashed border-border bg-card/60 px-6 py-16 text-center">
       <Icon className="size-10 text-muted-foreground" />

@@ -2,10 +2,10 @@ import { api } from "./client";
 
 export const CART_PATH = "/cart";
 
-export interface CartItemBook {
+export interface CartItemProduct {
   id: string;
   name: string;
-  number: string;
+  number: string | null;
   category: string;
   stock: number;
   price: number;
@@ -15,7 +15,8 @@ export interface CartItemBook {
 export interface CartItem {
   id: string;
   quantity: number;
-  book: CartItemBook;
+  variant?: { id: number; sku: string | null; options: Record<string, string> };
+  product: CartItemProduct;
 }
 
 export interface Cart {
@@ -29,10 +30,10 @@ export async function fetchCart() {
   return data.data;
 }
 
-export async function addToCart(bookId: string) {
+export async function addToCart(productId: string, variantId?: number) {
   const { data } = await api.post<{ success: boolean; data: Cart; message: string }>(
     `${CART_PATH}/items`,
-    { book_id: bookId },
+    { product_id: productId, ...(variantId ? { variant_id: variantId } : {}) },
   );
   return data;
 }

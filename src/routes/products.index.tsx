@@ -2,23 +2,23 @@ import { createFileRoute } from "@tanstack/react-router";
 import { ChevronLeft, ChevronRight, Search } from "lucide-react";
 import { useMemo, useState } from "react";
 import { errorMessage } from "@/api/client";
-import { BOOK_CATEGORIES } from "@/api/books.api";
-import { BookCard, BookGridSkeleton } from "@/components/books/BookCard";
+import { PRODUCT_CATEGORIES } from "@/api/products.api";
+import { ProductCard, ProductGridSkeleton } from "@/components/products/ProductCard";
 import { EmptyState, ErrorState } from "@/components/StateViews";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { useBooks, useDebouncedValue } from "@/hooks/useBooks";
-import { useBooksRealtime } from "@/hooks/useBooksRealtime";
+import { useProducts, useDebouncedValue } from "@/hooks/useProducts";
+import { useProductsRealtime } from "@/hooks/useProductsRealtime";
 
 import en from "@/i18n/locales/en.json";
 import ar from "@/i18n/locales/ar.json";
 import { DEFAULT_LANG, type Lang } from "@/i18n/i18n";
 import { useTranslation } from "react-i18next";
-export const Route = createFileRoute("/books/")({
+export const Route = createFileRoute("/products/")({
   ssr: false,
   head: ({ match }) => {
     const lang = (match.context as { lang?: Lang }).lang ?? DEFAULT_LANG;
-    const meta = (lang === "ar" ? ar : en).pageMeta.booksIndexPage;
+    const meta = (lang === "ar" ? ar : en).pageMeta.productsIndexPage;
     return {
       meta: [
         { title: meta.title },
@@ -35,20 +35,20 @@ const LIMIT = 12;
 
 function CatalogPage() {
   const { t } = useTranslation();
-  useBooksRealtime();
+  useProductsRealtime();
   const [searchInput, setSearchInput] = useState("");
   const [page, setPage] = useState(1);
   const [category, setCategory] = useState<string | null>(null);
   const search = useDebouncedValue(searchInput, 400);
 
-  const { data, isLoading, isFetching, isError, error, refetch } = useBooks({
+  const { data, isLoading, isFetching, isError, error, refetch } = useProducts({
     page,
     limit: LIMIT,
     search,
     category,
   });
 
-  const books = data?.items ?? [];
+  const products = data?.items ?? [];
 
   const pagination = data?.pagination;
   const pageNumbers = useMemo(() => {
@@ -62,9 +62,9 @@ function CatalogPage() {
 
   return (
     <div className="mx-auto max-w-6xl px-4 py-10">
-      <h1 className="text-2xl font-bold md:text-3xl">{t("books.title")}</h1>
+      <h1 className="text-2xl font-bold md:text-3xl">{t("products.title")}</h1>
       <p className="mt-1 text-sm text-muted-foreground">
-        {pagination ? t("books.countAvailable", { count: pagination.totalCount }) : t("books.loadingBooks")}
+        {pagination ? t("products.countAvailable", { count: pagination.totalCount }) : t("products.loadingProducts")}
       </p>
 
       <div className="mt-6 space-y-4">
@@ -76,7 +76,7 @@ function CatalogPage() {
               setSearchInput(event.target.value);
               setPage(1);
             }}
-            placeholder={t("books.searchPlaceholder")}
+            placeholder={t("products.searchPlaceholder")}
             className="pe-10"
           />
         </div>
@@ -90,9 +90,9 @@ function CatalogPage() {
               setPage(1);
             }}
           >
-            {t("books.allCategories")}
+            {t("products.allCategories")}
           </Button>
-          {BOOK_CATEGORIES.map((item) => (
+          {PRODUCT_CATEGORIES.map((item) => (
             <Button
               key={item}
               variant={category === item ? "default" : "secondary"}
@@ -110,17 +110,17 @@ function CatalogPage() {
 
       <div className="mt-8">
         {isLoading ? (
-          <BookGridSkeleton count={LIMIT} />
+          <ProductGridSkeleton count={LIMIT} />
         ) : isError ? (
           <ErrorState message={errorMessage(error)} onRetry={() => void refetch()} />
-        ) : !books.length ? (
+        ) : !products.length ? (
           <EmptyState
             variant={search || category ? "search" : "empty"}
-            title={search || category ? t("books.noResults") : t("books.noBooksYet")}
+            title={search || category ? t("products.noResults") : t("products.noProductsYet")}
             description={
               search || category
-                ? t("books.tryOtherSearch")
-                : t("books.firstBooksAppearHere")
+                ? t("products.tryOtherSearch")
+                : t("products.firstProductsAppearHere")
             }
           />
         ) : (
@@ -129,8 +129,8 @@ function CatalogPage() {
               isFetching ? "opacity-70 transition-opacity" : ""
             }`}
           >
-            {books.map((book) => (
-              <BookCard key={book.id} book={book} />
+            {products.map((product) => (
+              <ProductCard key={product.id} product={product} />
             ))}
           </div>
         )}
@@ -146,7 +146,7 @@ function CatalogPage() {
             className="gap-1"
           >
             <ChevronRight className="size-4" />
-            {t("books.prev")}
+            {t("products.prev")}
           </Button>
           {pageNumbers.map((number) => (
             <Button
@@ -165,7 +165,7 @@ function CatalogPage() {
             onClick={() => setPage((prev) => prev + 1)}
             className="gap-1"
           >
-            {t("books.next")}
+            {t("products.next")}
             <ChevronLeft className="size-4" />
           </Button>
         </div>

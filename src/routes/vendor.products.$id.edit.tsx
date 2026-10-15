@@ -4,7 +4,8 @@ import { toast } from "sonner";
 import { useTranslation } from "react-i18next";
 
 import { errorMessage } from "@/api/client";
-import { BookForm } from "@/components/books/BookForm";
+import { ProductForm } from "@/components/products/ProductForm";
+import { VariantManager } from "@/components/products/VariantManager";
 import { VendorOnly } from "@/components/Guards";
 import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
@@ -42,24 +43,26 @@ function EditProductPage() {
       ) : isError || !product ? (
         <ErrorState message={errorMessage(error)} onRetry={() => void refetch()} />
       ) : (
-        <BookForm
+        <>
+        <ProductForm
+          hidePriceStock={(product.variants?.length ?? 0) > 1}
           defaultValues={{
             name: product.name,
-            number: product.number,
-            email: product.email,
+            number: product.number ?? "",
+            email: product.email ?? "",
             adress: product.adress,
-            centre: product.centre,
+            centre: product.centre ?? "",
             category: product.category,
-            price: product.price,
+            price: product.price / 100,
             stock: product.stock,
             avatar_key: product.avatar_key ?? null,
           }}
-          previewUrl={product.avatar_url}
+          previewUrl={product.avatar_url ?? null}
           submitLabel={t("common.save")}
           onSubmit={async (payload) => {
             try {
               await updateProduct.mutateAsync(payload);
-              toast.success(t("adminBooksEdit.updatedSuccess", t("common.success")) as string);
+              toast.success(t("adminProductsEdit.updatedSuccess", t("common.success")) as string);
               void navigate({ to: "/vendor/products" });
             } catch (error) {
               toast.error(errorMessage(error));
@@ -67,6 +70,10 @@ function EditProductPage() {
             }
           }}
         />
+        <div className="mt-10 border-t pt-8">
+          <VariantManager scope="vendor" productId={id} variants={product.variants ?? []} />
+        </div>
+        </>
       )}
     </div>
   );

@@ -28,19 +28,19 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { useBooks, useDebouncedValue, useDeleteBook } from "@/hooks/useBooks";
-import { useBooksRealtime } from "@/hooks/useBooksRealtime";
+import { useProducts, useDebouncedValue, useDeleteProduct } from "@/hooks/useProducts";
+import { useProductsRealtime } from "@/hooks/useProductsRealtime";
 import { pickLocalized } from "@/lib/localized";
 
 import en from "@/i18n/locales/en.json";
 import ar from "@/i18n/locales/ar.json";
 import { DEFAULT_LANG, type Lang } from "@/i18n/i18n";
 import { useTranslation } from "react-i18next";
-export const Route = createFileRoute("/admin/books/")({
+export const Route = createFileRoute("/admin/products/")({
   ssr: false,
   head: ({ match }) => {
     const lang = (match.context as { lang?: Lang }).lang ?? DEFAULT_LANG;
-    const meta = (lang === "ar" ? ar : en).pageMeta.adminBooksIndex;
+    const meta = (lang === "ar" ? ar : en).pageMeta.adminProductsIndex;
     return {
       meta: [
         { title: meta.title },
@@ -53,32 +53,32 @@ export const Route = createFileRoute("/admin/books/")({
   },
   component: () => (
     <AdminOnly>
-      <AdminBooksPage />
+      <AdminProductsPage />
     </AdminOnly>
   ),
 });
 
 const LIMIT = 10;
 
-function AdminBooksPage() {
+function AdminProductsPage() {
   const { t, i18n } = useTranslation();
   const lang = i18n.language as Lang;
-  useBooksRealtime();
+  useProductsRealtime();
   const [searchInput, setSearchInput] = useState("");
   const [page, setPage] = useState(1);
   const [pendingDelete, setPendingDelete] = useState<{ id: string; name: string } | null>(null);
   const search = useDebouncedValue(searchInput, 400);
-  const { data, isLoading, isError, error, refetch } = useBooks({ page, limit: LIMIT, search });
-  const deleteBook = useDeleteBook();
+  const { data, isLoading, isError, error, refetch } = useProducts({ page, limit: LIMIT, search });
+  const deleteProduct = useDeleteProduct();
 
-  const books = data?.items ?? [];
+  const products = data?.items ?? [];
   const pagination = data?.pagination;
 
   const confirmDelete = async () => {
     if (!pendingDelete) return;
     try {
-      await deleteBook.mutateAsync(pendingDelete.id);
-      toast.success(t("adminBooksIndex.deletedSuccess", { name: pendingDelete.name }));
+      await deleteProduct.mutateAsync(pendingDelete.id);
+      toast.success(t("adminProductsIndex.deletedSuccess", { name: pendingDelete.name }));
     } catch (deleteError) {
       toast.error(errorMessage(deleteError));
     } finally {
@@ -90,17 +90,17 @@ function AdminBooksPage() {
     <div className="mx-auto max-w-6xl px-4 py-10">
       <div className="flex flex-wrap items-center justify-between gap-4">
         <div>
-          <h1 className="text-2xl font-bold md:text-3xl">{t("adminBooksIndex.manageBooks")}</h1>
+          <h1 className="text-2xl font-bold md:text-3xl">{t("adminProductsIndex.manageProducts")}</h1>
           <p className="mt-1 text-sm text-muted-foreground">
             {pagination
-              ? t("adminBooksIndex.countLabel", { count: pagination.totalCount })
-              : t("adminBooksIndex.loading")}
+              ? t("adminProductsIndex.countLabel", { count: pagination.totalCount })
+              : t("adminProductsIndex.loading")}
           </p>
         </div>
         <Button asChild className="gap-2">
-          <Link to="/admin/books/new">
+          <Link to="/admin/products/new">
             <Plus className="size-4" />
-            {t("adminBooksIndex.addBook")}
+            {t("adminProductsIndex.addProduct")}
           </Link>
         </Button>
       </div>
@@ -113,7 +113,7 @@ function AdminBooksPage() {
             setSearchInput(event.target.value);
             setPage(1);
           }}
-          placeholder={t("adminBooksIndex.searchPlaceholder")}
+          placeholder={t("adminProductsIndex.searchPlaceholder")}
           className="pe-10"
         />
       </div>
@@ -127,12 +127,12 @@ function AdminBooksPage() {
           </div>
         ) : isError ? (
           <ErrorState message={errorMessage(error)} onRetry={() => void refetch()} />
-        ) : !books.length ? (
+        ) : !products.length ? (
           <EmptyState
             variant={search ? "search" : "empty"}
-            title={search ? t("adminBooksIndex.noResults") : t("adminBooksIndex.noBooks")}
+            title={search ? t("adminProductsIndex.noResults") : t("adminProductsIndex.noProducts")}
             description={
-              search ? t("adminBooksIndex.tryOtherSearch") : t("adminBooksIndex.startAdding")
+              search ? t("adminProductsIndex.tryOtherSearch") : t("adminProductsIndex.startAdding")
             }
           />
         ) : (
@@ -140,45 +140,45 @@ function AdminBooksPage() {
             <Table>
               <TableHeader>
                 <TableRow>
-                  <TableHead className="text-right">{t("adminBooksIndex.cover")}</TableHead>
-                  <TableHead className="text-right">{t("adminBooksIndex.titleCol")}</TableHead>
-                  <TableHead className="text-right">{t("adminBooksIndex.publisher")}</TableHead>
-                  <TableHead className="text-right">{t("adminBooksIndex.category")}</TableHead>
+                  <TableHead className="text-right">{t("adminProductsIndex.cover")}</TableHead>
+                  <TableHead className="text-right">{t("adminProductsIndex.titleCol")}</TableHead>
+                  <TableHead className="text-right">{t("adminProductsIndex.publisher")}</TableHead>
+                  <TableHead className="text-right">{t("adminProductsIndex.category")}</TableHead>
                   <TableHead className="text-right">ISBN</TableHead>
-                  <TableHead className="text-right">{t("adminBooksIndex.actions")}</TableHead>
+                  <TableHead className="text-right">{t("adminProductsIndex.actions")}</TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>
-                {books.map((book) => {
-                  const bookName = pickLocalized(book.name, lang);
+                {products.map((product) => {
+                  const productName = pickLocalized(product.name, lang);
                   return (
-                    <TableRow key={book.id}>
+                    <TableRow key={product.id}>
                       <TableCell>
                         <div className="h-14 w-10 overflow-hidden rounded bg-secondary">
-                          {book.avatar_url && (
+                          {product.avatar_url && (
                             <img
-                              src={book.avatar_url}
-                              alt={t("adminBooksIndex.coverAlt", { name: bookName })}
+                              src={product.avatar_url}
+                              alt={t("adminProductsIndex.coverAlt", { name: productName })}
                               loading="lazy"
                               className="size-full object-cover"
                             />
                           )}
                         </div>
                       </TableCell>
-                      <TableCell className="font-medium">{bookName}</TableCell>
-                      <TableCell className="text-muted-foreground">{book.centre}</TableCell>
+                      <TableCell className="font-medium">{productName}</TableCell>
+                      <TableCell className="text-muted-foreground">{product.centre || "—"}</TableCell>
                       <TableCell>
                         <Badge variant="secondary">
-                          {t(`categories.${book.category}`, book.category)}
+                          {t(`categories.${product.category}`, product.category)}
                         </Badge>
                       </TableCell>
                       <TableCell dir="ltr" className="text-muted-foreground">
-                        {book.number}
+                        {product.number || "—"}
                       </TableCell>
                       <TableCell>
                         <div className="flex gap-1">
                           <Button asChild size="icon" variant="ghost" aria-label={t("common.edit")}>
-                            <Link to="/admin/books/$id/edit" params={{ id: String(book.id) }}>
+                            <Link to="/admin/products/$id/edit" params={{ id: String(product.id) }}>
                               <Pencil className="size-4" />
                             </Link>
                           </Button>
@@ -187,7 +187,7 @@ function AdminBooksPage() {
                             variant="ghost"
                             aria-label={t("common.delete")}
                             onClick={() =>
-                              setPendingDelete({ id: String(book.id), name: bookName })
+                              setPendingDelete({ id: String(product.id), name: productName })
                             }
                           >
                             <Trash2 className="size-4 text-destructive" />
@@ -211,10 +211,10 @@ function AdminBooksPage() {
             disabled={!pagination.hasPreviousPage}
             onClick={() => setPage((prev) => Math.max(1, prev - 1))}
           >
-            {t("adminBooksIndex.prev")}
+            {t("adminProductsIndex.prev")}
           </Button>
           <span className="text-sm text-muted-foreground">
-            {t("adminBooksIndex.pageOf", {
+            {t("adminProductsIndex.pageOf", {
               current: pagination.currentPage,
               total: pagination.totalPages,
             })}
@@ -225,7 +225,7 @@ function AdminBooksPage() {
             disabled={!pagination.hasNextPage}
             onClick={() => setPage((prev) => prev + 1)}
           >
-            {t("adminBooksIndex.next")}
+            {t("adminProductsIndex.next")}
           </Button>
         </div>
       )}
@@ -236,9 +236,9 @@ function AdminBooksPage() {
       >
         <AlertDialogContent dir="rtl">
           <AlertDialogHeader>
-            <AlertDialogTitle>{t("adminBooksIndex.confirmDelete")}</AlertDialogTitle>
+            <AlertDialogTitle>{t("adminProductsIndex.confirmDelete")}</AlertDialogTitle>
             <AlertDialogDescription>
-              {t("adminBooksIndex.deleteConfirmDesc", { name: pendingDelete?.name })}
+              {t("adminProductsIndex.deleteConfirmDesc", { name: pendingDelete?.name })}
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>

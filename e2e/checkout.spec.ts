@@ -20,14 +20,14 @@ async function emptyCart(page: Page) {
   }
 }
 
-async function addFirstBookToCart(page: Page) {
-  await page.goto('/books');
-  const firstBookLink = page.locator('a[href^="/books/"]').first();
-  await expect(firstBookLink).toBeVisible();
-  await firstBookLink.click();
+async function addFirstProductToCart(page: Page) {
+  await page.goto('/products');
+  const firstProductLink = page.locator('a[href^="/products/"]').first();
+  await expect(firstProductLink).toBeVisible();
+  await firstProductLink.click();
 
   await page.getByRole('button', { name: /أضف للعربية/ }).click();
-  await expect(page.getByText(/تم إضافة الكتاب للعربية/)).toBeVisible({ timeout: 5000 });
+  await expect(page.getByText(/تم إضافة المنتج للعربية/)).toBeVisible({ timeout: 5000 });
 }
 
 async function startCheckout(page: Page) {
@@ -68,17 +68,17 @@ function simulateWebhook(orderId: number, eventType: 'completed' | 'expired') {
 test.beforeAll(() => {
 
   const backendPath = path.resolve(__dirname, '../../backend');
-  execSync('node scripts/restock-latest-book.js', { cwd: backendPath, stdio: 'inherit' });
+  execSync('node scripts/restock-latest-product.js', { cwd: backendPath, stdio: 'inherit' });
 });
 
 test('عميل يقدر يعمل checkout ويتحول لصفحة Stripe فعليًا', async ({ page }) => {
-  await page.goto('/books');
-  const firstBookLink = page.locator('a[href^="/books/"]').first();
-  await expect(firstBookLink).toBeVisible();
-  await firstBookLink.click();
+  await page.goto('/products');
+  const firstProductLink = page.locator('a[href^="/products/"]').first();
+  await expect(firstProductLink).toBeVisible();
+  await firstProductLink.click();
 
   await page.getByRole('button', { name: /أضف للعربية/ }).click();
-  await expect(page.getByText(/تم إضافة الكتاب للعربية/)).toBeVisible({ timeout: 5000 });
+  await expect(page.getByText(/تم إضافة المنتج للعربية/)).toBeVisible({ timeout: 5000 });
 
   await page.goto('/cart');
   await page.getByRole('button', { name: 'المتابعة للدفع' }).click();
@@ -98,7 +98,7 @@ test('لما webhook الدفع يتأكد، صفحة النجاح تتحدث ل
   page,
 }) => {
   await emptyCart(page);
-  await addFirstBookToCart(page);
+  await addFirstProductToCart(page);
   await startCheckout(page);
 
   const order = await getLatestOrder(page);
@@ -115,7 +115,7 @@ test('لما webhook الدفع يتأكد، صفحة النجاح تتحدث ل
 
 test('لو جلسة الدفع انتهت، الأوردر يفشل والمخزون يترجع للكتاب تلقائيًا', async ({ page }) => {
   await emptyCart(page);
-  await addFirstBookToCart(page);
+  await addFirstProductToCart(page);
   await startCheckout(page);
 
   const order = await getLatestOrder(page);
@@ -129,12 +129,12 @@ test('لو جلسة الدفع انتهت، الأوردر يفشل والمخز
   await page.goto('/cart');
   await expect(page.getByRole('button', { name: 'حذف من العربية' })).toHaveCount(0);
 
-  await addFirstBookToCart(page);
+  await addFirstProductToCart(page);
 });
 
 test('لو فيه أوردر pending قديم وعمل checkout تاني، القديم يتلغي تلقائيًا', async ({ page }) => {
   await emptyCart(page);
-  await addFirstBookToCart(page);
+  await addFirstProductToCart(page);
   await startCheckout(page);
 
   const firstOrder = await getLatestOrder(page);
@@ -152,7 +152,7 @@ test('لو فيه أوردر pending قديم وعمل checkout تاني، ال�
 
 test('صفحة الإلغاء بتظهر صح لما اليوزر يرجع من Stripe من غير ما يكمل الدفع', async ({ page }) => {
   await emptyCart(page);
-  await addFirstBookToCart(page);
+  await addFirstProductToCart(page);
   await startCheckout(page);
 
   const order = await getLatestOrder(page);

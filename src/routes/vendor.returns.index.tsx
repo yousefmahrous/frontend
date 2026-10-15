@@ -67,7 +67,7 @@ function VendorReturnsPage() {
 
                 <ul className="my-3 space-y-1 text-sm">
                   {request.items.map((item) => (
-                    <li key={item.book_id}>
+                    <li key={item.product_id}>
                       {item.title} <span className="text-muted-foreground">× {item.quantity}</span>
                     </li>
                   ))}
@@ -81,7 +81,7 @@ function VendorReturnsPage() {
                   <p className="mt-1 text-sm">
                     <span className="text-muted-foreground">{t("vendorReturns.amount")}: </span>
                     <span className="font-bold">
-                      {formatPrice(request.refund_amount)} {t("bookDetails.currency")}
+                      {formatPrice(request.refund_amount)} {t("productDetails.currency")}
                     </span>
                   </p>
                 )}
@@ -99,10 +99,10 @@ function VendorReturnsPage() {
             disabled={!pagination.hasPreviousPage}
             onClick={() => setPage((p) => Math.max(1, p - 1))}
           >
-            {t("adminBooksIndex.prev")}
+            {t("adminProductsIndex.prev")}
           </Button>
           <span className="text-sm text-muted-foreground">
-            {t("adminBooksIndex.pageOf", { current: pagination.currentPage, total: pagination.totalPages })}
+            {t("adminProductsIndex.pageOf", { current: pagination.currentPage, total: pagination.totalPages })}
           </span>
           <Button
             variant="secondary"
@@ -110,7 +110,7 @@ function VendorReturnsPage() {
             disabled={!pagination.hasNextPage}
             onClick={() => setPage((p) => p + 1)}
           >
-            {t("adminBooksIndex.next")}
+            {t("adminProductsIndex.next")}
           </Button>
         </div>
       )}

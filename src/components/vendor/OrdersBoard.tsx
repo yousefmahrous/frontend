@@ -82,10 +82,10 @@ export function OrdersBoard({ platform = false }: { platform?: boolean }) {
             disabled={!pagination.hasPreviousPage}
             onClick={() => setPage((prev) => Math.max(1, prev - 1))}
           >
-            {t("adminBooksIndex.prev")}
+            {t("adminProductsIndex.prev")}
           </Button>
           <span className="text-sm text-muted-foreground">
-            {t("adminBooksIndex.pageOf", { current: pagination.currentPage, total: pagination.totalPages })}
+            {t("adminProductsIndex.pageOf", { current: pagination.currentPage, total: pagination.totalPages })}
           </span>
           <Button
             variant="secondary"
@@ -93,7 +93,7 @@ export function OrdersBoard({ platform = false }: { platform?: boolean }) {
             disabled={!pagination.hasNextPage}
             onClick={() => setPage((prev) => prev + 1)}
           >
-            {t("adminBooksIndex.next")}
+            {t("adminProductsIndex.next")}
           </Button>
         </div>
       )}

@@ -20,7 +20,7 @@ export function useFavorites() {
 export function useAddFavorite() {
   const queryClient = useQueryClient();
   return useMutation({
-    mutationFn: (bookId: string) => addFavorite(bookId),
+    mutationFn: (productId: string) => addFavorite(productId),
     onSuccess: (res) => {
       queryClient.setQueryData(favoritesKeys.all, res.data);
     },
@@ -30,7 +30,7 @@ export function useAddFavorite() {
 export function useRemoveFavorite() {
   const queryClient = useQueryClient();
   return useMutation({
-    mutationFn: (bookId: string) => removeFavorite(bookId),
+    mutationFn: (productId: string) => removeFavorite(productId),
     onSuccess: (res) => {
       queryClient.setQueryData(favoritesKeys.all, res.data);
     },
@@ -38,25 +38,25 @@ export function useRemoveFavorite() {
 }
 
 
-export function useIsFavorite(bookId: string) {
+export function useIsFavorite(productId: string) {
   const { data } = useFavorites();
-  return Boolean(data?.items.some((item) => item.book.id === bookId));
+  return Boolean(data?.items.some((item) => item.product.id === productId));
 }
 
 
-export function useToggleFavorite(bookId: string) {
-  const isFavorite = useIsFavorite(bookId);
+export function useToggleFavorite(productId: string) {
+  const isFavorite = useIsFavorite(productId);
   const addFavoriteMutation = useAddFavorite();
   const removeFavoriteMutation = useRemoveFavorite();
 
   function toggle(options?: { onSuccess?: (message?: string) => void; onError?: (err: unknown) => void }) {
     if (isFavorite) {
-      removeFavoriteMutation.mutate(bookId, {
+      removeFavoriteMutation.mutate(productId, {
         onSuccess: (res) => options?.onSuccess?.(res.message),
         onError: (err) => options?.onError?.(err),
       });
     } else {
-      addFavoriteMutation.mutate(bookId, {
+      addFavoriteMutation.mutate(productId, {
         onSuccess: (res) => options?.onSuccess?.(res.message),
         onError: (err) => options?.onError?.(err),
       });

@@ -59,7 +59,7 @@ function LoginPage() {
       const res = await login(values);
       setUser(res.user);
       toast.success(res.message);
-      void navigate({ to: "/books" });
+      void navigate({ to: "/products" });
     } catch (error) {
       if (error instanceof ApiError && error.code === "EMAIL_NOT_VERIFIED") {
         setUnverifiedEmail(values.email);

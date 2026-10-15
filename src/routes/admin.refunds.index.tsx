@@ -165,7 +165,7 @@ function AdminRefundsPage() {
           <SelectContent>
             <SelectItem value="all">{t("common.allStatuses")}</SelectItem>
             <SelectItem value="pending">{t("adminRefunds.pendingReview")}</SelectItem>
-            <SelectItem value="awaiting_return">{t("common.pendingBookReceipt")}</SelectItem>
+            <SelectItem value="awaiting_return">{t("common.pendingProductReceipt")}</SelectItem>
             <SelectItem value="completed">{t("common.refunded")}</SelectItem>
             <SelectItem value="rejected">{t("adminRefunds.rejected")}</SelectItem>
             <SelectItem value="cancelled">{t("common.cancelled")}</SelectItem>
@@ -230,7 +230,7 @@ function AdminRefundsPage() {
                         {request.reason}
                       </TableCell>
                       <TableCell dir="ltr" className="text-muted-foreground">
-                        {amount === undefined ? "—" : `${formatPrice(amount)} ${t("bookDetails.currency")}`}
+                        {amount === undefined ? "—" : `${formatPrice(amount)} ${t("productDetails.currency")}`}
                       </TableCell>
                       <TableCell>
                         <Badge className={meta.className}>{meta.label}</Badge>

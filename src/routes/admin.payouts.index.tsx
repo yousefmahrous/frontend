@@ -30,7 +30,7 @@ function AdminPayoutsPage() {
   const [page, setPage] = useState(1);
   const history = useAdminPayouts({ page, limit: 10 });
   const [selected, setSelected] = useState<VendorBalance | null>(null);
-  const currency = t("bookDetails.currency");
+  const currency = t("productDetails.currency");
   const locale = i18n.language === "ar" ? "ar-EG" : "en-US";
 
   return (
@@ -141,10 +141,10 @@ function AdminPayoutsPage() {
             disabled={!history.data.pagination.hasPreviousPage}
             onClick={() => setPage((p) => Math.max(1, p - 1))}
           >
-            {t("adminBooksIndex.prev")}
+            {t("adminProductsIndex.prev")}
           </Button>
           <span className="text-sm text-muted-foreground">
-            {t("adminBooksIndex.pageOf", {
+            {t("adminProductsIndex.pageOf", {
               current: history.data.pagination.currentPage,
               total: history.data.pagination.totalPages,
             })}
@@ -155,7 +155,7 @@ function AdminPayoutsPage() {
             disabled={!history.data.pagination.hasNextPage}
             onClick={() => setPage((p) => p + 1)}
           >
-            {t("adminBooksIndex.next")}
+            {t("adminProductsIndex.next")}
           </Button>
         </div>
       )}
