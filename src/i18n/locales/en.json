@@ -172,7 +172,14 @@
     "resendVerification": "Resend confirmation link",
     "forgotPassword": "Forgot password?",
     "noAccount": "Don't have an account?",
-    "createNewAccount": "Create a new account"
+    "createNewAccount": "Create a new account",
+    "twofa": {
+      "title": "Two-factor authentication",
+      "subtitle": "Enter the 6-digit code from your authenticator app",
+      "codeLabel": "Verification code",
+      "submit": "Verify",
+      "back": "Back to login"
+    }
   },
   "checkoutCancel": {
     "title": "Payment Cancelled",
@@ -276,7 +283,28 @@
   },
   "account": {
     "title": "My Account",
-    "accountType": "Account Type"
+    "accountType": "Account Type",
+    "twofa": {
+      "title": "Two-Factor Authentication",
+      "description": "Add a second layer of security: a 6-digit code from your authenticator app is required at login.",
+      "statusEnabled": "Enabled",
+      "statusDisabled": "Disabled",
+      "enable": "Enable Two-Factor Authentication",
+      "scanTitle": "Scan the QR code",
+      "scanHint": "Open Google Authenticator (or any authenticator app) and scan this code, then enter the 6-digit code it shows.",
+      "qrAlt": "Two-factor authentication QR code",
+      "manualKey": "Can't scan? Enter this key manually:",
+      "codeLabel": "Verification code",
+      "confirm": "Confirm and enable",
+      "enabledToast": "Two-factor authentication is now enabled",
+      "disable": "Disable Two-Factor Authentication",
+      "disableTitle": "Disable two-factor authentication?",
+      "disableDescription": "Enter your password and a current code from your authenticator app to confirm.",
+      "disableConfirm": "Disable",
+      "disabledToast": "Two-factor authentication has been disabled",
+      "loadError": "Could not load the two-factor authentication status",
+      "retry": "Try again"
+    }
   },
   "adminProductsIndex": {
     "actions": "Actions",

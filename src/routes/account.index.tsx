@@ -2,6 +2,7 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { KeyRound, Mail, ShieldCheck, User } from "lucide-react";
 
 import { roleLabel } from "@/api/auth.api";
+import { TwofaCard } from "@/components/account/TwofaCard";
 import { Protected } from "@/components/Guards";
 import { Button } from "@/components/ui/button";
 import { useAuth } from "@/context/auth-context";
@@ -57,6 +58,8 @@ function AccountPage() {
           </div>
         ))}
       </div>
+
+      {user.role === "admin" && <TwofaCard />}
 
       <Button asChild variant="secondary" className="mt-6 gap-2">
         <Link to="/account/change-password">
