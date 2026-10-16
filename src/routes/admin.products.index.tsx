@@ -1,4 +1,5 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
+import { CategoryName } from "@/components/products/CategoryName";
 import { Pencil, Plus, Search, Trash2 } from "lucide-react";
 import { useState } from "react";
 import { toast } from "sonner";
@@ -169,7 +170,7 @@ function AdminProductsPage() {
                       <TableCell className="text-muted-foreground">{product.centre || "—"}</TableCell>
                       <TableCell>
                         <Badge variant="secondary">
-                          {t(`categories.${product.category}`, product.category)}
+                          <CategoryName slug={product.category} />
                         </Badge>
                       </TableCell>
                       <TableCell dir="ltr" className="text-muted-foreground">

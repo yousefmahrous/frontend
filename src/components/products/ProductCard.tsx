@@ -1,4 +1,5 @@
 import { Link, useNavigate } from "@tanstack/react-router";
+import { CategoryName } from "@/components/products/CategoryName";
 import { PackageOpen, Heart } from "lucide-react";
 import type { MouseEvent } from "react";
 import { toast } from "sonner";
@@ -81,7 +82,7 @@ export function ProductCard({ product }: { product: Product }) {
         <h3 className="line-clamp-2 font-bold leading-snug text-foreground">{name}</h3>
         {product.centre && <p className="text-xs text-muted-foreground">{product.centre}</p>}
         <div className="mt-auto pt-2">
-          <Badge variant="secondary">{t(`categories.${product.category}`, product.category)}</Badge>
+          <Badge variant="secondary"><CategoryName slug={product.category} /></Badge>
         </div>
       </div>
     </Link>

@@ -1,4 +1,5 @@
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
+import { CategoryName } from "@/components/products/CategoryName";
 import {
   ArrowRight,
   PackageOpen,
@@ -166,7 +167,7 @@ function ProductDetails() {
 
         <div className="space-y-5">
           <div className="space-y-2">
-            <Badge variant="secondary">{t(`categories.${product.category}`, product.category)}</Badge>
+            <Badge variant="secondary"><CategoryName slug={product.category} /></Badge>
             <h1 className="text-3xl font-extrabold leading-snug">{productName}</h1>
           </div>
 

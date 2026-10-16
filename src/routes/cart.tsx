@@ -1,4 +1,5 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
+import { CategoryName } from "@/components/products/CategoryName";
 import { PackageOpen, Loader2, Minus, Plus, ShoppingCart, Trash2 } from "lucide-react";
 import { useState } from "react";
 import { toast } from "sonner";
@@ -151,7 +152,7 @@ function CartItemCard({ item }: { item: CartItem }) {
       <div className="flex flex-1 flex-col justify-between gap-3">
         <div>
           <Badge variant="secondary" className="mb-1">
-            {t(`categories.${item.product.category}`, item.product.category)}
+            <CategoryName slug={item.product.category} />
           </Badge>
           <Link
             to="/products/$id"

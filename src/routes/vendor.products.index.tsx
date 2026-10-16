@@ -1,4 +1,5 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
+import { CategoryName } from "@/components/products/CategoryName";
 import { Pencil, Plus, Trash2 } from "lucide-react";
 import { useState } from "react";
 import { toast } from "sonner";
@@ -112,10 +113,10 @@ function VendorProductsPage() {
                       <TableCell className="font-medium">{name}</TableCell>
                       <TableCell>
                         <Badge variant="secondary">
-                          {t(`categories.${product.category}`, product.category)}
+                          <CategoryName slug={product.category} />
                         </Badge>
                       </TableCell>
-                      <TableCell dir="ltr">{product.price}</TableCell>
+                      <TableCell dir="ltr">{product.price / 100}</TableCell>
                       <TableCell dir="ltr">{product.stock}</TableCell>
                       <TableCell>
                         <div className="flex gap-1">

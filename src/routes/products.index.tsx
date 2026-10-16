@@ -1,8 +1,9 @@
 import { createFileRoute } from "@tanstack/react-router";
+import { CategoryName } from "@/components/products/CategoryName";
 import { ChevronLeft, ChevronRight, Search } from "lucide-react";
 import { useMemo, useState } from "react";
 import { errorMessage } from "@/api/client";
-import { PRODUCT_CATEGORIES } from "@/api/products.api";
+import { useCategories } from "@/hooks/useCategories";
 import { ProductCard, ProductGridSkeleton } from "@/components/products/ProductCard";
 import { EmptyState, ErrorState } from "@/components/StateViews";
 import { Button } from "@/components/ui/button";
@@ -38,6 +39,7 @@ function CatalogPage() {
   useProductsRealtime();
   const [searchInput, setSearchInput] = useState("");
   const [page, setPage] = useState(1);
+  const { data: categories = [] } = useCategories();
   const [category, setCategory] = useState<string | null>(null);
   const search = useDebouncedValue(searchInput, 400);
 
@@ -92,17 +94,17 @@ function CatalogPage() {
           >
             {t("products.allCategories")}
           </Button>
-          {PRODUCT_CATEGORIES.map((item) => (
+          {categories.map((c) => (
             <Button
-              key={item}
-              variant={category === item ? "default" : "secondary"}
+              key={c.slug}
+              variant={category === c.slug ? "default" : "secondary"}
               size="sm"
               onClick={() => {
-                setCategory(item);
+                setCategory(c.slug);
                 setPage(1);
               }}
             >
-              {t(`categories.${item}`, item)}
+              <CategoryName slug={c.slug} />
             </Button>
           ))}
         </div>
