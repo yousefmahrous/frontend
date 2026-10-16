@@ -59,7 +59,7 @@ function AccountPage() {
         ))}
       </div>
 
-      {user.role === "admin" && <TwofaCard />}
+      <TwofaCard />
 
       <Button asChild variant="secondary" className="mt-6 gap-2">
         <Link to="/account/change-password">
