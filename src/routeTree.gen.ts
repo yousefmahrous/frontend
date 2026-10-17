@@ -21,6 +21,7 @@ import { Route as SignupRouteImport } from './routes/signup'
 import { Route as VerifyEmailRouteImport } from './routes/verify-email'
 import { Route as AccountIndexRouteImport } from './routes/account.index'
 import { Route as AccountChangePasswordRouteImport } from './routes/account.change-password'
+import { Route as AdminDashboardRouteImport } from './routes/admin.dashboard'
 import { Route as CheckoutCancelRouteImport } from './routes/checkout.cancel'
 import { Route as CheckoutSuccessRouteImport } from './routes/checkout.success'
 import { Route as ProductsIndexRouteImport } from './routes/products.index'
@@ -28,6 +29,7 @@ import { Route as ProductsIdRouteImport } from './routes/products.$id'
 import { Route as TicketsIndexRouteImport } from './routes/tickets.index'
 import { Route as TicketsIdRouteImport } from './routes/tickets.$id'
 import { Route as VendorApplyRouteImport } from './routes/vendor.apply'
+import { Route as VendorDashboardRouteImport } from './routes/vendor.dashboard'
 import { Route as AdminCategoriesIndexRouteImport } from './routes/admin.categories.index'
 import { Route as AdminCommissionIndexRouteImport } from './routes/admin.commission.index'
 import { Route as AdminOrdersIndexRouteImport } from './routes/admin.orders.index'
@@ -106,6 +108,11 @@ const AccountChangePasswordRoute = AccountChangePasswordRouteImport.update({
   path: '/account/change-password',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AdminDashboardRoute = AdminDashboardRouteImport.update({
+  id: '/admin/dashboard',
+  path: '/admin/dashboard',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const CheckoutCancelRoute = CheckoutCancelRouteImport.update({
   id: '/checkout/cancel',
   path: '/checkout/cancel',
@@ -139,6 +146,11 @@ const TicketsIdRoute = TicketsIdRouteImport.update({
 const VendorApplyRoute = VendorApplyRouteImport.update({
   id: '/vendor/apply',
   path: '/vendor/apply',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const VendorDashboardRoute = VendorDashboardRouteImport.update({
+  id: '/vendor/dashboard',
+  path: '/vendor/dashboard',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AdminCategoriesIndexRoute = AdminCategoriesIndexRouteImport.update({
@@ -240,11 +252,13 @@ export interface FileRoutesByFullPath {
   '/signup': typeof SignupRoute
   '/verify-email': typeof VerifyEmailRoute
   '/account/change-password': typeof AccountChangePasswordRoute
+  '/admin/dashboard': typeof AdminDashboardRoute
   '/checkout/cancel': typeof CheckoutCancelRoute
   '/checkout/success': typeof CheckoutSuccessRoute
   '/products/$id': typeof ProductsIdRoute
   '/tickets/$id': typeof TicketsIdRoute
   '/vendor/apply': typeof VendorApplyRoute
+  '/vendor/dashboard': typeof VendorDashboardRoute
   '/account/': typeof AccountIndexRoute
   '/products/': typeof ProductsIndexRoute
   '/tickets/': typeof TicketsIndexRoute
@@ -278,11 +292,13 @@ export interface FileRoutesByTo {
   '/signup': typeof SignupRoute
   '/verify-email': typeof VerifyEmailRoute
   '/account/change-password': typeof AccountChangePasswordRoute
+  '/admin/dashboard': typeof AdminDashboardRoute
   '/checkout/cancel': typeof CheckoutCancelRoute
   '/checkout/success': typeof CheckoutSuccessRoute
   '/products/$id': typeof ProductsIdRoute
   '/tickets/$id': typeof TicketsIdRoute
   '/vendor/apply': typeof VendorApplyRoute
+  '/vendor/dashboard': typeof VendorDashboardRoute
   '/account': typeof AccountIndexRoute
   '/products': typeof ProductsIndexRoute
   '/tickets': typeof TicketsIndexRoute
@@ -317,11 +333,13 @@ export interface FileRoutesById {
   '/signup': typeof SignupRoute
   '/verify-email': typeof VerifyEmailRoute
   '/account/change-password': typeof AccountChangePasswordRoute
+  '/admin/dashboard': typeof AdminDashboardRoute
   '/checkout/cancel': typeof CheckoutCancelRoute
   '/checkout/success': typeof CheckoutSuccessRoute
   '/products/$id': typeof ProductsIdRoute
   '/tickets/$id': typeof TicketsIdRoute
   '/vendor/apply': typeof VendorApplyRoute
+  '/vendor/dashboard': typeof VendorDashboardRoute
   '/account/': typeof AccountIndexRoute
   '/products/': typeof ProductsIndexRoute
   '/tickets/': typeof TicketsIndexRoute
@@ -357,11 +375,13 @@ export interface FileRouteTypes {
     | '/signup'
     | '/verify-email'
     | '/account/change-password'
+    | '/admin/dashboard'
     | '/checkout/cancel'
     | '/checkout/success'
     | '/products/$id'
     | '/tickets/$id'
     | '/vendor/apply'
+    | '/vendor/dashboard'
     | '/account/'
     | '/products/'
     | '/tickets/'
@@ -395,11 +415,13 @@ export interface FileRouteTypes {
     | '/signup'
     | '/verify-email'
     | '/account/change-password'
+    | '/admin/dashboard'
     | '/checkout/cancel'
     | '/checkout/success'
     | '/products/$id'
     | '/tickets/$id'
     | '/vendor/apply'
+    | '/vendor/dashboard'
     | '/account'
     | '/products'
     | '/tickets'
@@ -433,11 +455,13 @@ export interface FileRouteTypes {
     | '/signup'
     | '/verify-email'
     | '/account/change-password'
+    | '/admin/dashboard'
     | '/checkout/cancel'
     | '/checkout/success'
     | '/products/$id'
     | '/tickets/$id'
     | '/vendor/apply'
+    | '/vendor/dashboard'
     | '/account/'
     | '/products/'
     | '/tickets/'
@@ -472,11 +496,13 @@ export interface RootRouteChildren {
   SignupRoute: typeof SignupRoute
   VerifyEmailRoute: typeof VerifyEmailRoute
   AccountChangePasswordRoute: typeof AccountChangePasswordRoute
+  AdminDashboardRoute: typeof AdminDashboardRoute
   CheckoutCancelRoute: typeof CheckoutCancelRoute
   CheckoutSuccessRoute: typeof CheckoutSuccessRoute
   ProductsIdRoute: typeof ProductsIdRoute
   TicketsIdRoute: typeof TicketsIdRoute
   VendorApplyRoute: typeof VendorApplyRoute
+  VendorDashboardRoute: typeof VendorDashboardRoute
   AccountIndexRoute: typeof AccountIndexRoute
   ProductsIndexRoute: typeof ProductsIndexRoute
   TicketsIndexRoute: typeof TicketsIndexRoute
@@ -585,6 +611,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AccountChangePasswordRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/admin/dashboard': {
+      id: '/admin/dashboard'
+      path: '/admin/dashboard'
+      fullPath: '/admin/dashboard'
+      preLoaderRoute: typeof AdminDashboardRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/checkout/cancel': {
       id: '/checkout/cancel'
       path: '/checkout/cancel'
@@ -632,6 +665,13 @@ declare module '@tanstack/react-router' {
       path: '/vendor/apply'
       fullPath: '/vendor/apply'
       preLoaderRoute: typeof VendorApplyRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/vendor/dashboard': {
+      id: '/vendor/dashboard'
+      path: '/vendor/dashboard'
+      fullPath: '/vendor/dashboard'
+      preLoaderRoute: typeof VendorDashboardRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/admin/categories/': {
@@ -768,11 +808,13 @@ const rootRouteChildren: RootRouteChildren = {
   SignupRoute: SignupRoute,
   VerifyEmailRoute: VerifyEmailRoute,
   AccountChangePasswordRoute: AccountChangePasswordRoute,
+  AdminDashboardRoute: AdminDashboardRoute,
   CheckoutCancelRoute: CheckoutCancelRoute,
   CheckoutSuccessRoute: CheckoutSuccessRoute,
   ProductsIdRoute: ProductsIdRoute,
   TicketsIdRoute: TicketsIdRoute,
   VendorApplyRoute: VendorApplyRoute,
+  VendorDashboardRoute: VendorDashboardRoute,
   AccountIndexRoute: AccountIndexRoute,
   ProductsIndexRoute: ProductsIndexRoute,
   TicketsIndexRoute: TicketsIndexRoute,

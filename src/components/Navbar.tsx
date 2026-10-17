@@ -1,22 +1,15 @@
-import { Link, useNavigate } from "@tanstack/react-router";
+import { Link, useNavigate, useRouterState } from "@tanstack/react-router";
 import {
-  PackageOpen,
-  ClipboardList,
   Heart,
   LayoutDashboard,
-  LifeBuoy,
   LogOut,
   Menu,
   MessagesSquare,
+  PackageOpen,
   PackageSearch,
-  Percent,
-  Tags,
-  RotateCcw,
   ShoppingCart,
   Store,
-  Truck,
   User,
-  Wallet,
 } from "lucide-react";
 import { useState } from "react";
 import { toast } from "sonner";
@@ -28,6 +21,12 @@ import { useAuth } from "@/context/auth-context";
 import { useCart } from "@/hooks/useCart";
 import { useFavorites } from "@/hooks/useFavorites";
 import { useMyVendor } from "@/hooks/useVendor";
+import {
+  adminDashboardLinks,
+  dashboardKindForPath,
+  DASHBOARD_HOME,
+  vendorDashboardLinks,
+} from "@/lib/dashboard-links";
 import { Button } from "@/components/ui/button";
 import { LanguageSwitcher } from "@/components/LanguageSwitcher";
 import {
@@ -40,6 +39,9 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { Skeleton } from "@/components/ui/skeleton";
 
+const linkClass =
+  "rounded-md px-3 py-2 text-sm font-medium text-muted-foreground transition-colors hover:bg-secondary hover:text-foreground";
+
 export function Navbar() {
   const { t } = useTranslation();
   const { user, isLoading, isAdmin, setUser } = useAuth();
@@ -48,13 +50,35 @@ export function Navbar() {
   const { data: vendor } = useMyVendor(Boolean(user) && !isAdmin);
   const isActiveVendor = vendor?.status === "active";
   const navigate = useNavigate();
+  const pathname = useRouterState({ select: (state) => state.location.pathname });
   const [open, setOpen] = useState(false);
 
-  const navLinks = [
+
+  const dashboardKind = user ? dashboardKindForPath(pathname, isAdmin, isActiveVendor) : null;
+  const ownDashboardKind = isAdmin ? "admin" : isActiveVendor ? "vendor" : null;
+  const inDashboard = dashboardKind !== null;
+
+  const marketLinks = [
     { to: "/", label: t("nav.home") },
     { to: "/products", label: t("nav.products") },
     { to: "/contact", label: t("nav.contact") },
-  ] as const;
+  ];
+  const dashboardLinks =
+    dashboardKind === "admin"
+      ? adminDashboardLinks(t)
+      : dashboardKind === "vendor"
+        ? vendorDashboardLinks(t)
+        : [];
+  const dashboardNav = dashboardKind
+    ? [
+        {
+          to: DASHBOARD_HOME[dashboardKind],
+          label: t("nav.dashboard"),
+          icon: LayoutDashboard,
+        },
+        ...dashboardLinks,
+      ]
+    : [];
 
   async function handleLogout() {
     try {
@@ -70,29 +94,49 @@ export function Navbar() {
   return (
     <header className="sticky top-0 z-40 border-b border-border/70 bg-background/85 backdrop-blur">
       <div className="mx-auto flex h-16 max-w-6xl items-center justify-between gap-4 px-4">
-        <Link to="/" className="flex items-center gap-2 font-bold text-lg text-primary">
+        <Link
+          to={dashboardKind ? DASHBOARD_HOME[dashboardKind] : "/"}
+          className="flex items-center gap-2 font-bold text-lg text-primary"
+        >
           <PackageOpen className="size-6 text-accent" />
           {t("common.brand")}
         </Link>
 
-        <nav className="hidden items-center gap-1 md:flex">
-          {navLinks.map((link) => (
-            <Link
-              key={link.to}
-              to={link.to}
-              className="rounded-md px-3 py-2 text-sm font-medium text-muted-foreground transition-colors hover:bg-secondary hover:text-foreground"
-              activeProps={{ className: "bg-secondary text-foreground" }}
-              activeOptions={{ exact: link.to === "/" }}
-            >
-              {link.label}
-            </Link>
-          ))}
-        </nav>
+        {!inDashboard && (
+          <nav className="hidden items-center gap-1 md:flex">
+            {marketLinks.map((link) => (
+              <Link
+                key={link.to}
+                to={link.to}
+                className={linkClass}
+                activeProps={{ className: "bg-secondary text-foreground" }}
+                activeOptions={{ exact: link.to === "/" }}
+              >
+                {link.label}
+              </Link>
+            ))}
+          </nav>
+        )}
 
         <div className="flex items-center gap-2">
           <LanguageSwitcher />
 
-          {user && !isAdmin && (
+          {user && ownDashboardKind && (
+            <Button asChild variant="outline" size="sm" className="gap-2">
+              <Link to={inDashboard ? "/products" : DASHBOARD_HOME[ownDashboardKind]}>
+                {inDashboard ? (
+                  <Store className="size-4" />
+                ) : (
+                  <LayoutDashboard className="size-4" />
+                )}
+                <span className="hidden sm:inline">
+                  {inDashboard ? t("nav.marketView") : t("nav.dashboard")}
+                </span>
+              </Link>
+            </Button>
+          )}
+
+          {user && !isAdmin && !inDashboard && (
             <Button
               asChild
               variant="ghost"
@@ -111,7 +155,7 @@ export function Navbar() {
             </Button>
           )}
 
-          {user && !isAdmin && (
+          {user && !isAdmin && !inDashboard && (
             <Button
               asChild
               variant="ghost"
@@ -165,110 +209,6 @@ export function Navbar() {
                     </Link>
                   </DropdownMenuItem>
                 )}
-                {isAdmin && (
-                  <DropdownMenuItem asChild>
-                    <Link to="/admin/products" className="gap-2">
-                      <LayoutDashboard className="size-4" />
-                      {t("nav.adminProducts")}
-                    </Link>
-                  </DropdownMenuItem>
-                )}
-                {isAdmin && (
-                  <DropdownMenuItem asChild>
-                    <Link to="/admin/orders" className="gap-2">
-                      <ClipboardList className="size-4" />
-                      {t("nav.adminOrders")}
-                    </Link>
-                  </DropdownMenuItem>
-                )}
-                {isAdmin && (
-                  <DropdownMenuItem asChild>
-                    <Link to="/admin/refunds" className="gap-2">
-                      <RotateCcw className="size-4" />
-                      {t("nav.adminRefunds")}
-                    </Link>
-                  </DropdownMenuItem>
-                )}
-                {isAdmin && (
-                  <DropdownMenuItem asChild>
-                    <Link to="/admin/tickets" className="gap-2">
-                      <LifeBuoy className="size-4" />
-                      {t("nav.adminTickets")}
-                    </Link>
-                  </DropdownMenuItem>
-                )}
-                {isAdmin && (
-                  <DropdownMenuItem asChild>
-                    <Link to="/admin/vendors" className="gap-2">
-                      <Store className="size-4" />
-                      {t("nav.adminVendors")}
-                    </Link>
-                  </DropdownMenuItem>
-                )}
-                {isAdmin && (
-                  <DropdownMenuItem asChild>
-                    <Link to="/admin/payouts" className="gap-2">
-                      <Wallet className="size-4" />
-                      {t("nav.adminPayouts")}
-                    </Link>
-                  </DropdownMenuItem>
-                )}
-                {isAdmin && (
-                  <DropdownMenuItem asChild>
-                    <Link to="/admin/platform-orders" className="gap-2">
-                      <Truck className="size-4" />
-                      {t("nav.adminPlatformOrders")}
-                    </Link>
-                  </DropdownMenuItem>
-                )}
-                {isAdmin && (
-                  <DropdownMenuItem asChild>
-                    <Link to="/admin/categories" className="gap-2">
-                      <Tags className="size-4" />
-                      {t("nav.adminCategories")}
-                    </Link>
-                  </DropdownMenuItem>
-                )}
-                {isAdmin && (
-                  <DropdownMenuItem asChild>
-                    <Link to="/admin/commission" className="gap-2">
-                      <Percent className="size-4" />
-                      {t("nav.adminCommission")}
-                    </Link>
-                  </DropdownMenuItem>
-                )}
-                {!isAdmin && isActiveVendor && (
-                  <DropdownMenuItem asChild>
-                    <Link to="/vendor/products" className="gap-2">
-                      <Store className="size-4" />
-                      {t("nav.vendorProducts")}
-                    </Link>
-                  </DropdownMenuItem>
-                )}
-                {!isAdmin && isActiveVendor && (
-                  <DropdownMenuItem asChild>
-                    <Link to="/vendor/orders" className="gap-2">
-                      <Truck className="size-4" />
-                      {t("nav.vendorOrders")}
-                    </Link>
-                  </DropdownMenuItem>
-                )}
-                {!isAdmin && isActiveVendor && (
-                  <DropdownMenuItem asChild>
-                    <Link to="/vendor/earnings" className="gap-2">
-                      <Wallet className="size-4" />
-                      {t("nav.vendorEarnings")}
-                    </Link>
-                  </DropdownMenuItem>
-                )}
-                {!isAdmin && isActiveVendor && (
-                  <DropdownMenuItem asChild>
-                    <Link to="/vendor/returns" className="gap-2">
-                      <RotateCcw className="size-4" />
-                      {t("nav.vendorReturns")}
-                    </Link>
-                  </DropdownMenuItem>
-                )}
                 {!isAdmin && vendor && !isActiveVendor && (
                   <DropdownMenuItem asChild>
                     <Link to="/vendor/apply" className="gap-2">
@@ -315,10 +255,29 @@ export function Navbar() {
         </div>
       </div>
 
+      {inDashboard && (
+        <nav className="hidden border-t border-border/70 md:block">
+          <div className="mx-auto flex max-w-6xl items-center gap-1 overflow-x-auto px-4 py-1.5">
+            {dashboardNav.map(({ to, label, icon: Icon }) => (
+              <Link
+                key={to}
+                to={to}
+                className={`${linkClass} flex shrink-0 items-center gap-2`}
+                activeProps={{ className: "bg-secondary text-foreground" }}
+                activeOptions={{ exact: to === DASHBOARD_HOME[dashboardKind] }}
+              >
+                <Icon className="size-4" />
+                {label}
+              </Link>
+            ))}
+          </div>
+        </nav>
+      )}
+
       {open && (
         <div className="border-t border-border/70 bg-background px-4 py-3 md:hidden">
           <div className="flex flex-col gap-1">
-            {navLinks.map((link) => (
+            {(inDashboard ? dashboardNav : marketLinks).map((link) => (
               <Link
                 key={link.to}
                 to={link.to}

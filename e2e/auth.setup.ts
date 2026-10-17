@@ -21,7 +21,7 @@ setup('تسجيل دخول كأدمن وحفظ الجلسة', async ({ page }) =
   await page.locator('#password').fill(ADMIN.password);
   await page.getByRole('button', { name: 'دخول' }).click();
 
-  await expect(page).toHaveURL('/products');
+  await expect(page).toHaveURL('/admin/dashboard');
 
   await page.context().storageState({ path: adminAuthFile });
 });

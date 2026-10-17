@@ -209,3 +209,57 @@ export async function updatePlatformFulfillment(id: number, payload: Fulfillment
   );
   return data.data;
 }
+
+export type AnalyticsRange = 7 | 30 | 90;
+
+export interface VendorAnalytics {
+  range_days: AnalyticsRange;
+  totals: {
+    orders: number;
+    items_sold: number;
+    revenue: number;
+    net: number;
+    returns: number;
+    average_order_value: number;
+  };
+  daily: { date: string; orders: number; revenue: number }[];
+  top_products: { product_id: number; title: string; quantity: number; revenue: number }[];
+  fulfillment: Record<"pending" | "processing" | "shipped" | "delivered", number>;
+}
+
+export async function fetchVendorAnalytics(days: AnalyticsRange) {
+  const { data } = await api.get<{ success: boolean; data: VendorAnalytics }>(
+    "/vendors/analytics",
+    { params: { days } },
+  );
+  return data.data;
+}
+
+export interface AdminAnalytics {
+  range_days: AnalyticsRange;
+  totals: {
+    orders: number;
+    revenue: number;
+    commission: number;
+    average_order_value: number;
+  };
+  daily: { date: string; orders: number; revenue: number; commission: number }[];
+  top_vendors: {
+    vendor_id: number;
+    store_name: string;
+    orders: number;
+    revenue: number;
+    commission: number;
+  }[];
+  vendors: Record<VendorStatus, number>;
+  fulfillment: Record<"pending" | "processing" | "shipped" | "delivered", number>;
+  pending_refunds: number;
+}
+
+export async function fetchAdminAnalytics(days: AnalyticsRange) {
+  const { data } = await api.get<{ success: boolean; data: AdminAnalytics }>(
+    "/vendors/admin/analytics",
+    { params: { days } },
+  );
+  return data.data;
+}

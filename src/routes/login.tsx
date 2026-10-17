@@ -1,5 +1,6 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
+import { useQueryClient } from "@tanstack/react-query";
 import { Loader2 } from "lucide-react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
@@ -15,6 +16,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { OtpCodeInput, OTP_LENGTH } from "@/components/OtpCodeInput";
 import { useAuth } from "@/context/auth-context";
+import { getPostLoginPath } from "@/lib/post-login";
 
 import en from "@/i18n/locales/en.json";
 import ar from "@/i18n/locales/ar.json";
@@ -41,6 +43,7 @@ function LoginPage() {
   const { t, i18n } = useTranslation();
   const { setUser } = useAuth();
   const navigate = useNavigate();
+  const queryClient = useQueryClient();
   const [unverifiedEmail, setUnverifiedEmail] = useState<string | null>(null);
   const [resending, setResending] = useState(false);
   const [step, setStep] = useState<"credentials" | "twofa">("credentials");
@@ -67,9 +70,10 @@ function LoginPage() {
         setStep("twofa");
         return;
       }
+      const target = await getPostLoginPath(res.user, queryClient);
       setUser(res.user);
       toast.success(res.message);
-      void navigate({ to: "/products" });
+      void navigate({ to: target });
     } catch (error) {
       if (error instanceof ApiError && error.code === "EMAIL_NOT_VERIFIED") {
         setUnverifiedEmail(values.email);
@@ -97,9 +101,10 @@ function LoginPage() {
     setVerifying(true);
     try {
       const res = await loginWith2fa({ code: value });
+      const target = await getPostLoginPath(res.user, queryClient);
       setUser(res.user);
       toast.success(res.message);
-      void navigate({ to: "/products" });
+      void navigate({ to: target });
     } catch (error) {
       if (error instanceof ApiError && error.code === "PENDING_2FA_EXPIRED") {
         toast.error(error.message);

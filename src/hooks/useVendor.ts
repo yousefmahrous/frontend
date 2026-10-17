@@ -11,6 +11,9 @@ import {
   fetchMyPayouts,
   fetchPlatformOrders,
   fetchVendorEarnings,
+  fetchVendorAnalytics,
+  fetchAdminAnalytics,
+  type AnalyticsRange,
   fetchMyVendor,
   fetchVendorsAdmin,
   updateMyProduct,
@@ -178,6 +181,23 @@ export function useMyVendorReturns(params: { page: number; limit: number }) {
   return useQuery({
     queryKey: ["vendor", "returns", params],
     queryFn: () => fetchMyVendorReturns(params),
+    placeholderData: keepPreviousData,
+    retry: false,
+  });
+}
+export function useVendorAnalytics(days: AnalyticsRange) {
+  return useQuery({
+    queryKey: ["vendor", "analytics", days],
+    queryFn: () => fetchVendorAnalytics(days),
+    placeholderData: keepPreviousData,
+    retry: false,
+  });
+}
+
+export function useAdminAnalytics(days: AnalyticsRange) {
+  return useQuery({
+    queryKey: ["vendor", "admin", "analytics", days],
+    queryFn: () => fetchAdminAnalytics(days),
     placeholderData: keepPreviousData,
     retry: false,
   });
